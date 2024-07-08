@@ -10,10 +10,18 @@
                 <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
             </a>
         </div>
-        <p class="m-0 text-[16px] font-semibold dark:text-black">SMKS SOLUSI BANGUN INDONESIA</p>
-        <span class="m-0 text-xs max-w-[90%] text-center text-[#8B8E98]">Silahkan isi form dibawah ini untuk melanjutkan.
+
+        <p class="m-0 text-[16px] font-semibold dark:text-black text-center">
+            SELAMAT DATANG DI WEB PPDB<br>
+            SMKS SOLUSI BANGUN INDONESIA
+        </p>
+
+        <span class="m-0 text-xs max-w-[90%] text-center text-[#8B8E98]">
+            Silahkan masuk dengan akun yang sudah terdaftar.
         </span>
     </div>
+
+
 
     <form method="POST" action="{{ route('login') }}">
         @csrf

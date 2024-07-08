@@ -17,8 +17,8 @@
             <p class="max-w-2xl mb-6 font-light text-gray-300 lg:mb-8 md:text-lg lg:text-xl mx-auto">
                 12 Mei 2024 - 12 Juni 2024
             </p>
-            {{-- <x-primary-button tag="a" href="{{ route('program') }}" class="px-5 py-3 mr-3">
-                Lihat Program
+            <x-primary-button tag="a" href="{{ route('login') }}" class="px-5 py-3 mr-3">
+                DAFTAR CALON SISWA BARU
                 <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -27,8 +27,8 @@
                 </svg>
             </x-primary-button>
             <x-secondary-button tag="a" href="#terms" class="px-5 py-3 mr-3">
-                Cek Persyaratan Umum
-            </x-secondary-button> --}}
+                DAFTAR CALON SISWA BARU
+            </x-secondary-button>
         </div>
     </div>
 </section>

@@ -33,6 +33,8 @@
             <main>
                @yield('content')
             </main>
+
+            @include('layouts.pages.contact')
         </div>
     </body>
 </html>

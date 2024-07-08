@@ -8,11 +8,11 @@ Route::get('/', function () {
 });
 
 Route::get('/profil', function () {
-    return view('home');
+    return view('profilsekolah');
 });
 
-Route::get('/bantuan', function () {
-    return view('home');
+Route::get('/panduan', function () {
+    return view('panduanreg');
 });
 
 Route::get('/dashboard', function () {

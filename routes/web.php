@@ -4,7 +4,15 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
+});
+
+Route::get('/profil', function () {
+    return view('home');
+});
+
+Route::get('/bantuan', function () {
+    return view('home');
 });
 
 Route::get('/dashboard', function () {

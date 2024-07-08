@@ -2,6 +2,19 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+
+
+    <div class="flex flex-col items-center justify-center gap-2 mb-8">
+        <div>
+            <a href="/">
+                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+            </a>
+        </div>
+        <p class="m-0 text-[16px] font-semibold dark:text-black">SMKS SOLUSI BANGUN INDONESIA</p>
+        <span class="m-0 text-xs max-w-[90%] text-center text-[#8B8E98]">Silahkan isi form dibawah ini untuk melanjutkan.
+        </span>
+    </div>
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 

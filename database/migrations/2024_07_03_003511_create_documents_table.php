@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string('foto', 100);
-            $table->string('kk', 100);
-            $table->string('akta_kelahiran', 100);
-            $table->string('ijazah', 100);
-            $table->timestamps();
+            $table->string('foto', 50);
+            $table->string('kk', 50);
+            $table->string('akta_kelahiran', 50);
+            $table->string('ijazah', 50);
+            $table->unsignedBigInteger('registration_id');
+
+            $table->foreign('registration_id')
+                ->references('id')
+                ->on('student_registrations')
+                ->onDelete('cascade');
         });
     }
 

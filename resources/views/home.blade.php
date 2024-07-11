@@ -26,9 +26,6 @@
                         clip-rule="evenodd"></path>
                 </svg>
             </x-primary-button>
-            <x-secondary-button tag="a" href="#terms" class="px-5 py-3 mr-3">
-                DAFTAR CALON SISWA BARU
-            </x-secondary-button>
         </div>
     </div>
 </section>

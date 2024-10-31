@@ -8,6 +8,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/daftar', function () {
+    return view('auth.register');
+})->name('daftarakun');
+
 Route::get('/profil', function () {
     return view('profilsekolah');
 });

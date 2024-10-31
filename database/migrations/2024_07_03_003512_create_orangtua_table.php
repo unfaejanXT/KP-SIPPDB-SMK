@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('parents', function (Blueprint $table) {
+        Schema::create('orangtua', function (Blueprint $table) {
             $table->id();
             $table->string('nama_ayah', 50);
             $table->string('pekerjaan_ayah', 50);
@@ -21,12 +21,7 @@ return new class extends Migration
             $table->string('pekerjaan_wali', 50)->nullable();
             $table->string('nohp_wali', 15)->nullable();
             $table->string('nohp_orangtua', 15)->nullable();
-            $table->unsignedBigInteger('registration_id');
-
-            $table->foreign('registration_id')
-                ->references('id')
-                ->on('student_registrations')
-                ->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

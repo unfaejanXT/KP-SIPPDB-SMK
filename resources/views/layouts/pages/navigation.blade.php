@@ -21,7 +21,7 @@
                     <a href="{{ route('login') }}">Login</a>
                 </x-primary-button>
                 <x-secondary-button>
-                    <a href="{{ route('register') }}">Register</a>
+                    <a href="{{ route('daftarakun') }}">Register</a>
                 </x-secondary-button>
             </div>
         </div>

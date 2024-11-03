@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('berkas', function (Blueprint $table) {
+        Schema::create('studentfiles', function (Blueprint $table) {
             $table->id();
-            $table->string('foto', 50)->nullable();
-            $table->string('kk', 50)->nullable();
-            $table->string('akta_kelahiran', 50)->nullable();
-            $table->string('ijazah', 50)->nullable();
+            $table->string('file_foto', 50)->nullable();
+            $table->string('file_kartukeluarga', 50)->nullable();
+            $table->string('file_aktakelahiran', 50)->nullable();
+            $table->string('file_ijazah', 50)->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('documents');
+        Schema::dropIfExists('files');
     }
 };

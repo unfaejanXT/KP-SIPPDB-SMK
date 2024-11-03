@@ -10,31 +10,37 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('pendaftaran_siswa', function (Blueprint $table) {
+        Schema::create('studentregistrations', function (Blueprint $table) {
             $table->id();
             $table->string('nisn', 10)->unique();
             $table->string('nama_lengkap', 50);
             $table->char('jenis_kelamin', 1);
             $table->string('tempat_lahir', 50);
             $table->date('tanggal_lahir');
-            $table->char('gol_darah', 2);
+            $table->char('golongan_darah', 2);
             $table->string('agama', 20);
-            $table->string('alamat', 255);
-            $table->string('nohp', 15);
+            $table->string('alamat_rumah', 255);
+            $table->string('nomor_hp', 15);
             $table->string('asal_sekolah', 100);
             $table->date('tanggal_daftar');
-            $table->unsignedBigInteger('orangtua_id');
-            $table->unsignedBigInteger('berkas_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('studentparent_id');
+            $table->unsignedBigInteger('studentfile_id');
             $table->timestamps();
 
-            $table->foreign('orangtua_id')
+            $table->foreign('user_id')
                 ->references('id')
-                ->on('orangtua')->onUpdate('cascade')
+                ->on('users')->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreign('berkas_id')
+            $table->foreign('studentparent_id')
                 ->references('id')
-                ->on('berkas')->onUpdate('cascade')
+                ->on('studentparents')->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('studentfile_id')
+                ->references('id')
+                ->on('studentfiles')->onUpdate('cascade')
                 ->onDelete('cascade');
         });
     }
@@ -44,6 +50,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('student_registrations');
+        Schema::dropIfExists('studentregistrations');
     }
 };

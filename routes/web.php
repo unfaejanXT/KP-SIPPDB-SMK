@@ -1,8 +1,15 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\RegStudentController;
 use Illuminate\Support\Facades\Route;
+
+
+Route::middleware(['auth', 'role:user'])->group(function () {
+
+  
+});
 
 Route::get('/', function () {
     return view('home');
@@ -22,14 +29,16 @@ Route::get('/panduan', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'role:admin'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/register-student', [RegStudentController::class, 'index'])->name('register.student');
+    Route::get('/pendaftaran', [RegistrationController::class, 'pendaftaran'])->name('register.student');
+    Route::post('/pendaftaran/store', [RegistrationController::class, 'store'])->name('register.store');
+    
 
 });
 

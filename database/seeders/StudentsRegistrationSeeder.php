@@ -71,7 +71,9 @@ class StudentsRegistrationSeeder extends Seeder
                 'tanggal_daftar' => Carbon::now(),
                 'studentparent_id' => $parent->id,
                 'studentfile_id' => $document->id,
+                'user_id' => auth()->id() ?? 1, // gunakan ID user yang aktif, jika ada
             ]);
+            
         }
     }
 }

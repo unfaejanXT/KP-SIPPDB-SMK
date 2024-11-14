@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('studentregistrations', function (Blueprint $table) {
+        Schema::create('Pendaftaran', function (Blueprint $table) {
             $table->id();
             $table->string('nisn', 10)->unique();
             $table->string('nama_lengkap', 50);
@@ -23,24 +23,18 @@ return new class extends Migration {
             $table->string('nomor_hp', 15);
             $table->string('asal_sekolah', 100);
             $table->date('tanggal_daftar');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('studentparent_id');
-            $table->unsignedBigInteger('studentfile_id');
             $table->timestamps();
-
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('orangtuasiswa_id');
+            
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreign('studentparent_id')
+            $table->foreign('orangtuasiswa_id')
                 ->references('id')
-                ->on('studentparents')->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('studentfile_id')
-                ->references('id')
-                ->on('studentfiles')->onUpdate('cascade')
+                ->on('OrangTuaSiswa')->onUpdate('cascade')
                 ->onDelete('cascade');
         });
     }

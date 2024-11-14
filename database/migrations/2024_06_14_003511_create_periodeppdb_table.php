@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('studentfiles', function (Blueprint $table) {
+        Schema::create('periodeppdb', function (Blueprint $table) {
             $table->id();
-            $table->string('file_foto', 50)->nullable();
-            $table->string('file_kartukeluarga', 50)->nullable();
-            $table->string('file_aktakelahiran', 50)->nullable();
-            $table->string('file_ijazah', 50)->nullable();
+            $table->date('tanggal_mulai');
+            $table->date('tanggal_selesai');
+            $table->year('tahun_ajaran');
+            $table->string('nama_periode');
+            $table->boolean('status');
+            $table->string('keterangan');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('files');
+        Schema::dropIfExists('periodeppdb');
     }
 };

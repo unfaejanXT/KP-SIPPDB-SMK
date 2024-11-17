@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\studentfile;
-use App\Models\studentparent;
-use App\Models\studentregistration;
+use App\Models\Berkas;
+use App\Models\OrangTuaSiswa;
+use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 
-class RegistrationController extends Controller
+class PendaftaranController extends Controller
 {
     public function index(){
 
@@ -18,7 +18,7 @@ class RegistrationController extends Controller
     }
 
     public function store(Request $request){
-        $validatedData = $request->validate([
+        $validasiFormulir = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
             'nisn' => 'required|numeric|digits:10',
             'jenis_kelamin' => 'required|in:L,P',
@@ -42,8 +42,8 @@ class RegistrationController extends Controller
             'alamat_wali' => 'nullable|string|max:255',
         ]);
 
-        $studentfile = studentfile::create();
-        $studentParent = studentparent::create([
+        $Berkas = Berkas::create();
+        $OrangTuaSiswa = OrangTuaSiswa::create([
             'nama_ayah' => $request->nama_ayah,
             'pekerjaan_ayah' => $request->pekerjaan_ayah,
             'nama_ibu' => $request->nama_ibu,
@@ -54,7 +54,7 @@ class RegistrationController extends Controller
             'nohp_orangtua' => $request->nohp_orangtua,
         ]);
         
-        $studentRegistration = studentregistration::create([
+        $pendaftaransiswa = Pendaftaran::create([
             'nisn' => $request->nisn,
             'nama_lengkap' => $request->nama_lengkap,
             'jenis_kelamin' => $request->jenis_kelamin,
@@ -66,8 +66,6 @@ class RegistrationController extends Controller
             'nomor_hp' => $request->nomor_hp,
             'asal_sekolah' => $request->asal_sekolah,
             'tanggal_daftar' => now(),
-            'studentparent_id' => $studentParent->id,
-            'studentfile_id' => $studentfile->id,
         ]);
 
         return redirect()->back()->with('success', 'Data berhasil disimpan.');

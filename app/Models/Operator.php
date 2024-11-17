@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class studentfile extends Model
+class Operator extends Model
 {
     use HasFactory;
-    protected $table = 'studentfiles';
+    protected $table = "operator";
 
     protected $fillable = [
-        'file_foto',
-        'file_kartukeluarga',
-        'file_aktakelahiran',
-        'file_ijazah',
+        "nip",
+        "nama_operator",
+        "jabatan", 
+        "noHP"
     ];
 }

@@ -10,34 +10,46 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('Pendaftaran', function (Blueprint $table) {
+        Schema::create('pendaftaran', function (Blueprint $table) {
             $table->id();
             $table->string('nisn', 10)->unique();
             $table->string('nama_lengkap', 50);
             $table->char('jenis_kelamin', 1);
             $table->string('tempat_lahir', 50);
             $table->date('tanggal_lahir');
-            $table->char('golongan_darah', 2);
+            $table->char('golongan_darah', 2)->nullable(); // Bisa jadi optional
             $table->string('agama', 20);
             $table->string('alamat_rumah', 255);
             $table->string('nomor_hp', 15);
             $table->string('asal_sekolah', 100);
-            $table->date('tanggal_daftar');
-            $table->timestamps();
+            $table->string('pas_foto',255)->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('orangtuasiswa_id');
-            
+            $table->unsignedBigInteger('periodeppdb_id'); // Referensi ke tabel periode PPDB
+            $table->unsignedBigInteger('jurusan_id');
+            $table->timestamps();
+    
+            // Foreign keys
+            $table->foreign('jurusan_id')
+                ->references('id')
+                ->on('jurusan')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
+
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users')->onUpdate('cascade')
+                ->on('users')
+                ->onUpdate('cascade')
                 ->onDelete('cascade');
-
-            $table->foreign('orangtuasiswa_id')
+    
+            $table->foreign('periodeppdb_id')
                 ->references('id')
-                ->on('OrangTuaSiswa')->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->on('periodeppdb')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
         });
     }
+    
+    
 
     /**
      * Reverse the migrations.

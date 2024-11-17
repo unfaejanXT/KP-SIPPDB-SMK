@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Operator', function (Blueprint $table) {
+        Schema::create('operator', function (Blueprint $table) {
             $table->id();
             $table->string('nip')->unique();
-            $table->string('nama')->nullable();
+            $table->string('nama_operator')->nullable(); // disesuaikan dengan model
             $table->string('jabatan');
             $table->string('noHP')->nullable();
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.

@@ -23,9 +23,10 @@ class PendaftaranSeeder extends Seeder
         if ($periodePPDB && $jurusanAgribisnis) {
             // Membuat user dummy, jika belum ada user untuk pendaftaran (atau bisa disesuaikan)
             $user = User::create([
-                'email' => 'john.doe@example.com',
+                'username' => '1234567891',
+                'nohp' => '081320427434',
                 'password' => bcrypt('password123'), // pastikan untuk enkripsi password
-            ]);
+            ])->assignRole('admin');
 
             // Membuat data pendaftaran untuk siswa
             $pendaftaran = Pendaftaran::create([

@@ -12,11 +12,69 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('test.dashboard')" :active="request()->routeIs('test.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @hasrole('admin')
+                    <x-nav-link :href="route('test.jurusan')" :active="request()->routeIs('test.jurusan')">
+                        {{ __('Kelola Jurusan') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('test.gelombangppdb')" :active="request()->routeIs('test.gelombangppdb')">
+                        {{ __('Kelola Gelombang Pendaftaran') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('test.siswa')" :active="request()->routeIs('test.siswa')">
+                        {{ __('Kelola Data Calon Siswa') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('test.verifikasi')" :active="request()->routeIs('test.verifikasi')">
+                        {{ __('Verifikasi Berkas Calon Siswa') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('test.rekapanppdb')" :active="request()->routeIs('test.rekapanppdb')">
+                        {{ __('Hasil Rekap PPDB') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('test.akunadmin')" :active="request()->routeIs('test.akunadmin')">
+                        {{ __('Kelola Akun Admin') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('test.akunpanitiappdb')" :active="request()->routeIs('test.akunpanitiappdb')">
+                        {{ __('Kelola Akun Panitia PPDB') }}
+                    </x-nav-link>
+                    @endhasrole
+
+
+                    @hasrole('user')
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Biodata') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Informasi Pendaftaran') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Informasi Pendaftaran') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Informasi Pendaftaran') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Cetak Kartu Pendaftaran') }}
+                    </x-nav-link>
+                    @endhasrole
+
+
                 </div>
+
+
+
             </div>
+
+
+
+
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">

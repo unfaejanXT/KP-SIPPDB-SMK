@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('pendaftaran', function (Blueprint $table) {
             $table->id();
+            $table->string('no_pendaftaran')->unique();
             $table->string('nisn', 10)->unique();
             $table->string('nama_lengkap', 50);
             $table->char('jenis_kelamin', 1);

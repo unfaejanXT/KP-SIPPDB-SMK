@@ -11,7 +11,6 @@ class Operator extends Model
     protected $table = "operator";
 
     protected $fillable = [
-        "nip",
         "nama_operator",
         "jabatan", 
         "noHP"

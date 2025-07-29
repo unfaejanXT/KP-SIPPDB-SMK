@@ -1,101 +1,64 @@
 <x-guest-layout>
+    <div class="flex items-center justify-center min-h-screen p-6 md:p-8 bg-gray-100">
+        <div class="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl">
+            <!-- Left Section -->
+            <div class="bg-red-600 text-white p-8 md:w-1/2 flex flex-col justify-center">
+                <h2 class="text-2xl font-bold">Sistem Informasi Pendaftaran</h2>
+                <p class="mt-4">SMKS Solusi Bangun Indonesia Cianjur</p>
+                <p class="mt-2">Kuki harus diaktifkan pada peramban Anda</p>
+            </div>
+            <!-- Right Section -->
+            <div class="p-8 md:w-1/2">
+                <h3 class="text-xl font-semibold text-gray-800">Pendaftaran</h3>
+                <p class="mb-3 text-gray-700">Untuk melanjutkan pendaftaran, silahkan masukkan informasi berikut:</p>
+                <form method="POST" action="{{ route('register') }}">
 
-    <div class="flex flex-col items-center justify-center gap-2">
-        <div>
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </div>
+                    @csrf
 
-        <p class="m-0 text-[16px] font-semibold dark:text-black">Selamat Datang Calon Siswa Baru</p>
-        <span class="m-0 text-xs max-w-[90%] text-center text-[#8B8E98]">Silahkan isi form dibawah ini untuk mulai
-            mendaftar.
-        </span>
-    </div>
+                    <!-- NISN -->
+                    <div class="mb-3">
+                        <label for="username" class="block text-gray-700">NISN (Nomor Induk Siswa Nasional)</label>
+                        <input type="text" id="username" name="username"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-red-600 focus:ring focus:ring-red-300 focus:ring-opacity-50"
+                            placeholder="Masukkan 10 digit NISN">
+                        <x-input-error :messages="$errors->get('username')" class="mt-2" />
+                    </div>
 
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+                    <!-- No Whatsapp Yang Aktif -->
+                    <div class="mb-3">
+                        <label for="nohp" class="block text-gray-700">Nomor Telepon/WhatsApp</label>
+                        <input type="text" id="nohp" name="nohp"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-red-600 focus:ring focus:ring-red-300 focus:ring-opacity-50"
+                            placeholder="Pastikan nomor ini aktif untuk komunikasi.">
+                        <x-input-error :messages="$errors->get('nohp')" class="mt-2" />
+                    </div>
 
-        <!-- Name -->
-        {{-- <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
-                autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div> --}}
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="block text-gray-700">Password</label>
+                        <input type="password" id="password" name="password" required autocomplete="new-password"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-red-600
+                            focus:ring focus:ring-red-300 focus:ring-opacity-50" placeholder="Masukkan Kata Sandi">
+                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                    </div>
 
-        <!-- Email Address -->
-        <!-- <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-                autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            <p class="text-sm text-gray-500">
-                Masukkan 10 digit NISN dari ijazah SMP
-            </p>
-        </div> -->
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="block text-gray-700">Konfirmasi Kata Sandi</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" required autocomplete="new-password"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-red-600
+                            focus:ring focus:ring-red-300 focus:ring-opacity-50" placeholder="Masukkan kembali kata sandi">
+                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                    </div>
 
-
-        <!-- NISN -->
-        <div class="mt-4">
-            <x-input-label for="nisn" :value="__('NISN')" />
-            <x-text-input id="nisn" class="block mt-1 w-full py-1 text-lg" type="text" name="nisn" :value="old('nisn')"
-                required pattern="\d{10}" />
-            <x-input-error :messages="$errors->get('nisn')" class="mt-2" />
-            <p class="text-xs text-gray-400 mt-1">
-                Masukkan 10 digit NISN yang tertera pada ijazah SMP.
-            </p>
-        </div>
-
-        <!-- No WhatsApp Yang Aktif -->
-
-        <div class="mt-4">
-            <x-input-label for="phone" :value="__('Nomor Telepon/WhatsApp')" />
-            <x-text-input id="phone" class="block mt-1 w-full py-1 text-lg" type="tel" name="phone"
-                :value="old('phone')" required pattern="[0-9]{10,15}" />
-            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
-            <p class="text-xs text-gray-400 mt-1">
-                Masukkan nomor telepon atau WhatsApp aktif (10-15 digit).
-            </p>
-        </div>
-
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Kata Sandi')" />
-
-            <x-text-input id="password" class="block mt-1 w-full py-1 text-lg" type="password" name="password" required
-                autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Konfirmasi Kata Sandi')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full py-1 text-lg" type="password"
-                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="space-y-4">
-            <!-- Tombol Submit -->
-            <button type="submit"
-                class="w-full text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4">
-                Create an account
-            </button>
-
-            <!-- Sudah Mendaftar -->
-            <div class="flex justify-center">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    href="{{ route('login') }}">
-                    {{ __('Sudah Mendaftar? Ayo Masuk Sekarang!') }}
-                </a>
+                    <div class="mb-3">
+                        <button type="submit"
+                            class="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:bg-red-700">Daftar</button>
+                    </div>
+                    <div class="text-center">
+                        <a href="#" class="text-red-600 hover:text-red-700">Lupa nama pengguna dan kata sandi Anda?</a>
+                    </div>
+                </form>
             </div>
         </div>
-
-
-    </form>
+    </div>
 </x-guest-layout>

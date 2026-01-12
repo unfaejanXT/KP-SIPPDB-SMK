@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-                <x-primary-button tag="a" href="{{ route('test.siswa.create') }}" customClass="bg-green-500 hover:bg-green-600">Tambah Data Calon Siswa</x-primary-button>
+                <x-primary-button tag="a" href="{{ route('sandbox.siswa.create') }}" customClass="bg-green-500 hover:bg-green-600">Tambah Data Calon Siswa</x-primary-button>
 
                     <x-table>
                         <x-slot name="header">

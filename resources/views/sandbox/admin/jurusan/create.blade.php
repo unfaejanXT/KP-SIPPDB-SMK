@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     
-                    <form method="post" action="{{ route('test.jurusan.store') }}" enctype="multipart/form-data"
+                    <form method="post" action="{{ route('sandbox.jurusan.store') }}" enctype="multipart/form-data"
                         class="mt-6 space-y-6">
                         @csrf
                         <div class="max-w-xl">
@@ -52,7 +52,7 @@
                             <x-input-error class="mt-2" :messages="$errors->get('status')" />
                         </div>
 
-                        <x-secondary-button tag="a" href="{{ route('test.jurusan') }}">Cancel</x-secondary-button>
+                        <x-secondary-button tag="a" href="{{ route('sandbox.jurusan') }}">Cancel</x-secondary-button>
                         <x-primary-button name="save" value="true">Save</x-primary-button>
                     </form>
 

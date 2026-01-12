@@ -10,7 +10,7 @@
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
 
-            <x-primary-button customClass="bg-green-500 hover:bg-green-600" tag="a" href="{{ route('test.jurusan.create') }}" >Tambah Jurusan Baru</x-primary-button>
+            <x-primary-button customClass="bg-green-500 hover:bg-green-600" tag="a" href="{{ route('sandbox.jurusan.create') }}" >Tambah Jurusan Baru</x-primary-button>
             
                 <x-table>
                     <x-slot name="header">
@@ -34,11 +34,11 @@
                             <td>{{ $jurusanItem->status }}</td>
                             <td>
                                 <x-primary-button tag="a" customClass="bg-blue-500 hover:bg-blue-600"
-                                    href="{{ route( 'test.jurusan.edit', $jurusanItem->id) }}">Ubah</x-primary-button>
+                                    href="{{ route( 'sandbox.jurusan.edit', $jurusanItem->id) }}">Ubah</x-primary-button>
                                 <x-danger-button 
                                     x-data=""
                                     x-on:click.prevent="$dispatch('open-modal', 'confirm-jurusan-deletion')"
-                                    x-on:click="$dispatch('set-action', '{{ route('test.jurusan.destroy', $jurusanItem->id) }}')">{{ __('Hapus') }}</x-danger-button>
+                                    x-on:click="$dispatch('set-action', '{{ route('sandbox.jurusan.destroy', $jurusanItem->id) }}')">{{ __('Hapus') }}</x-danger-button>
                             </td>
                         </tr>
                     @endforeach

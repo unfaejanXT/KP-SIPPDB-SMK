@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Experimental\Admin;
+namespace App\Http\Controllers\Sandbox\Admin;
 
 use App\Http\Controllers\Controller;
 
@@ -10,7 +10,7 @@ class ExKelolaSiswaController extends Controller
 {
     public function index()
     {
-        return view("experimental.admin.datasiswa.index");
+        return view("sandbox.admin.datasiswa.index");
     }
 
     public function create()

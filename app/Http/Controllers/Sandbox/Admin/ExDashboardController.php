@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Experimental\Admin;
+namespace App\Http\Controllers\Sandbox\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Berkas;
@@ -29,7 +29,7 @@ class ExDashboardController extends Controller
         $tanggalMulai = $periodeAktif ? $periodeAktif->tanggal_mulai->format('d M Y') : '-';
         $tanggalSelesai = $periodeAktif ? $periodeAktif->tanggal_selesai->format('d M Y') : '-';
         
-        return view('experimental.admin.index', compact(
+        return view('sandbox.admin.index', compact(
             'totalPendaftar', 
             'totalDiverifikasi', 
             'totalBelumDiverifikasi', 

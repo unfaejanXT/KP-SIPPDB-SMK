@@ -8,13 +8,13 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\PeriodePPDBController;
 use App\Http\Controllers\Admin\RekapPPDBController;
-use App\Http\Controllers\Experimental\Admin\ExAkunController;
-use App\Http\Controllers\Experimental\Admin\ExBerkasController;
-use App\Http\Controllers\Experimental\Admin\ExDashboardController;
-use App\Http\Controllers\Experimental\Admin\ExJurusanController;
-use App\Http\Controllers\Experimental\Admin\ExKelolaSiswaController;
-use App\Http\Controllers\Experimental\Admin\ExPeriodePPDBController;
-use App\Http\Controllers\Experimental\Admin\ExRekapPPDBController;
+use App\Http\Controllers\Sandbox\Admin\ExAkunController;
+use App\Http\Controllers\Sandbox\Admin\ExBerkasController;
+use App\Http\Controllers\Sandbox\Admin\ExDashboardController;
+use App\Http\Controllers\Sandbox\Admin\ExJurusanController;
+use App\Http\Controllers\Sandbox\Admin\ExKelolaSiswaController;
+use App\Http\Controllers\Sandbox\Admin\ExPeriodePPDBController;
+use App\Http\Controllers\Sandbox\Admin\ExRekapPPDBController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -111,67 +111,111 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 
 
-//UNTUK PENGUJIAN CONTROLLER
+// UNTUK PENGUJIAN CONTROLLER (SANDBOX)
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    //Route Home Dashboard
-    Route::get('/test/dashboard', [ExDashboardController::class, 'index'])->name('test.dashboard');
 
-    //Route Jurusan
-    Route::get('/test/jurusan', [ExJurusanController::class, 'index'])->name('test.jurusan');
-    Route::get('/test/jurusan/create', [ExJurusanController::class, 'create'])->name('test.jurusan.create');
-    Route::post('/test/jurusan', [ExJurusanController::class, 'store'])->name('test.jurusan.store');
-    Route::get('/test/jurusan/{id}/edit', [ExJurusanController::class, 'edit'])->name('test.jurusan.edit');
-    Route::patch('/test/jurusan/{id}', [ExJurusanController::class, 'update'])->name('test.jurusan.update');
-    Route::delete('/test/jurusan/{id}', [ExJurusanController::class, 'destroy'])->name('test.jurusan.destroy');
+    // Route Home Dashboard
+    Route::get('/sandbox/dashboard', [ExDashboardController::class, 'index'])
+        ->name('sandbox.dashboard');
 
-    //Route Kelola Gelombang
-    Route::get('/test/gelombang', [ExPeriodePPDBController::class, 'index'])->name('test.gelombangppdb');
-    Route::get('/test/gelombang/create', [ExPeriodePPDBController::class, 'create'])->name('test.gelombangppdb.create');
-    Route::post('/test/gelombang', [ExPeriodePPDBController::class, 'store'])->name('test.gelombangppdb.store');
-    Route::get('/test/gelombang/{id}/edit', [ExPeriodePPDBController::class, 'edit'])->name('test.gelombangppdb.edit');
-    Route::match(['put', 'patch'], '/test/gelombang/{id}', [ExPeriodePPDBController::class, 'periodeppdbUpdate'])->name('test.gelombangppdb.update');
-    Route::delete('/test/gelombang/{id}', [ExPeriodePPDBController::class, 'destroy'])->name('test.gelombangppdb.destroy');
+    // Route Jurusan
+    Route::get('/sandbox/jurusan', [ExJurusanController::class, 'index'])
+        ->name('sandbox.jurusan');
+    Route::get('/sandbox/jurusan/create', [ExJurusanController::class, 'create'])
+        ->name('sandbox.jurusan.create');
+    Route::post('/sandbox/jurusan', [ExJurusanController::class, 'store'])
+        ->name('sandbox.jurusan.store');
+    Route::get('/sandbox/jurusan/{id}/edit', [ExJurusanController::class, 'edit'])
+        ->name('sandbox.jurusan.edit');
+    Route::patch('/sandbox/jurusan/{id}', [ExJurusanController::class, 'update'])
+        ->name('sandbox.jurusan.update');
+    Route::delete('/sandbox/jurusan/{id}', [ExJurusanController::class, 'destroy'])
+        ->name('sandbox.jurusan.destroy');
 
-    //Route Data Siswa
-    Route::get('/test/siswa', [ExKelolaSiswaController::class, 'index'])->name('test.siswa');
-    Route::get('/test/siswa/create', [ExKelolaSiswaController::class, 'create'])->name('test.siswa.create');
-    Route::post('/test/siswa', [ExKelolaSiswaController::class, 'store'])->name('test.siswa.store');
-    Route::get('/test/siswa/{id}/edit', [ExKelolaSiswaController::class, 'edit'])->name('test.siswa.edit');
-    Route::patch('/test/siswa/{id}', [ExKelolaSiswaController::class, 'update'])->name('test.siswa.update');
-    Route::delete('/test/siswa/{id}', [ExKelolaSiswaController::class, 'destroy'])->name('test.siswa.destroy');
+    // Route Kelola Gelombang
+    Route::get('/sandbox/gelombang', [ExPeriodePPDBController::class, 'index'])
+        ->name('sandbox.gelombangppdb');
+    Route::get('/sandbox/gelombang/create', [ExPeriodePPDBController::class, 'create'])
+        ->name('sandbox.gelombangppdb.create');
+    Route::post('/sandbox/gelombang', [ExPeriodePPDBController::class, 'store'])
+        ->name('sandbox.gelombangppdb.store');
+    Route::get('/sandbox/gelombang/{id}/edit', [ExPeriodePPDBController::class, 'edit'])
+        ->name('sandbox.gelombangppdb.edit');
+    Route::match(['put', 'patch'], '/sandbox/gelombang/{id}', [ExPeriodePPDBController::class, 'periodeppdbUpdate'])
+        ->name('sandbox.gelombangppdb.update');
+    Route::delete('/sandbox/gelombang/{id}', [ExPeriodePPDBController::class, 'destroy'])
+        ->name('sandbox.gelombangppdb.destroy');
+
+    // Route Data Siswa
+    Route::get('/sandbox/siswa', [ExKelolaSiswaController::class, 'index'])
+        ->name('sandbox.siswa');
+    Route::get('/sandbox/siswa/create', [ExKelolaSiswaController::class, 'create'])
+        ->name('sandbox.siswa.create');
+    Route::post('/sandbox/siswa', [ExKelolaSiswaController::class, 'store'])
+        ->name('sandbox.siswa.store');
+    Route::get('/sandbox/siswa/{id}/edit', [ExKelolaSiswaController::class, 'edit'])
+        ->name('sandbox.siswa.edit');
+    Route::patch('/sandbox/siswa/{id}', [ExKelolaSiswaController::class, 'update'])
+        ->name('sandbox.siswa.update');
+    Route::delete('/sandbox/siswa/{id}', [ExKelolaSiswaController::class, 'destroy'])
+        ->name('sandbox.siswa.destroy');
 
     // Route Verifikasi Berkas Calon Siswa
-    Route::get('/test/verifikasi', [ExBerkasController::class, 'index'])->name('test.verifikasi');
-    Route::get('/test/verifikasi/create', [ExBerkasController::class, 'create'])->name('test.verifikasi.create');
-    Route::post('/test/verifikasi', [ExBerkasController::class, 'store'])->name('test.verifikasi.store');
-    Route::get('/test/verifikasi/{id}/edit', [ExBerkasController::class, 'edit'])->name('test.verifikasi.edit');
-    Route::patch('/test/verifikasi/{id}', [ExBerkasController::class, 'update'])->name('test.verifikasi.update');
-    Route::delete('/test/verifikasi/{id}', [ExBerkasController::class, 'destroy'])->name('test.verifikasi.destroy');
+    Route::get('/sandbox/verifikasi', [ExBerkasController::class, 'index'])
+        ->name('sandbox.verifikasi');
+    Route::get('/sandbox/verifikasi/create', [ExBerkasController::class, 'create'])
+        ->name('sandbox.verifikasi.create');
+    Route::post('/sandbox/verifikasi', [ExBerkasController::class, 'store'])
+        ->name('sandbox.verifikasi.store');
+    Route::get('/sandbox/verifikasi/{id}/edit', [ExBerkasController::class, 'edit'])
+        ->name('sandbox.verifikasi.edit');
+    Route::patch('/sandbox/verifikasi/{id}', [ExBerkasController::class, 'update'])
+        ->name('sandbox.verifikasi.update');
+    Route::delete('/sandbox/verifikasi/{id}', [ExBerkasController::class, 'destroy'])
+        ->name('sandbox.verifikasi.destroy');
 
     // Route Hasil Rekap PPDB
-    Route::get('/test/rekapanppdb', [ExRekapPPDBController::class, 'index'])->name('test.rekapanppdb');
-    Route::get('/test/rekapanppdb/create', [ExRekapPPDBController::class, 'create'])->name('test.rekapanppdb.create');
-    Route::post('/test/rekapanppdb', [ExRekapPPDBController::class, 'store'])->name('test.rekapanppdb.store');
-    Route::get('/test/rekapanppdb/{id}/edit', [ExRekapPPDBController::class, 'edit'])->name('test.rekapanppdb.edit');
-    Route::patch('/test/rekapanppdb/{id}', [ExRekapPPDBController::class, 'update'])->name('test.rekapanppdb.update');
-    Route::delete('/test/rekapanppdb/{id}', [ExRekapPPDBController::class, 'destroy'])->name('test.rekapanppdb.destroy');
+    Route::get('/sandbox/rekapanppdb', [ExRekapPPDBController::class, 'index'])
+        ->name('sandbox.rekapanppdb');
+    Route::get('/sandbox/rekapanppdb/create', [ExRekapPPDBController::class, 'create'])
+        ->name('sandbox.rekapanppdb.create');
+    Route::post('/sandbox/rekapanppdb', [ExRekapPPDBController::class, 'store'])
+        ->name('sandbox.rekapanppdb.store');
+    Route::get('/sandbox/rekapanppdb/{id}/edit', [ExRekapPPDBController::class, 'edit'])
+        ->name('sandbox.rekapanppdb.edit');
+    Route::patch('/sandbox/rekapanppdb/{id}', [ExRekapPPDBController::class, 'update'])
+        ->name('sandbox.rekapanppdb.update');
+    Route::delete('/sandbox/rekapanppdb/{id}', [ExRekapPPDBController::class, 'destroy'])
+        ->name('sandbox.rekapanppdb.destroy');
 
     // Route Kelola Akun Admin
-    Route::get('/test/akun/admin', [ExAkunController::class, 'index'])->name('test.akunadmin');
-    Route::get('/test/akun/admin/create', [ExAkunController::class, 'create'])->name('test.akunadmin.create');
-    Route::post('/test/akun/admin', [ExAkunController::class, 'store'])->name('test.akunadmin.store');
-    Route::get('/test/akun/admin/{id}/edit', [ExAkunController::class, 'edit'])->name('test.akunadmin.edit');
-    Route::patch('/test/akun/admin/{id}', [ExAkunController::class, 'update'])->name('test.akunadmin.update');
-    Route::delete('/test/akun/admin/{id}', [ExAkunController::class, 'destroy'])->name('test.akunadmin.destroy');
+    Route::get('/sandbox/akun/admin', [ExAkunController::class, 'index'])
+        ->name('sandbox.akunadmin');
+    Route::get('/sandbox/akun/admin/create', [ExAkunController::class, 'create'])
+        ->name('sandbox.akunadmin.create');
+    Route::post('/sandbox/akun/admin', [ExAkunController::class, 'store'])
+        ->name('sandbox.akunadmin.store');
+    Route::get('/sandbox/akun/admin/{id}/edit', [ExAkunController::class, 'edit'])
+        ->name('sandbox.akunadmin.edit');
+    Route::patch('/sandbox/akun/admin/{id}', [ExAkunController::class, 'update'])
+        ->name('sandbox.akunadmin.update');
+    Route::delete('/sandbox/akun/admin/{id}', [ExAkunController::class, 'destroy'])
+        ->name('sandbox.akunadmin.destroy');
 
     // Route Kelola Akun Panitia PPDB
-    Route::get('/test/admin/panitiappdb', [ExAkunController::class, 'index'])->name('test.akunpanitiappdb');
-    Route::get('/test/admin/panitiappdb/create', [ExAkunController::class, 'create'])->name('test.akunpanitiappdb.create');
-    Route::post('/test/admin/panitiappdb', [ExAkunController::class, 'store'])->name('test.akunpanitiappdb.store');
-    Route::get('/test/admin/panitiappdb/{id}/edit', [ExAkunController::class, 'edit'])->name('test.akunpanitiappdb.edit');
-    Route::patch('/test/admin/panitiappdb/{id}', [ExAkunController::class, 'update'])->name('test.akunpanitiappdb.update');
-    Route::delete('/test/admin/panitiappdb/{id}', [ExAkunController::class, 'destroy'])->name('test.akunpanitiappdb.destroy');
-
+    Route::get('/sandbox/admin/panitiappdb', [ExAkunController::class, 'index'])
+        ->name('sandbox.akunpanitiappdb');
+    Route::get('/sandbox/admin/panitiappdb/create', [ExAkunController::class, 'create'])
+        ->name('sandbox.akunpanitiappdb.create');
+    Route::post('/sandbox/admin/panitiappdb', [ExAkunController::class, 'store'])
+        ->name('sandbox.akunpanitiappdb.store');
+    Route::get('/sandbox/admin/panitiappdb/{id}/edit', [ExAkunController::class, 'edit'])
+        ->name('sandbox.akunpanitiappdb.edit');
+    Route::patch('/sandbox/admin/panitiappdb/{id}', [ExAkunController::class, 'update'])
+        ->name('sandbox.akunpanitiappdb.update');
+    Route::delete('/sandbox/admin/panitiappdb/{id}', [ExAkunController::class, 'destroy'])
+        ->name('sandbox.akunpanitiappdb.destroy');
 });
+
 
 require __DIR__ . '/auth.php';

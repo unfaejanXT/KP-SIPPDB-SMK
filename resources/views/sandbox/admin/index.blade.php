@@ -91,7 +91,7 @@
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-4">
                                 <!-- Tombol Kelola Gelombang Pendaftaran -->
-                                <a href="{{ route('test.gelombangppdb') }}" class="btn btn-primary">Kelola Gelombang
+                                <a href="{{ route('sandbox.gelombangppdb') }}" class="btn btn-primary">Kelola Gelombang
                                     Pendaftaran</a>
                                 <!-- Petunjuk -->
                                 <small class="text-muted">

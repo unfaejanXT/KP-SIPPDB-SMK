@@ -12,36 +12,36 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('test.dashboard')" :active="request()->routeIs('test.dashboard')">
+                    <x-nav-link :href="route('sandbox.dashboard')" :active="request()->routeIs('sandbox.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
                     @hasrole('admin')
-                    <x-nav-link :href="route('test.jurusan')" :active="request()->routeIs('test.jurusan')">
+                    <x-nav-link :href="route('sandbox.jurusan')" :active="request()->routeIs('sandbox.jurusan')">
                         {{ __('Kelola Jurusan') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('test.gelombangppdb')" :active="request()->routeIs('test.gelombangppdb')">
+                    <x-nav-link :href="route('sandbox.gelombangppdb')" :active="request()->routeIs('sandbox.gelombangppdb')">
                         {{ __('Kelola Gelombang Pendaftaran') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('test.siswa')" :active="request()->routeIs('test.siswa')">
+                    <x-nav-link :href="route('sandbox.siswa')" :active="request()->routeIs('sandbox.siswa')">
                         {{ __('Kelola Data Calon Siswa') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('test.verifikasi')" :active="request()->routeIs('test.verifikasi')">
+                    <x-nav-link :href="route('sandbox.verifikasi')" :active="request()->routeIs('sandbox.verifikasi')">
                         {{ __('Verifikasi Berkas Calon Siswa') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('test.rekapanppdb')" :active="request()->routeIs('test.rekapanppdb')">
+                    <x-nav-link :href="route('sandbox.rekapanppdb')" :active="request()->routeIs('sandbox.rekapanppdb')">
                         {{ __('Hasil Rekap PPDB') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('test.akunadmin')" :active="request()->routeIs('test.akunadmin')">
+                    <x-nav-link :href="route('sandbox.akunadmin')" :active="request()->routeIs('sandbox.akunadmin')">
                         {{ __('Kelola Akun Admin') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('test.akunpanitiappdb')" :active="request()->routeIs('test.akunpanitiappdb')">
+                    <x-nav-link :href="route('sandbox.akunpanitiappdb')" :active="request()->routeIs('sandbox.akunpanitiappdb')">
                         {{ __('Kelola Akun Panitia PPDB') }}
                     </x-nav-link>
                     @endhasrole

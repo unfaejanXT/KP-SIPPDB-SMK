@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Experimental\Admin;
+namespace App\Http\Controllers\Sandbox\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ExAkunController extends Controller
+class ExBerkasController extends Controller
 {
-    public function index()
-    {
-        return view("experimental.admin.akunadmin.index");
+    public function index(){
+        return view("sandbox.admin.berkas.index");
     }
+
     public function create()
     {
         //

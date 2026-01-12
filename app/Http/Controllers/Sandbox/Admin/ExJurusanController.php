@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Experimental\Admin;
+namespace App\Http\Controllers\Sandbox\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Jurusan;
@@ -11,12 +11,12 @@ class ExJurusanController extends Controller
     public function index()
     {
         $jurusan['jurusan'] = Jurusan::all();
-        return view("experimental.admin.jurusan.index", $jurusan);
+        return view("sandbox.admin.jurusan.index", $jurusan);
     }
 
     public function create()
     {
-        return view("experimental.admin.jurusan.create");
+        return view("sandbox.admin.jurusan.create");
     }
 
     public function store(Request $request)
@@ -28,13 +28,13 @@ class ExJurusanController extends Controller
             'message' => 'Data jurusan berhasil ditambahkan',
             'alert-type' => 'success',
         ];
-        return redirect()->route('experimental.jurusan')->with($notification);
+        return redirect()->route('sandbox.jurusan')->with($notification);
     }
 
     public function edit(string $id)
     {
         $data['jurusan'] = Jurusan::find($id);
-        return view("experimental.admin.jurusan.edit", $data);
+        return view("sandbox.admin.jurusan.edit", $data);
     }
 
     public function update(string $id, Request $request)
@@ -47,7 +47,7 @@ class ExJurusanController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('experimental.jurusan')->with($notification);
+        return redirect()->route('sandbox.jurusan')->with($notification);
     }
 
     public function destroy(string $id)
@@ -60,6 +60,6 @@ class ExJurusanController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('experimental.jurusan')->with($notification);
+        return redirect()->route('sandbox.jurusan')->with($notification);
     }
 }

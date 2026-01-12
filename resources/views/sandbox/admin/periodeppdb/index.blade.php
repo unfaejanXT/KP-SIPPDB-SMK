@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-                    <x-primary-button tag="a" href="{{ route('test.gelombangppdb.create') }}" customClass="bg-green-500 hover:bg-green-600">Tambah Gelombang Pendaftaran</x-primary-button>
+                    <x-primary-button tag="a" href="{{ route('sandbox.gelombangppdb.create') }}" customClass="bg-green-500 hover:bg-green-600">Tambah Gelombang Pendaftaran</x-primary-button>
 
                     <x-table>
                         <x-slot name="header">
@@ -36,11 +36,11 @@
                                 <td>{{ $item->isBerlaku() ? 'Masih Berlaku' : 'Tidak Berlaku' }}</td>
                                 
                                 <td>
-                                    <x-primary-button customClass="bg-blue-500 hover:bg-blue-600" tag="a" href="{{ route('test.gelombangppdb.edit', $item->id) }}">Ubah</x-primary-button>
+                                    <x-primary-button customClass="bg-blue-500 hover:bg-blue-600" tag="a" href="{{ route('sandbox.gelombangppdb.edit', $item->id) }}">Ubah</x-primary-button>
                                     <x-danger-button 
                                         x-data=""
                                         x-on:click.prevent="$dispatch('open-modal', 'confirm-periode-deletion')"
-                                        x-on:click="$dispatch('set-action', '{{ route('test.gelombangppdb.destroy', $item->id) }}')">{{ __('Hapus') }}</x-danger-button>
+                                        x-on:click="$dispatch('set-action', '{{ route('sandbox.gelombangppdb.destroy', $item->id) }}')">{{ __('Hapus') }}</x-danger-button>
                                 </td>
                             </tr>
                         @endforeach

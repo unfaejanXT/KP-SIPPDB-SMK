@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Experimental\Admin;
+namespace App\Http\Controllers\Sandbox\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PeriodePPDB;
@@ -13,12 +13,12 @@ class ExPeriodePPDBController extends Controller
       {
           $periodeppdb = PeriodePPDB::all();
   
-          return view('experimental.admin.periodeppdb.index', compact('periodeppdb'));
+          return view('sandbox.admin.periodeppdb.index', compact('periodeppdb'));
       }
   
       public function create()
       {
-          return view('experimental.admin.periodeppdb.create');
+          return view('sandbox.admin.periodeppdb.create');
       }
   
       public function store(Request $request)
@@ -29,13 +29,13 @@ class ExPeriodePPDBController extends Controller
               'message' => 'Data jurusan berhasil ditambahkan',
               'alert-type' => 'success',
           ];
-          return redirect()->route('experimental.gelombangppdb')->with($notification);
+          return redirect()->route('sandbox.gelombangppdb')->with($notification);
       }
   
       public function edit(string $id)
       {
           $periodeppdb = PeriodePPDB::find($id);
-          return view('experimental.admin.periodeppdb.edit', compact('periodeppdb'));
+          return view('sandbox.admin.periodeppdb.edit', compact('periodeppdb'));
       }
   
       public function update(Request $request,string $id)
@@ -50,7 +50,7 @@ class ExPeriodePPDBController extends Controller
               'alert-type' => 'success'
           );
   
-          return redirect()->route('experimental.gelombangppdb')->with($notification);
+          return redirect()->route('sandbox.gelombangppdb')->with($notification);
       }
   
       public function destroy(string $id)
@@ -63,6 +63,6 @@ class ExPeriodePPDBController extends Controller
               'alert-type' => 'success'
           );
   
-          return redirect()->route('experimental.gelombangppdb')->with($notification);
+          return redirect()->route('sandbox.gelombangppdb')->with($notification);
       }
 }

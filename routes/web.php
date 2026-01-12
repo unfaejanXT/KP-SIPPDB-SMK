@@ -24,8 +24,8 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/admin-layout', function () {
-    return view('tailadminpanel.index');
+Route::get('/sandbox/atomic', function () {
+    return view('sandbox.atomic.index');
 });
 
 Route::get('/daftar', function () {

@@ -60,7 +60,7 @@ Route::middleware(['auth'])->group(function () {
 
 //Pengujian Model Controller
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('breeze.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 

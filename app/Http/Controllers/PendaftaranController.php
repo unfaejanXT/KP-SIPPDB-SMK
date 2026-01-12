@@ -14,7 +14,7 @@ class PendaftaranController extends Controller
     }
 
     public function pendaftaran(){
-        return view('layouts.registrations.app');
+        return view('public.register');
     }
 
     public function store(Request $request){

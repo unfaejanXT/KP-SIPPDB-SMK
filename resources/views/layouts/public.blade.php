@@ -18,7 +18,7 @@
 
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            @include('layouts.pages.navigation')
+            @include('public.navigation')
 
             <!-- Page Heading -->
             @if (isset($header))
@@ -34,7 +34,7 @@
                @yield('content')
             </main>
 
-            @include('layouts.pages.contact')
+            @include('public.contact')
         </div>
     </body>
 </html>

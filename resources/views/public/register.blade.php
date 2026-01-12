@@ -29,11 +29,11 @@
 
     <div class="min-h-screen bg-gray-100">
         <!-- Navbar -->
-        @include('layouts.pages.navigation')
+        @include('public.navigation')
 
         <!-- Page Content -->
         <main>
-            @include('layouts.registrations.forms')
+            @include('public.forms')
         </main>
 
     </div>

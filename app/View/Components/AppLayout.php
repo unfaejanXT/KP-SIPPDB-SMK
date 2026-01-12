@@ -12,6 +12,6 @@ class AppLayout extends Component
      */
     public function render(): View
     {
-        return view('breeze.app');
+        return view('layouts.app');
     }
 }

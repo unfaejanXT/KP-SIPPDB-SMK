@@ -12,6 +12,6 @@ class GuestLayout extends Component
      */
     public function render(): View
     {
-        return view('breeze.guest');
+        return view('layouts.guest');
     }
 }

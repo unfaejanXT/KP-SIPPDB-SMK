@@ -1,31 +1,44 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
-
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
-    @endif
-
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
-
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
+    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-slate-100 px-4 py-12">
+        <div class="w-full sm:max-w-md bg-white shadow-xl rounded-2xl border border-gray-100 overflow-hidden">
+            <div class="bg-gradient-to-r from-red-800 to-red-900 p-6 text-center">
+                <h2 class="text-xl font-bold text-white tracking-tight">Verifikasi Email Anda</h2>
+                <p class="text-red-100 text-sm mt-1">Langkah terakhir sebelum memulai</p>
             </div>
-        </form>
+            
+            <div class="p-8">
+                <div class="mb-6 text-sm text-gray-600 leading-relaxed text-center">
+                    Terima kasih telah mendaftar! Sebelum memulai, mohon verifikasi alamat email Anda dengan mengklik tautan yang baru saja kami kirimkan ke email Anda. Jika Anda tidak menerima email tersebut, kami dengan senang hati akan mengirimkannya lagi.
+                </div>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+                @if (session('status') == 'verification-link-sent')
+                    <div class="mb-6 font-medium text-sm text-green-600 bg-green-50 p-4 rounded-xl border border-green-100 text-center">
+                        Tautan verifikasi baru telah dikirim ke alamat email yang Anda berikan saat pendaftaran.
+                    </div>
+                @endif
 
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
-            </button>
-        </form>
+                <div class="mt-4 flex flex-col gap-4">
+                    <form method="POST" action="{{ route('verification.send') }}">
+                        @csrf
+                        <button type="submit"
+                            class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-semibold text-white bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300 transform hover:-translate-y-0.5 active:scale-95">
+                            Kirim Ulang Email Verifikasi
+                        </button>
+                    </form>
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full text-center text-sm text-gray-500 hover:text-red-700 font-medium transition duration-200">
+                            Keluar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="mt-8 text-center text-xs text-gray-400">
+            &copy; {{ date('Y') }} SMKS Solusi Bangun Indonesia Cianjur.
+        </div>
     </div>
 </x-guest-layout>

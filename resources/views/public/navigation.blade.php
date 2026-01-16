@@ -1,7 +1,7 @@
 <nav x-data="{ open: false, scrolled: false }" 
      @scroll.window="scrolled = (window.pageYOffset > 20)"
      :class="{ 'bg-white/95 backdrop-blur-md shadow-md': scrolled, 'bg-white shadow-sm': !scrolled }"
-     class="fixed w-full z-50 transition-all duration-300 top-0 left-0 border-b border-gray-100">
+     class="sticky w-full z-50 transition-all duration-300 top-0 left-0 border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20 items-center">

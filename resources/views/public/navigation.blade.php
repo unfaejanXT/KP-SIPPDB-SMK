@@ -29,12 +29,55 @@
                 </a>
                 
                 <div class="flex items-center gap-3 pl-4 border-l border-gray-200">
-                    <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 hover:text-red-700 transition px-3 py-2 rounded-lg hover:bg-red-50">
-                        Masuk
-                    </a>
-                    <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-lg text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                        Daftar Akun
-                    </a>
+                    @auth
+                        <x-dropdown align="right" width="48">
+                            <x-slot name="trigger">
+                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-bold rounded-lg text-gray-700 hover:text-red-700 focus:outline-none transition ease-in-out duration-150">
+                                    <div class="truncate max-w-[150px]">{{ Auth::user()->username }}</div>
+                
+                                    <div class="ml-1">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </x-slot>
+                
+                            <x-slot name="content">
+                                @if(auth()->user()->hasRole('admin'))
+                                    <x-dropdown-link :href="route('admin.dashboard')">
+                                        {{ __('Dashboard') }}
+                                    </x-dropdown-link>
+                                @else
+                                    <x-dropdown-link :href="route('dashboard')">
+                                        {{ __('Dashboard') }}
+                                    </x-dropdown-link>
+                                @endif
+                                
+                                <x-dropdown-link :href="route('profile.edit')">
+                                    {{ __('Profile') }}
+                                </x-dropdown-link>
+                
+                                <!-- Authentication -->
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                
+                                    <x-dropdown-link :href="route('logout')"
+                                            onclick="event.preventDefault();
+                                                        this.closest('form').submit();">
+                                        {{ __('Log Out') }}
+                                    </x-dropdown-link>
+                                </form>
+                            </x-slot>
+                        </x-dropdown>
+                    @else
+                        <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 hover:text-red-700 transition px-3 py-2 rounded-lg hover:bg-red-50">
+                            Masuk
+                        </a>
+                        <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-lg text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            Daftar Akun
+                        </a>
+                    @endauth
                 </div>
             </div>
 
@@ -71,13 +114,48 @@
                 Panduan Pendaftaran
             </a>
 
-            <div class="mt-4 pt-4 border-t border-gray-100 grid gap-3">
-                <a href="{{ route('login') }}" class="flex justify-center items-center px-4 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 transition">
-                    Masuk
-                </a>
-                <a href="{{ route('register') }}" class="flex justify-center items-center px-4 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-red-700 hover:bg-red-800 shadow-md transition">
-                    Daftar Akun
-                </a>
+            <div class="mt-4 pt-4 border-t border-gray-100">
+                @auth
+                    <div class="px-4 mb-3">
+                        <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                        <div class="font-medium text-sm text-gray-500">{{ Auth::user()->username ?? Auth::user()->nohp }}</div>
+                    </div>
+            
+                    <div class="space-y-1">
+                        @if(auth()->user()->hasRole('admin'))
+                            <x-responsive-nav-link :href="route('admin.dashboard')">
+                                {{ __('Dashboard') }}
+                            </x-responsive-nav-link>
+                        @else
+                            <x-responsive-nav-link :href="route('dashboard')">
+                                {{ __('Dashboard') }}
+                            </x-responsive-nav-link>
+                        @endif
+                         <x-responsive-nav-link :href="route('profile.edit')">
+                            {{ __('Profile') }}
+                        </x-responsive-nav-link>
+            
+                        <!-- Authentication -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+            
+                            <x-responsive-nav-link :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-responsive-nav-link>
+                        </form>
+                    </div>
+                @else
+                    <div class="grid gap-3">
+                        <a href="{{ route('login') }}" class="flex justify-center items-center px-4 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 transition">
+                            Masuk
+                        </a>
+                        <a href="{{ route('register') }}" class="flex justify-center items-center px-4 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-red-700 hover:bg-red-800 shadow-md transition">
+                            Daftar Akun
+                        </a>
+                    </div>
+                @endauth
             </div>
         </div>
     </div>

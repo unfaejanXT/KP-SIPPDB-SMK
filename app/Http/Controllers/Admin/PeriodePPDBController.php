@@ -13,12 +13,12 @@ class PeriodePPDBController extends Controller
         // Mengambil semua periode dengan menghitung jumlah pendaftar
         $periodeppdb = PeriodePPDB::withCount('pendaftarans')->get();
 
-        return view('adminpanel.periodeppdb.index', compact('periodeppdb'));
+        return view('admin.periodeppdb.index', compact('periodeppdb'));
     }
 
     public function create()
     {
-        return view('adminpanel.periodeppdb.create');
+        return view('admin.periodeppdb.create');
     }
 
     public function store(Request $request)
@@ -35,7 +35,7 @@ class PeriodePPDBController extends Controller
     public function edit(string $id)
     {
         $periodeppdb = PeriodePPDB::find($id);
-        return view('adminpanel.periodeppdb.edit', compact('periodeppdb'));
+        return view('admin.periodeppdb.edit', compact('periodeppdb'));
     }
 
     public function update(Request $request, string $id)

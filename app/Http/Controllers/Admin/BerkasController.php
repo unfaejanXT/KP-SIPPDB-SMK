@@ -16,7 +16,7 @@ class BerkasController extends Controller
                        ->where('status_verifikasi', '!=', 'verified')
                        ->get();
 
-        return view('adminpanel.berkas.index', compact('berkas'));
+        return view('admin.berkas.index', compact('berkas'));
     }
 
     // Halaman untuk melakukan verifikasi berkas
@@ -25,7 +25,7 @@ class BerkasController extends Controller
         // Menampilkan form verifikasi berdasarkan id berkas
         $berkas = Berkas::with('pendaftaran.user')->findOrFail($id);
 
-        return view('adminpanel.berkas.verify', compact('berkas'));
+        return view('admin.berkas.verify', compact('berkas'));
     }
 
     // Memperbarui status verifikasi berkas

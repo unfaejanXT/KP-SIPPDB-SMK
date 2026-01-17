@@ -39,7 +39,7 @@ class DashboardController extends Controller
                                 ->where('tanggal_mulai', '>', $hariIni)
                                 ->count();
 
-    return view('adminpanel.index', compact(
+    return view('admin.index', compact(
         'totalPendaftar',
         'totalDiverifikasi',
         'totalBelumDiverifikasi',

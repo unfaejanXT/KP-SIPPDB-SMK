@@ -30,13 +30,13 @@
 <body class="font-sans antialiased">
     <div x-data class="min-h-screen bg-gray-100 flex">
         <!-- Sidebar -->
-        @include('adminpanel.layouts.sidebar')
+        @include('admin.layouts.sidebar')
 
         <!-- Wrapper untuk Konten -->
         <div id="contentWrapper" class="flex-1 flex flex-col ml-64">
 
             <!-- Navigation Bar -->
-            @include('adminpanel.layouts.navigation')
+            @include('admin.layouts.navigation')
 
             <!-- Page Content -->
             <main class="p-6">

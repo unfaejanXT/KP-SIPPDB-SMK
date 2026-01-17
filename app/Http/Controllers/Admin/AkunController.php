@@ -32,14 +32,14 @@ class AkunController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
-        return view('adminpanel.akun.index');
+        return view('admin.akun.index');
     }
 
     public function create()
     {
         // Menampilkan form untuk membuat akun baru
         $roles = Role::all(); // Menampilkan semua role yang tersedia
-        return view('adminpanel.akun.create', compact('roles'));
+        return view('admin.akun.create', compact('roles'));
     }
 
     public function store(Request $request)
@@ -80,7 +80,7 @@ class AkunController extends Controller
         // Menampilkan form untuk mengedit akun pengguna
         $user = User::findOrFail($id);
         $roles = Role::all();
-        return view('adminpanel.akun.edit', compact('user', 'roles'));
+        return view('admin.akun.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, $id)

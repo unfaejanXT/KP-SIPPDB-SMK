@@ -11,7 +11,7 @@ class JurusanController extends Controller
     public function index()
     {
         $jurusan['jurusan'] = Jurusan::all();
-        return view("adminpanel.jurusan.index", $jurusan);
+        return view("admin.jurusan.index", $jurusan);
     }
 
     public function getJurusan(){
@@ -22,7 +22,7 @@ class JurusanController extends Controller
 
     public function create()
     {
-        return view("experimental.admin.jurusan.create");
+        return view("admin.jurusan.create");
     }
 
     public function store(Request $request)
@@ -34,13 +34,13 @@ class JurusanController extends Controller
             'message' => 'Data jurusan berhasil ditambahkan',
             'alert-type' => 'success',
         ];
-        return redirect()->route('experimental.jurusan')->with($notification);
+        return redirect()->route('admin.jurusan')->with($notification);
     }
 
     public function edit(string $id)
     {
         $data['jurusan'] = Jurusan::find($id);
-        return view("experimental.admin.jurusan.edit", $data);
+        return view("admin.jurusan.edit", $data);
     }
 
     public function update(string $id, Request $request)
@@ -53,7 +53,7 @@ class JurusanController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('experimental.jurusan')->with($notification);
+        return redirect()->route('admin.jurusan')->with($notification);
     }
 
     public function destroy(string $id)
@@ -66,6 +66,6 @@ class JurusanController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('experimental.jurusan')->with($notification);
+        return redirect()->route('admin.jurusan')->with($notification);
     }
 }

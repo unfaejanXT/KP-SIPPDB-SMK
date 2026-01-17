@@ -1,5 +1,5 @@
-@extends('adminpanel.layouts.app')
-@section('navlabel', 'Kelola Calon Siswa')
+@extends('admin.layouts.app')
+@section('navlabel', 'Kelola Berkas')
 
 @section('content')
 <div>

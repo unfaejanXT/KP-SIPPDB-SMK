@@ -17,14 +17,14 @@ class CalonSiswaController extends Controller
     {
         // Mengambil semua pendaftaran calon siswa
         $pendaftaran = Pendaftaran::with('user', 'jurusan', 'periodeppdb')->get();
-        return view('adminpanel.calonsiswa.index', compact('pendaftaran'));
+        return view('admin.calonsiswa.index', compact('pendaftaran'));
     }
 
     public function create()
     {
         // Menampilkan form untuk membuat calon siswa
         $roles = Role::all(); // Menampilkan semua role yang tersedia
-        return view('adminpanel.calonsiswa.create', compact('roles'));
+        return view('admin.calonsiswa.create', compact('roles'));
     }
 
     public function store(Request $request)
@@ -124,7 +124,7 @@ class CalonSiswaController extends Controller
     {
         // Menampilkan detail calon siswa
         $pendaftaran = Pendaftaran::with('user', 'orangTua', 'berkas')->findOrFail($id);
-        return view('adminpanel.calonsiswa.show', compact('pendaftaran'));
+        return view('admin.calonsiswa.show', compact('pendaftaran'));
     }
 
     public function edit($id)
@@ -132,7 +132,7 @@ class CalonSiswaController extends Controller
         // Menampilkan form untuk mengedit calon siswa
         $pendaftaran = Pendaftaran::with('user', 'orangTua', 'berkas')->findOrFail($id);
         $roles = Role::all();
-        return view('adminpanel.calonsiswa.edit', compact('pendaftaran', 'roles'));
+        return view('admin.calonsiswa.edit', compact('pendaftaran', 'roles'));
     }
 
     public function update(Request $request, $id)

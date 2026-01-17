@@ -1,4 +1,4 @@
-@extends('adminpanel.layouts.app')
+@extends('admin.layouts.app')
 @section('navlabel', 'Dashboard')
 
 @section('content')

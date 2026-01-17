@@ -10,11 +10,20 @@
             
             <!-- Brand Section (Left) -->
             <div class="bg-gradient-to-br from-red-800 to-red-900 text-white p-8 md:p-12 md:w-5/12 flex flex-col justify-center relative overflow-hidden">
+                <!-- Back Button -->
+                <a href="{{ url('/') }}" class="absolute top-6 left-6 z-20 flex items-center text-red-100 hover:text-white transition duration-200 group">
+                    <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span class="text-sm font-medium">Kembali</span>
+                </a>
+
                 <!-- Decorative Circles -->
                 <div class="absolute top-0 left-0 -mt-10 -ml-10 w-40 h-40 bg-red-700 rounded-full opacity-30 blur-3xl"></div>
                 <div class="absolute bottom-0 right-0 -mb-10 -mr-10 w-40 h-40 bg-red-950 rounded-full opacity-40 blur-3xl"></div>
                 
                 <div class="relative z-10 text-center md:text-left selection:bg-red-500 selection:text-white">
+                    <img src="{{ asset('assets/images/sbi-logo.png') }}" alt="Logo SMKS SBI" class="h-20 w-auto mb-6 mx-auto md:mx-0 bg-white rounded-xl p-2 shadow-lg">
                     <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">Sistem Informasi Pendaftaran</h2>
                     <p class="mt-4 text-red-100 text-lg font-medium">SMKS Solusi Bangun Indonesia Cianjur</p>
                     <div class="mt-8 hidden md:block">

@@ -19,6 +19,11 @@ use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\SetupController;
+
+// First Time Setup Routes
+Route::get('/setup', [SetupController::class, 'index'])->name('setup.index');
+Route::post('/setup', [SetupController::class, 'store'])->name('setup.store');
 
 Route::get('/', function () {
     return view('index');

@@ -2,19 +2,22 @@
 @section('navlabel', 'Kelola Akun')
 
 @section('content')
-<div class="p-6">
-    <h1 class="text-2xl font-bold text-gray-800">Kelola Periode Pendaftaran Calon Siswa</h1>
+<div class="">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Kelola Periode Pendaftaran Calon Siswa</h1>
 
-    <div class="container">
-        <div class="card mt-5">
-            <h3 class="card-header p-3">Laravel 11 Yajra Datatables Tutorial - ItSolutionStuff.com</h3>
-            <div class="card-body">
-                <table class="table table-bordered data-table">
+    <div class="max-w-7xl mx-auto">
+        <div class="bg-white shadow rounded-lg overflow-hidden mt-5">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-medium text-gray-900">Daftar Akun</h3>
+            </div>
+            <div class="p-6">
+                <!-- display class is for DataTables vanilla styling -->
+                <table class="w-full data-table display hover stripe">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>NISN</th>
-                            <th>Nomor Handphone</th>
+                            <th class="text-left">No</th>
+                            <th class="text-left">NISN</th>
+                            <th class="text-left">Nomor Handphone</th>
                             <th width="100px">Action</th>
                         </tr>
                     </thead>

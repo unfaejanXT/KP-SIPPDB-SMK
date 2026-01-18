@@ -14,7 +14,7 @@
                 <hr class="my-2 border-t-2 border-gray-300">
             </div>
 
-            <div class="card bg-yellow-100 border-l-4 border-yellow-600 p-4 mb-4">
+            <div class="rounded-lg shadow-sm bg-yellow-100 border-l-4 border-yellow-600 p-4 mb-4">
                 <div class="font-semibold text-yellow-800">
                     Peringatan!
                 </div>
@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="card bg-blue-100 border-l-4 border-blue-600 p-4">
+            <div class="rounded-lg shadow-sm bg-blue-100 border-l-4 border-blue-600 p-4">
                 <div class="font-semibold text-blue-800">
                     Informasi!
                 </div>

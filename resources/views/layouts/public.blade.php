@@ -34,7 +34,9 @@
                @yield('content')
             </main>
 
-            @include('public.contact')
+            @unless(View::hasSection('hideContact'))
+                @include('public.contact')
+            @endunless
         </div>
     </body>
 </html>

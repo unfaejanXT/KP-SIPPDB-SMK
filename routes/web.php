@@ -43,6 +43,27 @@ Route::get('/demo', function () {
     return view('demo.biodata');
 });
 
+// Route Pendaftaran Siswa (Public View for Preview)
+Route::get('/pendaftaran', function () {
+    $jurusans = [];
+    try {
+        if (class_exists('App\Models\Jurusan')) {
+             $jurusans = \App\Models\Jurusan::where('status', 'aktif')->get();
+        }
+    } catch (\Exception $e) {}
+    
+    return view('pendaftaran.create', compact('jurusans'));
+})->name('pendaftaran.create');
+
+Route::post('/pendaftaran', function () {
+    // Logic penyimpanan akan ditambahkan di controller
+    return redirect()->route('pendaftaran.success');
+})->name('pendaftaran.store');
+
+Route::get('/pendaftaran/sukses', function () {
+    return view('pendaftaran.success');
+})->name('pendaftaran.success');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -42,15 +42,15 @@
                 <form method="POST" action="{{ route('login') }}" class="space-y-6">
                     @csrf
 
-                    <!-- Nomor HP -->
+                    <!-- Email Address -->
                     <div>
-                        <label for="nohp" class="block text-sm font-semibold text-gray-700 mb-1">Nomor Telepon/WhatsApp</label>
+                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
                         <div class="relative">
-                            <input type="text" id="nohp" name="nohp" required autofocus
+                            <input type="email" id="email" name="email" required autofocus autocomplete="username"
                                 class="appearance-none block w-full px-4 py-3.5 bg-gray-50 border border-gray-300 rounded-xl placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent sm:text-sm transition duration-200 ease-in-out"
-                                placeholder="Contoh: 081234567890">
+                                placeholder="nama@email.com">
                         </div>
-                        <x-input-error :messages="$errors->get('nohp')" class="mt-2 text-red-600 font-medium text-xs" />
+                        <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-600 font-medium text-xs" />
                     </div>
 
                     <!-- Password -->

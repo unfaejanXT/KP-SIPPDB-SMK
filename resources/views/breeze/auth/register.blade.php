@@ -36,27 +36,26 @@
                 <form method="POST" action="{{ route('register') }}" class="space-y-5">
                     @csrf
 
-                    <!-- NISN -->
+                    <!-- Name -->
                     <div>
-                        <label for="username" class="block text-sm font-semibold text-gray-700 mb-1">NISN (Nomor Induk Siswa Nasional)</label>
+                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
                         <div class="relative">
-                            <input type="text" id="username" name="username" required autofocus
+                            <input type="text" id="name" name="name" required autofocus autocomplete="name"
                                 class="appearance-none block w-full px-4 py-3.5 bg-gray-50 border border-gray-300 rounded-xl placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent sm:text-sm transition duration-200 ease-in-out"
-                                placeholder="Masukkan 10 digit NISN">
+                                placeholder="Masukkan nama lengkap">
                         </div>
-                        <x-input-error :messages="$errors->get('username')" class="mt-2 text-red-600 font-medium text-xs" />
+                        <x-input-error :messages="$errors->get('name')" class="mt-2 text-red-600 font-medium text-xs" />
                     </div>
 
-                    <!-- No Whatsapp -->
+                    <!-- Email Address -->
                     <div>
-                        <label for="nohp" class="block text-sm font-semibold text-gray-700 mb-1">Nomor Telepon/WhatsApp</label>
+                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
                         <div class="relative">
-                            <input type="text" id="nohp" name="nohp" required
+                            <input type="email" id="email" name="email" required autocomplete="username"
                                 class="appearance-none block w-full px-4 py-3.5 bg-gray-50 border border-gray-300 rounded-xl placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent sm:text-sm transition duration-200 ease-in-out"
-                                placeholder="Contoh: 081234567890">
+                                placeholder="nama@email.com">
                         </div>
-                        <p class="mt-1 text-xs text-gray-500">Pastikan nomor aktif dan terhubung ke WhatsApp.</p>
-                        <x-input-error :messages="$errors->get('nohp')" class="mt-2 text-red-600 font-medium text-xs" />
+                        <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-600 font-medium text-xs" />
                     </div>
 
                     <!-- Password -->

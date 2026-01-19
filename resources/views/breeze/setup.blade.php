@@ -10,26 +10,26 @@
             <form method="POST" action="{{ route('setup.store') }}">
                 @csrf
 
-                <!-- Username -->
+                <!-- Name -->
                 <div>
-                    <label class="block font-medium text-sm text-gray-700" for="username">
-                        Username
+                    <label class="block font-medium text-sm text-gray-700" for="name">
+                        Nama Lengkap
                     </label>
                     <input class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full mt-1" 
-                           id="username" type="text" name="username" required autofocus placeholder="admin" />
-                    @error('username')
+                           id="name" type="text" name="name" required autofocus placeholder="Nama Admin" />
+                    @error('name')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- No HP -->
+                <!-- Email -->
                 <div class="mt-4">
-                    <label class="block font-medium text-sm text-gray-700" for="nohp">
-                        No Handphone / WhatsApp
+                    <label class="block font-medium text-sm text-gray-700" for="email">
+                        Email
                     </label>
                     <input class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full mt-1" 
-                           id="nohp" type="text" name="nohp" required placeholder="08..." />
-                    @error('nohp')
+                           id="email" type="email" name="email" required placeholder="admin@sekolah.com" />
+                    @error('email')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>

@@ -25,16 +25,16 @@ class SetupController extends Controller
         }
 
         $request->validate([
-            'username' => 'required|string|max:20|unique:users',
-            'nohp' => 'required|string|max:15|unique:users',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
         // Create the user
         // User model has 'hashed' cast for password, so we pass plain text
         $user = User::create([
-            'username' => $request->username,
-            'nohp' => $request->nohp,
+            'name' => $request->name,
+            'email' => $request->email,
             'password' => $request->password,
         ]);
         

@@ -14,25 +14,13 @@ class PeriodePPDBSeeder extends Seeder
      */
     public function run()
     {
-        // Data periode PPDB untuk tahun 2025
+        // Data periode PPDB
         $periodeData = [
             [
-                'kode_periode' => 'PPDB2025A',
-                'nama_periode' => 'Gelombang 1 Tahun 2025/2026',
-                'tanggal_mulai' => '2025-01-10',
-                'tanggal_selesai' => '2025-03-10',
-                'tahun_ajaran' => '2025/2026',
-                'status' => false, // Tidak Aktif
-                'keterangan' => 'Penerimaan peserta didik baru gelombang pertama untuk tahun ajaran 2025/2026',
-            ],
-            [
-                'kode_periode' => 'PPDB2025B',
-                'nama_periode' => 'Gelombang 2 Tahun 2025/2026',
-                'tanggal_mulai' => '2025-05-01',
-                'tanggal_selesai' => '2025-07-01',
-                'tahun_ajaran' => '2025/2026',
-                'status' => true, // Aktif
-                'keterangan' => 'Penerimaan peserta didik baru gelombang kedua untuk tahun ajaran 2025/2026',
+                'nama' => 'Gelombang 1 Tahun 2026/2027',
+                'tanggal_mulai' => '2026-01-01',
+                'tanggal_selesai' => '2026-12-31', // Opened for the whole year for testing
+                'tahun_ajaran' => '2026/2027',
             ],
         ];
 

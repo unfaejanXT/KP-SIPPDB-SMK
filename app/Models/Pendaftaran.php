@@ -26,7 +26,9 @@ class Pendaftaran extends Model
         'asal_sekolah',
         'user_id',
         'periodeppdb_id',
-        'jurusan_id'
+        'jurusan_id',
+        'status',
+        'current_step'
     ];
 
     // Cast tipe data untuk beberapa field

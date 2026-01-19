@@ -39,8 +39,7 @@ class PeriodePPDB extends Model
     public function isBerlaku()
     {
         $today = now();
-        return $this->status && 
-               $today->between($this->tanggal_mulai, $this->tanggal_selesai);
+        return $today->between($this->tanggal_mulai, $this->tanggal_selesai);
     }
 
     public function pendaftarans()

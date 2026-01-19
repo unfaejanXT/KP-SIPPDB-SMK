@@ -43,26 +43,22 @@ Route::get('/demo', function () {
     return view('demo.biodata');
 });
 
-// Route Pendaftaran Siswa (Public View for Preview)
-Route::get('/pendaftaran', function () {
-    $jurusans = [];
-    try {
-        if (class_exists('App\Models\Jurusan')) {
-             $jurusans = \App\Models\Jurusan::where('status', 'aktif')->get();
-        }
-    } catch (\Exception $e) {}
-    
-    return view('pendaftaran.create', compact('jurusans'));
-})->name('pendaftaran.create');
+// Route Pendaftaran Siswa using Controller
+use App\Http\Controllers\PendaftaranController;
 
-Route::post('/pendaftaran', function () {
-    // Logic penyimpanan akan ditambahkan di controller
-    return redirect()->route('pendaftaran.success');
-})->name('pendaftaran.store');
-
-Route::get('/pendaftaran/sukses', function () {
-    return view('pendaftaran.success');
-})->name('pendaftaran.success');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
+    Route::get('/pendaftaran/step1', [PendaftaranController::class, 'step1'])->name('pendaftaran.step1');
+    Route::post('/pendaftaran/step1', [PendaftaranController::class, 'storeStep1'])->name('pendaftaran.storeStep1');
+    Route::get('/pendaftaran/step2', [PendaftaranController::class, 'step2'])->name('pendaftaran.step2');
+    Route::post('/pendaftaran/step2', [PendaftaranController::class, 'storeStep2'])->name('pendaftaran.storeStep2');
+    Route::get('/pendaftaran/step3', [PendaftaranController::class, 'step3'])->name('pendaftaran.step3');
+    Route::post('/pendaftaran/step3', [PendaftaranController::class, 'storeStep3'])->name('pendaftaran.storeStep3');
+    Route::post('/pendaftaran/upload', [PendaftaranController::class, 'uploadBerkas'])->name('pendaftaran.upload');
+    Route::get('/pendaftaran/step4', [PendaftaranController::class, 'step4'])->name('pendaftaran.step4');
+    Route::post('/pendaftaran/submit', [PendaftaranController::class, 'submit'])->name('pendaftaran.submit');
+    Route::get('/pendaftaran/sukses', [PendaftaranController::class, 'success'])->name('pendaftaran.success');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

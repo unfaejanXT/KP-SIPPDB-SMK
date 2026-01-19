@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\PeriodePPDBController;
 use App\Http\Controllers\Admin\RekapPPDBController;
 
-use App\Http\Controllers\PendaftaranController;
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
@@ -51,10 +51,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/pendaftaran', [PendaftaranController::class, 'pendaftaran'])->name('register.student');
-    Route::post('/pendaftaran/store', [PendaftaranController::class, 'store'])->name('register.store');
-});
+
 
 
 //Pengujian Model Controller

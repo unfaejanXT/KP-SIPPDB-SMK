@@ -42,65 +42,65 @@
     <div class="flex h-screen overflow-hidden">
 
         <aside
-            class="w-64 bg-[#1E3A8A] text-white flex flex-col fixed md:relative h-full transition-all duration-300 z-50">
-            <div class="h-20 flex items-center px-6 border-b border-blue-800/50">
+            class="w-64 bg-white border-r border-gray-200 flex flex-col fixed md:relative h-full transition-all duration-300 z-50">
+            <div class="h-20 flex items-center px-6 border-b border-gray-100">
                 <div class="flex items-center gap-3">
-                    <div class="bg-white/10 p-2 rounded-lg">
+                    <div class="bg-red-50 text-red-600 p-2 rounded-lg">
                         <i class="fa-solid fa-graduation-cap text-xl"></i>
                     </div>
                     <div>
-                        <h1 class="font-bold text-lg leading-tight">SMK SBI</h1>
-                        <p class="text-xs text-blue-200">Portal PPDB</p>
+                        <h1 class="font-bold text-lg leading-tight text-slate-800">SMK SBI</h1>
+                        <p class="text-xs text-slate-500">Portal PPDB</p>
                     </div>
                 </div>
             </div>
 
             <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
                 <a href="{{ route('dashboard') }}"
-                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard') ? 'bg-[#10B981] text-white shadow-lg shadow-green-500/20' : 'text-blue-100 hover:bg-blue-800/50 hover:text-white' }} rounded-lg transition-colors group">
+                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard') ? 'bg-red-50 text-red-700' : 'text-slate-600 hover:bg-gray-50 hover:text-red-700' }} rounded-lg transition-colors group">
                     <i class="fa-solid fa-gauge-high w-5"></i>
                     <span class="font-medium text-sm">Dashboard</span>
                 </a>
 
                 <a href="{{ route('pendaftaran.edit') }}"
-                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('pendaftaran.edit') ? 'bg-[#10B981] text-white shadow-lg shadow-green-500/20' : 'text-blue-100 hover:bg-blue-800/50 hover:text-white' }} rounded-lg transition-colors group">
+                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('pendaftaran.edit') ? 'bg-red-50 text-red-700' : 'text-slate-600 hover:bg-gray-50 hover:text-red-700' }} rounded-lg transition-colors group">
                     <i class="fa-regular fa-pen-to-square w-5 group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Edit Pendaftaran</span>
                 </a>
 
                 <a href="{{ route('dashboard.berkas') }}"
-                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard.berkas') ? 'bg-[#10B981] text-white shadow-lg shadow-green-500/20' : 'text-blue-100 hover:bg-blue-800/50 hover:text-white' }} rounded-lg transition-colors group">
+                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard.berkas') ? 'bg-red-50 text-red-700' : 'text-slate-600 hover:bg-gray-50 hover:text-red-700' }} rounded-lg transition-colors group">
                     <i class="fa-regular fa-folder-open w-5 group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Kelola Berkas</span>
                 </a>
 
                 <a href="{{ route('dashboard.cetak') }}"
-                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard.cetak') ? 'bg-[#10B981] text-white shadow-lg shadow-green-500/20' : 'text-blue-100 hover:bg-blue-800/50 hover:text-white' }} rounded-lg transition-colors group">
+                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard.cetak') ? 'bg-red-50 text-red-700' : 'text-slate-600 hover:bg-gray-50 hover:text-red-700' }} rounded-lg transition-colors group">
                     <i class="fa-solid fa-print w-5 group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Cetak Bukti</span>
                 </a>
 
                 <a href="{{ route('dashboard.pengumuman') }}"
-                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard.pengumuman') ? 'bg-[#10B981] text-white shadow-lg shadow-green-500/20' : 'text-blue-100 hover:bg-blue-800/50 hover:text-white' }} rounded-lg transition-colors group">
+                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard.pengumuman') ? 'bg-red-50 text-red-700' : 'text-slate-600 hover:bg-gray-50 hover:text-red-700' }} rounded-lg transition-colors group">
                     <i class="fa-solid fa-bullhorn w-5 group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Pengumuman</span>
                 </a>
             </nav>
 
-            <div class="p-4 border-t border-blue-800/50">
+            <div class="p-4 border-t border-gray-100">
                 <div class="flex items-center gap-3 mb-4 px-2">
                     <div
-                        class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-sm font-bold shadow-md uppercase">
+                        class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-sm font-bold shadow-sm uppercase">
                         {{ substr(Auth::user()->name, 0, 2) }}
                     </div>
                     <div>
-                        <p class="text-sm font-semibold truncate w-32">{{ Auth::user()->name }}</p>
-                        <p class="text-xs text-blue-300">Calon Siswa</p>
+                        <p class="text-sm font-semibold truncate w-32 text-slate-800">{{ Auth::user()->name }}</p>
+                        <p class="text-xs text-slate-500">Calon Siswa</p>
                     </div>
                 </div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="flex items-center gap-2 text-blue-200 hover:text-white text-sm px-2 transition-colors w-full">
+                    <button type="submit" class="flex items-center gap-2 text-slate-500 hover:text-red-700 text-sm px-2 transition-colors w-full">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         Keluar
                     </button>

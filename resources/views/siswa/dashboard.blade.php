@@ -9,7 +9,7 @@
 
     <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-start gap-4">
         <div
-            class="w-12 h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
+            class="w-12 h-12 rounded-lg bg-red-50 text-red-600 flex items-center justify-center text-xl shrink-0">
             <i class="fa-regular fa-file-lines"></i>
         </div>
         <div>
@@ -20,7 +20,7 @@
 
     <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-start gap-4">
         <div
-            class="w-12 h-12 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl shrink-0">
+            class="w-12 h-12 rounded-lg bg-red-50 text-red-600 flex items-center justify-center text-xl shrink-0">
             <i class="fa-solid fa-book-open"></i>
         </div>
         <div>
@@ -75,7 +75,7 @@
                     <span>{{ $progress }}%</span>
                 </div>
                 <div class="w-full bg-gray-100 rounded-full h-2.5">
-                    <div class="bg-[#10B981] h-2.5 rounded-full" style="width: {{ $progress }}%"></div>
+                    <div class="bg-red-600 h-2.5 rounded-full" style="width: {{ $progress }}%"></div>
                 </div>
             </div>
 
@@ -159,35 +159,35 @@
             <h3 class="font-bold text-lg text-slate-800 mb-4">Aksi Cepat</h3>
             <div class="space-y-2">
                 <a href="{{ route('pendaftaran.edit') }}"
-                    class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group border border-gray-100">
-                    <span class="text-sm font-medium text-slate-600 group-hover:text-slate-900">Edit
+                    class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-red-50 hover:border-red-100 transition-colors group border border-gray-100">
+                    <span class="text-sm font-medium text-slate-600 group-hover:text-red-700">Edit
                         Data Pendaftaran</span>
                     <i
-                        class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:text-slate-600"></i>
+                        class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:text-red-600"></i>
                 </a>
                 <a href="{{ route('pendaftaran.step3') }}"
-                    class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group border border-gray-100">
-                    <span class="text-sm font-medium text-slate-600 group-hover:text-slate-900">Kelola
+                    class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-red-50 hover:border-red-100 transition-colors group border border-gray-100">
+                    <span class="text-sm font-medium text-slate-600 group-hover:text-red-700">Kelola
                         Berkas</span>
                     <i
-                        class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:text-slate-600"></i>
+                        class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:text-red-600"></i>
                 </a>
                 <a href="{{ route('pendaftaran.success') }}"
-                    class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group border border-gray-100">
-                    <span class="text-sm font-medium text-slate-600 group-hover:text-slate-900">Cetak
+                    class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-red-50 hover:border-red-100 transition-colors group border border-gray-100">
+                    <span class="text-sm font-medium text-slate-600 group-hover:text-red-700">Cetak
                         Bukti Pendaftaran</span>
                     <i
-                        class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:text-slate-600"></i>
+                        class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:text-red-600"></i>
                 </a>
             </div>
         </div>
 
-        <div class="bg-sky-50 rounded-xl border border-sky-100 p-5">
+        <div class="bg-red-50 rounded-xl border border-red-100 p-5">
             <div class="flex gap-3">
-                <i class="fa-solid fa-circle-info text-sky-500 mt-0.5"></i>
+                <i class="fa-solid fa-circle-info text-red-500 mt-0.5"></i>
                 <div>
-                    <h4 class="font-bold text-sky-900 text-sm mb-1">Informasi Penting</h4>
-                    <p class="text-xs text-sky-700 leading-relaxed">
+                    <h4 class="font-bold text-red-900 text-sm mb-1">Informasi Penting</h4>
+                    <p class="text-xs text-red-700 leading-relaxed">
                         Proses verifikasi membutuhkan waktu 1-3 hari kerja. Pastikan data dan berkas
                         yang Anda unggah sudah benar.
                     </p>
@@ -198,7 +198,7 @@
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
             <div class="flex items-center gap-3 mb-4">
                 <div
-                    class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                    class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-600">
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <div>

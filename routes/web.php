@@ -61,8 +61,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pendaftaran/sukses', [PendaftaranController::class, 'success'])->name('pendaftaran.success');
     
     // Student Dashboard Edit Routes
-    Route::get('/pendaftaran/edit', [StudentDashboardController::class, 'edit'])->name('pendaftaran.edit');
-    Route::put('/pendaftaran/update', [StudentDashboardController::class, 'update'])->name('pendaftaran.update');
+    Route::get('/dashboard/edit', [StudentDashboardController::class, 'edit'])->name('pendaftaran.edit');
+    Route::put('/dashboard/update', [StudentDashboardController::class, 'update'])->name('pendaftaran.update');
 });
 
 Route::middleware('auth')->group(function () {

@@ -52,8 +52,8 @@ class PendaftaranController extends Controller
             return redirect()->route('pendaftaran.step1');
         }
 
-        if ($pendaftaran->status === 'submitted') {
-            return redirect()->route('pendaftaran.success');
+        if (in_array($pendaftaran->status, ['submitted', 'terverifikasi', 'diterima', 'ditolak'])) {
+            return redirect()->route('dashboard');
         }
 
         // Redirect to appropriate step
@@ -72,8 +72,8 @@ class PendaftaranController extends Controller
         $user = Auth::user();
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->first();
         
-        if ($pendaftaran && $pendaftaran->status === 'submitted') {
-             return redirect()->route('pendaftaran.success');
+        if ($pendaftaran && in_array($pendaftaran->status, ['submitted', 'terverifikasi', 'diterima', 'ditolak'])) {
+             return redirect()->route('dashboard');
         }
 
         $jurusans = Jurusan::where('status', 'aktif')->get();
@@ -158,7 +158,7 @@ class PendaftaranController extends Controller
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->first();
 
         if (!$pendaftaran) return redirect()->route('pendaftaran.step1');
-        if ($pendaftaran->status === 'submitted') return redirect()->route('pendaftaran.success');
+        if (in_array($pendaftaran->status, ['submitted', 'terverifikasi', 'diterima', 'ditolak'])) return redirect()->route('dashboard');
 
         $orangtua = OrangTuaSiswa::where('pendaftaran_id', $pendaftaran->id)->first();
 
@@ -218,7 +218,7 @@ class PendaftaranController extends Controller
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->first();
 
         if (!$pendaftaran) return redirect()->route('pendaftaran.step1');
-        if ($pendaftaran->status === 'submitted') return redirect()->route('pendaftaran.success');
+        if (in_array($pendaftaran->status, ['submitted', 'terverifikasi', 'diterima', 'ditolak'])) return redirect()->route('dashboard');
         
         // Get existing files
         $berkas = Berkas::where('pendaftaran_id', $pendaftaran->id)->get();
@@ -233,15 +233,26 @@ class PendaftaranController extends Controller
 
     public function storeStep3(Request $request)
     {
-        // Simply redirect to next step as files are handled via AJAX
-        // You can add validation check here if you want to enforce files before Next
+        $user = Auth::user();
+        $pendaftaran = Pendaftaran::where('user_id', $user->id)->firstOrFail();
+
+        // Cek berkas wajib: KK dan Akta Kelahiran
+        $uploadedFiles = Berkas::where('pendaftaran_id', $pendaftaran->id)
+                               ->pluck('tipe_berkas')
+                               ->toArray();
         
-       $user = Auth::user();
-       $pendaftaran = Pendaftaran::where('user_id', $user->id)->first();
-       
-       if ($pendaftaran) {
-            $pendaftaran->update(['current_step' => 3]);
-       }
+        $required = ['kk', 'akta_kelahiran'];
+        $missing = array_diff($required, $uploadedFiles);
+
+        if (!empty($missing)) {
+             $missingStr = implode(', ', array_map(function($item) {
+                 return strtoupper(str_replace('_', ' ', $item));
+             }, $missing));
+             
+             return redirect()->back()->with('error', 'Harap upload berkas wajib berikut: ' . $missingStr);
+        }
+
+        $pendaftaran->update(['current_step' => 3]);
 
         return redirect()->route('pendaftaran.step4');
     }
@@ -288,7 +299,7 @@ class PendaftaranController extends Controller
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->first();
 
         if (!$pendaftaran) return redirect()->route('pendaftaran.step1');
-        if ($pendaftaran->status === 'submitted') return redirect()->route('pendaftaran.success');
+        if (in_array($pendaftaran->status, ['submitted', 'terverifikasi', 'diterima', 'ditolak'])) return redirect()->route('dashboard');
 
         $orangtua = OrangTuaSiswa::where('pendaftaran_id', $pendaftaran->id)->first();
         $berkas = Berkas::where('pendaftaran_id', $pendaftaran->id)->get();
@@ -316,7 +327,7 @@ class PendaftaranController extends Controller
             'current_step' => 4
         ]);
 
-        return redirect()->route('pendaftaran.success');
+        return redirect()->route('dashboard')->with('success', 'Pendaftaran berhasil dikirim! Silahkan pantau status pendaftaran di dashboard.');
     }
 
     public function success()

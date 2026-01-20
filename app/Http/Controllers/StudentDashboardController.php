@@ -56,8 +56,14 @@ class StudentDashboardController extends Controller
             }
         }
 
-        return view('siswa.dashboard', compact('user', 'pendaftaran', 'progress', 'steps'));
+        if ($pendaftaran && !in_array($pendaftaran->status, ['submitted', 'terverifikasi', 'diterima', 'ditolak'])) {
+            return redirect()->route('pendaftaran.index');
+        } elseif (!$pendaftaran) {
+             return redirect()->route('pendaftaran.index');
         }
+
+        return view('siswa.dashboard', compact('user', 'pendaftaran', 'progress', 'steps'));
+    }
 
     public function edit()
     {

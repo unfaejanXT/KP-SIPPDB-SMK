@@ -68,20 +68,20 @@
                     <span class="font-medium text-sm">Edit Pendaftaran</span>
                 </a>
 
-                <a href="{{ route('pendaftaran.step3') }}"
-                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('pendaftaran.step3') ? 'bg-[#10B981] text-white shadow-lg shadow-green-500/20' : 'text-blue-100 hover:bg-blue-800/50 hover:text-white' }} rounded-lg transition-colors group">
+                <a href="{{ route('dashboard.berkas') }}"
+                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard.berkas') ? 'bg-[#10B981] text-white shadow-lg shadow-green-500/20' : 'text-blue-100 hover:bg-blue-800/50 hover:text-white' }} rounded-lg transition-colors group">
                     <i class="fa-regular fa-folder-open w-5 group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Kelola Berkas</span>
                 </a>
 
-                <a href="{{ route('pendaftaran.success') }}"
-                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('pendaftaran.success') ? 'bg-[#10B981] text-white shadow-lg shadow-green-500/20' : 'text-blue-100 hover:bg-blue-800/50 hover:text-white' }} rounded-lg transition-colors group">
+                <a href="{{ route('dashboard.cetak') }}"
+                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard.cetak') ? 'bg-[#10B981] text-white shadow-lg shadow-green-500/20' : 'text-blue-100 hover:bg-blue-800/50 hover:text-white' }} rounded-lg transition-colors group">
                     <i class="fa-solid fa-print w-5 group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Cetak Bukti</span>
                 </a>
 
-                <a href="#"
-                    class="flex items-center gap-3 px-4 py-3 text-blue-100 hover:bg-blue-800/50 hover:text-white rounded-lg transition-colors group">
+                <a href="{{ route('dashboard.pengumuman') }}"
+                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard.pengumuman') ? 'bg-[#10B981] text-white shadow-lg shadow-green-500/20' : 'text-blue-100 hover:bg-blue-800/50 hover:text-white' }} rounded-lg transition-colors group">
                     <i class="fa-solid fa-bullhorn w-5 group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Pengumuman</span>
                 </a>

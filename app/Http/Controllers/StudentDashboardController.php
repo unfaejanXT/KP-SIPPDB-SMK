@@ -96,4 +96,18 @@ class StudentDashboardController extends Controller
         
         return redirect()->route('pendaftaran.edit')->with('success', 'Data pendaftaran berhasil diperbarui.');
     }
+    public function pengumuman()
+    {
+        return view('siswa.pengumuman');
+    }
+
+    public function kelolaBerkas()
+    {
+        return view('siswa.kelola-berkas');
+    }
+
+    public function cetakBukti()
+    {
+        return view('siswa.cetak-bukti');
+    }
 }

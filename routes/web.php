@@ -63,6 +63,11 @@ Route::middleware(['auth'])->group(function () {
     // Student Dashboard Edit Routes
     Route::get('/dashboard/edit', [StudentDashboardController::class, 'edit'])->name('pendaftaran.edit');
     Route::put('/dashboard/update', [StudentDashboardController::class, 'update'])->name('pendaftaran.update');
+
+    // New Dashboard Pages
+    Route::get('/dashboard/pengumuman', [StudentDashboardController::class, 'pengumuman'])->name('dashboard.pengumuman');
+    Route::get('/dashboard/kelola-berkas', [StudentDashboardController::class, 'kelolaBerkas'])->name('dashboard.berkas');
+    Route::get('/dashboard/cetak-bukti', [StudentDashboardController::class, 'cetakBukti'])->name('dashboard.cetak');
 });
 
 Route::middleware('auth')->group(function () {

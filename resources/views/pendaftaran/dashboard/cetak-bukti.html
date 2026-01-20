@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cetak Bukti Pendaftaran - SMK SBI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom scrollbar to match modern feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-slate-700 antialiased">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <aside class="w-64 bg-[#143d78] text-white flex flex-col flex-shrink-0 transition-all duration-300">
+            <div class="h-16 flex items-center px-6 border-b border-blue-800/50 gap-3">
+                <div class="w-8 h-8 bg-emerald-400 rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                    </svg>
+                </div>
+                <div class="leading-tight">
+                    <h1 class="font-bold text-sm tracking-wide">SMK SBI</h1>
+                    <span class="text-[10px] text-blue-200 uppercase tracking-wider">Portal PPDB</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
+
+                <a href="#"
+                    class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-blue-100 rounded-lg hover:bg-blue-800/50 hover:text-white transition-colors">
+                    <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                    </svg>
+                    Dashboard
+                </a>
+
+                <a href="#"
+                    class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-blue-100 rounded-lg hover:bg-blue-800/50 hover:text-white transition-colors">
+                    <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    Edit Pendaftaran
+                </a>
+
+                <a href="#"
+                    class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-blue-100 rounded-lg hover:bg-blue-800/50 hover:text-white transition-colors">
+                    <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                    </svg>
+                    Kelola Berkas
+                </a>
+
+                <a href="#"
+                    class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-white bg-emerald-500 rounded-lg shadow-lg shadow-emerald-500/20">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                    Cetak Bukti
+                </a>
+
+                <a href="#"
+                    class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-blue-100 rounded-lg hover:bg-blue-800/50 hover:text-white transition-colors">
+                    <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                    </svg>
+                    Pengumuman
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-blue-800/50 bg-[#0f3266]">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-9 h-9 rounded-full bg-blue-300 flex items-center justify-center text-[#143d78] font-bold text-xs">
+                        AF
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-white truncate">Ahmad Fauzi</p>
+                        <p class="text-xs text-blue-200 truncate">Calon Siswa</p>
+                    </div>
+                    <button class="text-blue-300 hover:text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-gray-50">
+
+            <header class="bg-white shadow-sm lg:hidden h-16 flex items-center justify-between px-4">
+                <span class="font-bold text-slate-700">Menu</span>
+                <button class="text-slate-500"><svg class="w-6 h-6" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg></button>
+            </header>
+
+            <div class="flex-1 overflow-auto p-4 md:p-8">
+                <div class="mb-6">
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-800">Cetak Bukti Pendaftaran</h2>
+                    <p class="text-sm text-slate-500 mt-1">Cetak atau unduh bukti pendaftaran Anda</p>
+                </div>
+
+                <div class="flex gap-3 mb-6">
+                    <button
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-[#1a4f9c] text-white text-sm font-medium rounded hover:bg-blue-800 transition-colors shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                        </svg>
+                        Cetak
+                    </button>
+                    <button
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-white text-slate-700 border border-slate-200 text-sm font-medium rounded hover:bg-gray-50 transition-colors shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Unduh PDF
+                    </button>
+                </div>
+
+                <div class="bg-white rounded shadow-sm border border-gray-100 max-w-4xl mx-auto p-8 md:p-12 relative">
+                    <div class="absolute top-4 right-4">
+                        <button class="relative p-2 text-gray-400 hover:text-gray-500">
+                        </button>
+                    </div>
+
+                    <div class="text-center mb-8">
+                        <div
+                            class="w-16 h-16 bg-[#ebf3ff] rounded-full flex items-center justify-center mx-auto mb-4 text-[#1a4f9c]">
+                            <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" />
+                                <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" />
+                            </svg>
+                        </div>
+                        <h1 class="text-lg md:text-xl font-bold text-slate-800 uppercase tracking-wide">SMK Solusi
+                            Bangun Indonesia</h1>
+                        <p class="text-xs md:text-sm text-slate-500 mt-1">Jl. Tungturunan - Jangari, Kab. Cianjur, Jawa
+                            Barat</p>
+                        <p class="text-xs md:text-sm text-slate-500">NPSN: 69943169 | Email:
+                            solusibangunindonesia@gmail.com</p>
+                    </div>
+
+                    <hr class="border-t border-gray-200 mb-8">
+
+                    <div class="text-center mb-8">
+                        <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-1">BUKTI PENDAFTARAN
+                            SISWA BARU</h2>
+                        <p class="text-xs text-slate-500">Tahun Ajaran 2024/2025</p>
+                    </div>
+
+                    <div class="bg-[#f0f6ff] border border-blue-100 rounded-lg py-6 text-center mb-10">
+                        <p class="text-xs text-slate-500 mb-1">Nomor Pendaftaran</p>
+                        <p class="text-xl md:text-2xl font-bold text-[#1a4f9c] tracking-wider">PPDB-2024-A1B2C3</p>
+                    </div>
+
+                    <div class="space-y-8 text-sm text-slate-600">
+
+                        <div>
+                            <h3 class="font-bold text-slate-800 mb-4 text-sm">Data Calon Siswa</h3>
+                            <div class="grid grid-cols-[160px_10px_1fr] gap-y-3 md:gap-y-2">
+                                <div>Nama Lengkap</div>
+                                <div>:</div>
+                                <div class="font-medium text-slate-800">Ahmad Fauzi</div>
+
+                                <div>NISN</div>
+                                <div>:</div>
+                                <div>0012345678</div>
+
+                                <div>Tempat, Tanggal Lahir</div>
+                                <div>:</div>
+                                <div>Cianjur, 15 Mei 2008</div>
+
+                                <div>Jenis Kelamin</div>
+                                <div>:</div>
+                                <div>Laki-laki</div>
+
+                                <div>Agama</div>
+                                <div>:</div>
+                                <div>Islam</div>
+
+                                <div>Alamat</div>
+                                <div>:</div>
+                                <div>Jl. Merdeka No. 123, Sindangraja</div>
+
+                                <div>Asal Sekolah</div>
+                                <div>:</div>
+                                <div>SMPN 1 Cianjur</div>
+
+                                <div>Jurusan Pilihan</div>
+                                <div>:</div>
+                                <div>Perbankan Syariah</div>
+                            </div>
+                        </div>
+
+                        <hr class="border-dashed border-gray-200">
+
+                        <div>
+                            <h3 class="font-bold text-slate-800 mb-4 text-sm">Data Orang Tua/Wali</h3>
+                            <div class="grid grid-cols-[160px_10px_1fr] gap-y-3 md:gap-y-2">
+                                <div>Nama Ayah</div>
+                                <div>:</div>
+                                <div class="font-medium text-slate-800">Budi Santoso</div>
+
+                                <div>Pekerjaan Ayah</div>
+                                <div>:</div>
+                                <div>Petani</div>
+
+                                <div>Nama Ibu</div>
+                                <div>:</div>
+                                <div class="font-medium text-slate-800">Siti Aminah</div>
+
+                                <div>Pekerjaan Ibu</div>
+                                <div>:</div>
+                                <div>Ibu Rumah Tangga</div>
+
+                                <div>No. HP Orang Tua</div>
+                                <div>:</div>
+                                <div>081987654321</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-12 flex justify-end">
+                        <div class="text-center w-48">
+                            <p class="text-xs text-slate-500 mb-16">Cianjur, 4 Januari 2024</p>
+                            <p
+                                class="text-sm font-medium text-slate-800 border-t border-slate-300 pt-2 inline-block w-full">
+                                Panitia PPDB</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="mt-8 pt-6 border-t border-gray-100 flex flex-col md:flex-row justify-between text-xs text-slate-500 gap-2">
+                        <div>
+                            Tanggal Cetak: 4 Januari 2024
+                        </div>
+                        <div class="flex gap-1">
+                            Status: <span class="text-yellow-600 font-medium bg-yellow-50 px-2 py-0.5 rounded">Menunggu
+                                Verifikasi</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="max-w-4xl mx-auto mt-6 bg-gray-100 rounded-lg p-5 text-xs text-slate-600">
+                    <p class="font-bold text-slate-700 mb-2">Catatan Penting:</p>
+                    <ul class="list-disc list-inside space-y-1 ml-1">
+                        <li>Bukti pendaftaran ini harap disimpan dengan baik</li>
+                        <li>Bukti ini merupakan syarat untuk mengikuti proses seleksi</li>
+                        <li>Informasi lebih lanjut dapat menghubungi panitia PPDB</li>
+                    </ul>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>

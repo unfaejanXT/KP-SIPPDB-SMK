@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\SetupController;
+use App\Http\Controllers\StudentDashboardController;
 
 // First Time Setup Routes
 Route::get('/setup', [SetupController::class, 'index'])->name('setup.index');
@@ -58,6 +59,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pendaftaran/step4', [PendaftaranController::class, 'step4'])->name('pendaftaran.step4');
     Route::post('/pendaftaran/submit', [PendaftaranController::class, 'submit'])->name('pendaftaran.submit');
     Route::get('/pendaftaran/sukses', [PendaftaranController::class, 'success'])->name('pendaftaran.success');
+    
+    // Student Dashboard Edit Routes
+    Route::get('/pendaftaran/edit', [StudentDashboardController::class, 'edit'])->name('pendaftaran.edit');
+    Route::put('/pendaftaran/update', [StudentDashboardController::class, 'update'])->name('pendaftaran.update');
 });
 
 Route::middleware('auth')->group(function () {
@@ -72,9 +77,7 @@ Route::middleware('auth')->group(function () {
 
 
 //Pengujian Model Controller
-Route::get('/dashboard', function () {
-    return view('breeze.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [StudentDashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 
 

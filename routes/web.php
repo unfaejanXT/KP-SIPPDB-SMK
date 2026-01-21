@@ -75,6 +75,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminJurusanController;
 use App\Http\Controllers\AdminGelombangController;
 use App\Http\Controllers\AdminCalonSiswaController;
+use App\Http\Controllers\AdminVerifikasiController;
 
 // Admin Dashboard Routes
 Route::middleware(['auth'])->prefix('admin')->group(function () {
@@ -83,6 +84,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('jurusan', AdminJurusanController::class, ['as' => 'admin']);
     Route::resource('gelombang', AdminGelombangController::class, ['as' => 'admin']);
     Route::resource('calon-siswa', AdminCalonSiswaController::class, ['as' => 'admin']);
+    
+    // Verifikasi Berkas
+    Route::get('/verifikasi-berkas', [AdminVerifikasiController::class, 'index'])->name('admin.verifikasi.index');
+    Route::get('/verifikasi-berkas/{pendaftaran}', [AdminVerifikasiController::class, 'show'])->name('admin.verifikasi.show');
+    Route::post('/verifikasi-berkas/{berkas}/status', [AdminVerifikasiController::class, 'updateStatus'])->name('admin.verifikasi.updateStatus');
+    Route::post('/verifikasi-berkas/{pendaftaran}/verifikasi-semua', [AdminVerifikasiController::class, 'verifyAll'])->name('admin.verifikasi.verifyAll');
 });
 
 Route::middleware('auth')->group(function () {

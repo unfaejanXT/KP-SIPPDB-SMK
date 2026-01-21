@@ -73,6 +73,12 @@ class Pendaftaran extends Model
         ];
     }
 
+    // Relasi ke tabel 'berkas'
+    public function berkas()
+    {
+        return $this->hasMany(Berkas::class, 'pendaftaran_id');
+    }
+
     // Scope untuk mencari pendaftaran berdasarkan status aktif
     public function scopeAktif($query)
     {

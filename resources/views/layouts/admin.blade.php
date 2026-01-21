@@ -70,8 +70,8 @@
                     <span class="font-medium text-sm">Data Pendaftar</span>
                 </a>
 
-                <a href="#"
-                    class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-gray-50 hover:text-blue-700 rounded-lg transition-colors group">
+                <a href="{{ route('admin.verifikasi.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.verifikasi.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
                     <i class="fa-regular fa-folder-open w-5 group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Verifikasi Berkas</span>
                 </a>

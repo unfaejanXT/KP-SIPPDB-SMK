@@ -19,6 +19,15 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
+        $isRegistrationOpen = \App\Models\Gelombang::where('is_active', true)
+            ->whereDate('tanggal_mulai', '<=', now())
+            ->whereDate('tanggal_selesai', '>=', now())
+            ->exists();
+
+        if (!$isRegistrationOpen) {
+            return view('breeze.auth.register-closed');
+        }
+
         return view('breeze.auth.register');
     }
 

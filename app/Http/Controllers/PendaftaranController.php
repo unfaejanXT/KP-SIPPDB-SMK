@@ -18,7 +18,7 @@ class PendaftaranController extends Controller
      * Entry point for PPDB Registration.
      * Determines which step to show based on user's progress.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         if (!$user) {
@@ -35,7 +35,14 @@ class PendaftaranController extends Controller
                 ->whereDate('tanggal_selesai', '>=', now())
                 ->first();
             if (!$activePeriod) {
-                return redirect()->back()->with('error', 'Tidak ada gelombang PPDB yang aktif saat ini.');
+                Auth::guard('web')->logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return view('breeze.auth.register-closed', [
+                    'title' => 'Terjadi Kesalahan',
+                    'message' => 'Terjadi kesalahan di waktu pendaftaran, silahkan hubungi administrator sekolah.'
+                ]);
             }
 
             // Create Draft Pendaftaran

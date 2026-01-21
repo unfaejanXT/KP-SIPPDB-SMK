@@ -31,9 +31,7 @@ Route::get('/sandbox/atomic', function () {
     return view('sandbox.atomic.index');
 });
 
-Route::get('/daftar', function () {
-    return view('auth.register');
-})->name('daftarakun');
+Route::get('/daftar', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'create'])->name('daftarakun');
 
 Route::get('/profil', function () {
     return view('profilsekolah');

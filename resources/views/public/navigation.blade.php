@@ -24,8 +24,14 @@
                 <a href="{{ url('/profil') }}" class="text-sm font-medium {{ request()->is('profil') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out">
                     Informasi Sekolah
                 </a>
-                <a href="{{ url('/') }}#panduan" class="text-sm font-medium text-gray-600 hover:text-red-600 transition duration-150 ease-in-out">
+                <a href="{{ url('/jadwal') }}" class="text-sm font-medium {{ request()->is('jadwal') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out">
+                    Jadwal PPDB
+                </a>
+                <a href="{{ url('/panduan') }}" class="text-sm font-medium {{ request()->is('panduan') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out">
                     Panduan
+                </a>
+                <a href="{{ url('/pengumuman') }}" class="text-sm font-medium {{ request()->is('pengumuman') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out">
+                    Pengumuman
                 </a>
                 
                 <div class="flex items-center gap-3 pl-4 border-l border-gray-200">
@@ -74,7 +80,7 @@
                         <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 hover:text-red-700 transition px-3 py-2 rounded-lg hover:bg-red-50">
                             Masuk
                         </a>
-                        @if(\App\Models\Gelombang::where('is_active', true)->exists())
+                        @if(\App\Models\Gelombang::where('is_active', '=', true)->exists())
                         <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-lg text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                             Daftar Akun
                         </a>
@@ -112,8 +118,14 @@
             <a href="{{ url('/profil') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('profil') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition">
                 Informasi Sekolah
             </a>
-            <a href="{{ url('/') }}#panduan" class="block pl-3 pr-4 py-3 border-l-4 border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50 text-base font-medium rounded-r-md transition">
+            <a href="{{ url('/jadwal') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('jadwal') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition">
+                Jadwal PPDB
+            </a>
+            <a href="{{ url('/panduan') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('panduan') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition">
                 Panduan Pendaftaran
+            </a>
+            <a href="{{ url('/pengumuman') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('pengumuman') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition">
+                Pengumuman
             </a>
 
             <div class="mt-4 pt-4 border-t border-gray-100">
@@ -153,7 +165,7 @@
                         <a href="{{ route('login') }}" class="flex justify-center items-center px-4 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 transition">
                             Masuk
                         </a>
-                        @if(\App\Models\Gelombang::where('is_active', true)->exists())
+                        @if(\App\Models\Gelombang::where('is_active', '=', true)->exists())
                         <a href="{{ route('register') }}" class="flex justify-center items-center px-4 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-red-700 hover:bg-red-800 shadow-md transition">
                             Daftar Akun
                         </a>

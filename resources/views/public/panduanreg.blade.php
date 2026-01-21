@@ -1,0 +1,284 @@
+@extends('layouts.public')
+
+@section('title', 'Panduan Pendaftaran')
+@section('hideContact', true)
+
+@section('content')
+    {{-- Import FontAwesome if needed (sticking to SVGs for now but keeping consistent header) --}}
+    
+    {{-- Header Section (Consistent with Information School) --}}
+    <div class="bg-white pt-12 pb-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                Panduan Pendaftaran
+            </h1>
+            <p class="mt-4 text-lg text-gray-500">
+                Ikuti panduan lengkap berikut untuk mendaftar di SMK Solusi Bangun Indonesia
+            </p>
+        </div>
+    </div>
+
+    {{-- ALUR PENDAFTARAN --}}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-12 border border-gray-100">
+            <div class="text-center mb-12">
+                <span class="text-red-600 bg-red-50 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">Alur Pendaftaran</span>
+                <h2 class="text-2xl font-bold text-gray-900 mt-3">Langkah Mudah Mendaftar</h2>
+                <p class="text-gray-500 mt-2 text-sm">Ikuti 6 langkah sederhana berikut untuk menyelesaikan pendaftaran.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @php
+                $steps = [
+                    ['num' => '1', 'title' => 'Registrasi Akun', 'desc' => 'Buat akun dengan email aktif dan lengkapi data diri Anda.', 'icon' => 'user-add'],
+                    ['num' => '2', 'title' => 'Isi Formulir', 'desc' => 'Lengkapi formulir pendaftaran dengan data yang valid dan benar.', 'icon' => 'document-text'],
+                    ['num' => '3', 'title' => 'Upload Berkas', 'desc' => 'Unggah dokumen persyaratan seperti Ijazah, Foto, dan KK.', 'icon' => 'upload'],
+                    ['num' => '4', 'title' => 'Pembayaran', 'desc' => 'Lakukan pembayaran biaya pendaftaran melalui metode tersedia.', 'icon' => 'credit-card'],
+                    ['num' => '5', 'title' => 'Verifikasi', 'desc' => 'Tim kami akan memverifikasi data dan berkas yang telah dikirim.', 'icon' => 'clipboard-check'],
+                    ['num' => '6', 'title' => 'Pengumuman', 'desc' => 'Pantau pengumuman hasil seleksi melalui website atau email.', 'icon' => 'speakerphone'],
+                ];
+                @endphp
+
+                @foreach($steps as $step)
+                <div class="relative group">
+                    <div class="flex flex-col h-full bg-white border border-gray-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-red-100">
+                        <div class="absolute -top-3 -left-3 w-8 h-8 flex items-center justify-center bg-red-600 text-white font-bold rounded-full text-sm shadow-md ring-4 ring-white">
+                            {{ $step['num'] }}
+                        </div>
+
+                        <div class="w-12 h-12 bg-red-50 text-red-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                            @if($step['icon'] == 'user-add')
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                            </svg>
+                            @elseif($step['icon'] == 'document-text')
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            @elseif($step['icon'] == 'upload')
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                            </svg>
+                            @elseif($step['icon'] == 'credit-card')
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                            </svg>
+                            @elseif($step['icon'] == 'clipboard-check')
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                            </svg>
+                            @else
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
+                            </svg>
+                            @endif
+                        </div>
+
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">{{ $step['title'] }}</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">{{ $step['desc'] }}</p>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- PERSYARATAN --}}
+        <div class="text-center mb-10">
+            <span class="text-red-600 bg-red-50 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">Persyaratan</span>
+            <h2 class="text-2xl font-bold text-gray-900 mt-3">Dokumen yang Diperlukan</h2>
+            <p class="text-gray-500 mt-2 text-sm">Siapkan dokumen-dokumen berikut sebelum melakukan pendaftaran.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:border-red-100 transition">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2 bg-red-50 rounded-lg text-red-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-lg text-gray-900">Dokumen Wajib</h3>
+                </div>
+                <ul class="space-y-4">
+                    @foreach(['Ijazah SMP/MTs atau Surat Keterangan Lulus (SKL)', 'Kartu Keluarga (KK)', 'Akta Kelahiran', 'Pas Foto 3x4 (latar merah)', 'Rapor semester 1-5 SMP/MTs'] as $doc)
+                    <li class="flex items-start gap-3 text-sm text-gray-600">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>{{ $doc }}</span>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:border-red-100 transition">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2 bg-red-50 rounded-lg text-red-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-lg text-gray-900">Dokumen Pendukung</h3>
+                </div>
+                <ul class="space-y-4">
+                    @foreach(['Sertifikat prestasi akademik/non-akademik (jika ada)', 'Kartu Indonesia Pintar (KIP) atau KKS (jika ada)', 'Surat Keterangan Sehat dari dokter', 'Surat Keterangan Kelakuan Baik'] as $doc)
+                    <li class="flex items-start gap-3 text-sm text-gray-600">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>{{ $doc }}</span>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+
+        <div class="text-center mb-20">
+            <a href="#" class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-red-600 text-red-600 font-medium rounded-lg hover:bg-red-50 transition shadow-sm hover:shadow-md">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                Unduh Checklist Dokumen (PDF)
+            </a>
+        </div>
+
+        {{-- FAQ --}}
+        <div class="max-w-3xl mx-auto mb-20">
+            <div class="text-center mb-8">
+                <span class="text-red-600 bg-red-50 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">FAQ</span>
+                <h2 class="text-2xl font-bold text-gray-900 mt-3">Pertanyaan Umum</h2>
+            </div>
+
+            <div class="space-y-4">
+                @php
+                $faqs = [
+                    ['q' => 'Apakah bisa mendaftar secara offline?', 'a' => 'Pendaftaran dilakukan secara online melalui website ini. Namun, untuk verifikasi dokumen asli harus dilakukan secara langsung di sekolah sesuai jadwal yang ditentukan.'],
+                    ['q' => 'Berapa biaya pendaftaran?', 'a' => 'Biaya pendaftaran sebesar Rp 150.000,- yang dapat dibayarkan melalui transfer bank atau pembayaran langsung di sekolah.'],
+                    ['q' => 'Apakah ada ujian masuk?', 'a' => 'Ya, calon siswa akan mengikuti tes tertulis dan wawancara sebagai bagian dari proses seleksi.'],
+                    ['q' => 'Kapan pengumuman hasil seleksi?', 'a' => 'Pengumuman hasil seleksi akan disampaikan maksimal 7 hari setelah penutupan pendaftaran masing-masing gelombang.']
+                ];
+                @endphp
+
+                @foreach($faqs as $faq)
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:border-red-100 transition">
+                    <div class="p-6">
+                        <h4 class="font-bold text-gray-900 text-sm mb-2">{{ $faq['q'] }}</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">{{ $faq['a'] }}</p>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+    {{-- WARNING SECTION --}}
+    <div class="bg-amber-50 border-t border-b border-amber-100 py-12">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-amber-100 text-amber-600 rounded-full mb-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold text-amber-900 mb-2">Peringatan</h3>
+            <p class="text-amber-700 text-sm">Pastikan semua data yang diisi adalah data yang benar dan valid. Kesalahan data dapat mengakibatkan pembatalan pendaftaran. Jika ada kendala, silakan hubungi panitia PPDB melalui kontak yang tersedia.</p>
+        </div>
+    </div>
+
+    {{-- FOOTER --}}
+    <footer class="bg-white text-gray-900 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 py-16">
+            <div class="grid md:grid-cols-4 gap-12">
+                {{-- Column 1 --}}
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl text-gray-900">SMK Solusi Bangun</h3>
+                            <p class="text-sm font-semibold text-red-600 tracking-wider">INDONESIA</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6 max-w-sm">
+                        Mencetak generasi unggul, kompeten, dan siap kerja melalui pendidikan vokasi berkualitas.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-8 h-8 rounded bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-600 hover:text-white transition"><svg
+                                class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                            </svg></a>
+                        <a href="#"
+                            class="w-8 h-8 rounded bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-600 hover:text-white transition"><svg
+                                class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg></a>
+                    </div>
+                </div>
+
+                {{-- Column 2 --}}
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-6">Tautan Cepat</h4>
+                    <ul class="space-y-3 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-red-600 transition">Info Pendaftaran</a></li>
+                        <li><a href="#" class="hover:text-red-600 transition">Jadwal Seleksi</a></li>
+                        <li><a href="#" class="hover:text-red-600 transition">Panduan Orang Tua</a></li>
+                        <li><a href="#" class="hover:text-red-600 transition">Beasiswa</a></li>
+                        <li><a href="{{ route('login') }}" class="hover:text-red-600 transition">Masuk Akun</a></li>
+                    </ul>
+                </div>
+
+                {{-- Column 3 --}}
+                <div>
+                    <h4 class="font-bold text-gray-900 mb-6">Kontak</h4>
+                    <ul class="space-y-4 text-sm text-gray-500">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            <span>Jl. Pendidikan No. 123, Indonesia</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                                </path>
+                            </svg>
+                            <span>(021) 123-4567</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            <span>info@solusibangun.sch.id</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="border-t border-gray-200 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+                <p>&copy; {{ date('Y') }} SMK Solusi Bangun Indonesia. Hak Cipta Dilindungi.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-red-700">Kebijakan Privasi</a>
+                    <a href="#" class="hover:text-red-700">Syarat & Ketentuan</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+@endsection

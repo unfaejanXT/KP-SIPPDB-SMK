@@ -25,12 +25,14 @@ Route::post('/install', [InstallController::class, 'store'])->name('install.stor
 
 use App\Models\Jurusan;
 use App\Models\Gelombang;
+use App\Models\Pengumuman;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     $jurusan = Jurusan::aktif()->get();
-    $activeGelombang = Gelombang::where('is_active', true)->first();
+    $activeGelombang = Gelombang::where('is_active', '=', true)->first();
     $gelombangs = Gelombang::orderBy('tanggal_mulai', 'asc')->get();
-    return view('index', compact('jurusan', 'activeGelombang', 'gelombangs'));
+    return view('public.index', compact('jurusan', 'activeGelombang', 'gelombangs'));
 });
 
 Route::get('/sandbox/atomic', function () {
@@ -40,12 +42,32 @@ Route::get('/sandbox/atomic', function () {
 Route::get('/daftar', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'create'])->name('daftarakun');
 
 Route::get('/profil', function () {
-    return view('profilsekolah');
+    return view('public.profilsekolah');
 });
 
 Route::get('/panduan', function () {
-    return view('panduanreg');
+    return view('public.panduanreg');
 });
+
+Route::get('/jadwal', function () {
+    $gelombangs = Gelombang::orderBy('tanggal_mulai', 'asc')->get();
+    return view('public.jadwal', compact('gelombangs'));
+});
+
+Route::get('/pengumuman', function (Request $request) {
+    $query = Pengumuman::where('status', 'published');
+
+    if ($request->has('q')) {
+        $search = $request->q;
+        $query->where(function($q) use ($search) {
+            $q->where('judul', 'like', "%{$search}%")
+              ->orWhere('konten', 'like', "%{$search}%");
+        });
+    }
+
+    $pengumumans = $query->latest()->paginate(5);
+    return view('public.pengumuman', compact('pengumumans'));
+})->name('pengumuman.index');
 
 Route::get('/demo', function () {
     return view('demo.biodata');

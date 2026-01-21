@@ -7,19 +7,23 @@
     {{-- Import FontAwesome if needed (sticking to SVGs for now but keeping consistent header) --}}
     
     {{-- Header Section (Consistent with Information School) --}}
-    <div class="bg-white pt-12 pb-6 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto text-center">
-            <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                Panduan Pendaftaran
-            </h1>
-            <p class="mt-4 text-lg text-gray-500">
-                Ikuti panduan lengkap berikut untuk mendaftar di SMK Solusi Bangun Indonesia
-            </p>
+    {{-- HEADER SECTION --}}
+    <header class="relative bg-gradient-to-r from-red-600 to-red-800 pt-16 pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
+            <span
+                class="inline-block py-1 px-3 rounded-full bg-white/20 text-white text-xs font-semibold backdrop-blur-sm border border-white/30 mb-4">
+                Panduan
+            </span>
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Panduan Pendaftaran</h1>
+            <p class="text-white/90 text-lg">Ikuti panduan lengkap berikut untuk mendaftar</p>
         </div>
-    </div>
 
-    {{-- ALUR PENDAFTARAN --}}
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div
+            class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light">
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 -mt-20 relative z-20 pb-20">
         <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-12 border border-gray-100">
             <div class="text-center mb-12">
                 <span class="text-red-600 bg-red-50 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">Alur Pendaftaran</span>
@@ -33,7 +37,7 @@
                     ['num' => '1', 'title' => 'Registrasi Akun', 'desc' => 'Buat akun dengan email aktif dan lengkapi data diri Anda.', 'icon' => 'user-add'],
                     ['num' => '2', 'title' => 'Isi Formulir', 'desc' => 'Lengkapi formulir pendaftaran dengan data yang valid dan benar.', 'icon' => 'document-text'],
                     ['num' => '3', 'title' => 'Upload Berkas', 'desc' => 'Unggah dokumen persyaratan seperti Ijazah, Foto, dan KK.', 'icon' => 'upload'],
-                    ['num' => '4', 'title' => 'Pembayaran', 'desc' => 'Lakukan pembayaran biaya pendaftaran melalui metode tersedia.', 'icon' => 'credit-card'],
+                    ['num' => '4', 'title' => 'Cetak Bukti', 'desc' => 'Unduh dan cetak kartu bukti pendaftaran Anda.', 'icon' => 'printer'],
                     ['num' => '5', 'title' => 'Verifikasi', 'desc' => 'Tim kami akan memverifikasi data dan berkas yang telah dikirim.', 'icon' => 'clipboard-check'],
                     ['num' => '6', 'title' => 'Pengumuman', 'desc' => 'Pantau pengumuman hasil seleksi melalui website atau email.', 'icon' => 'speakerphone'],
                 ];
@@ -59,9 +63,9 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
                             </svg>
-                            @elseif($step['icon'] == 'credit-card')
+                            @elseif($step['icon'] == 'printer')
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                             </svg>
                             @elseif($step['icon'] == 'clipboard-check')
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,7 +157,7 @@
                 @php
                 $faqs = [
                     ['q' => 'Apakah bisa mendaftar secara offline?', 'a' => 'Pendaftaran dilakukan secara online melalui website ini. Namun, untuk verifikasi dokumen asli harus dilakukan secara langsung di sekolah sesuai jadwal yang ditentukan.'],
-                    ['q' => 'Berapa biaya pendaftaran?', 'a' => 'Biaya pendaftaran sebesar Rp 150.000,- yang dapat dibayarkan melalui transfer bank atau pembayaran langsung di sekolah.'],
+                    ['q' => 'Berapa biaya pendaftaran?', 'a' => 'Pendaftaran Peserta Didik Baru (PPDB) di SMK Solusi Bangun Indonesia sepenuhnya GRATIS dan tidak dipungut biaya apapun.'],
                     ['q' => 'Apakah ada ujian masuk?', 'a' => 'Ya, calon siswa akan mengikuti tes tertulis dan wawancara sebagai bagian dari proses seleksi.'],
                     ['q' => 'Kapan pengumuman hasil seleksi?', 'a' => 'Pengumuman hasil seleksi akan disampaikan maksimal 7 hari setelah penutupan pendaftaran masing-masing gelombang.']
                 ];
@@ -169,7 +173,7 @@
                 @endforeach
             </div>
         </div>
-    </div>
+    </main>
 
     {{-- WARNING SECTION --}}
     <div class="bg-amber-50 border-t border-b border-amber-100 py-12">

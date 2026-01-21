@@ -284,7 +284,7 @@
         <div class="max-w-4xl mx-auto text-center px-6 relative z-10">
             <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Siap Bergabung dengan Kami?</h2>
             <p class="text-white/90 mb-8 text-lg">Jangan lewatkan kesempatan untuk menjadi bagian dari SMK Solusi Bangun Indonesia. Daftar sekarang dan raih masa depan cemerlang.</p>
-            <div class="flex justify-center gap-4">
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
                 <a href="{{ route('register') }}"
                     class="px-8 py-3 bg-white text-red-700 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition">
                     Daftar Sekarang
@@ -303,7 +303,7 @@
         <div class="max-w-4xl mx-auto text-center px-6 relative z-10">
             <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Mari Bergabung Bersama Kami!</h2>
             <p class="text-white/90 mb-8 text-lg">Nantikan pembukaan Pendaftaran Peserta Didik Baru (PPDB) periode selanjutnya. Ikuti update terbaru melalui website dan sosial media kami.</p>
-            <div class="flex justify-center gap-4">
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
                 <a href="#"
                     class="px-8 py-3 bg-white text-gray-900 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition">
                     Hubungi Kami

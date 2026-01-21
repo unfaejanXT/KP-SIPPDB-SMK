@@ -7,16 +7,23 @@
     {{-- Import FontAwesome (Temporary solution to match reference visually with proper icons) --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <div class="bg-white pt-12 pb-6 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto text-center">
-            <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                Informasi Sekolah
-            </h1>
-            <p class="mt-4 text-lg text-gray-500">
-                Mengenal lebih dekat SMK Solusi Bangun Indonesia
-            </p>
+    {{-- HEADER SECTION --}}
+    <header class="relative bg-gradient-to-r from-red-600 to-red-800 pt-16 pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
+            <span
+                class="inline-block py-1 px-3 rounded-full bg-white/20 text-white text-xs font-semibold backdrop-blur-sm border border-white/30 mb-4">
+                Profil Sekolah
+            </span>
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Informasi Sekolah</h1>
+            <p class="text-white/90 text-lg">Mengenal lebih dekat SMK Solusi Bangun Indonesia</p>
         </div>
-    </div>
+
+        <div
+            class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light">
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 -mt-20 relative z-20 pb-20">
 
     {{-- VISI MISI --}}
     <section class="py-12 bg-white">
@@ -141,6 +148,7 @@
         </div>
     </section>
 
+    </main>
     {{-- FOOTER --}}
     <footer class="bg-white text-gray-900 border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-6 py-16">

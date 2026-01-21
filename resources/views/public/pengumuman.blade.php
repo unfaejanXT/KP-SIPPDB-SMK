@@ -5,23 +5,26 @@
 
 @section('content')
     {{-- Hero Section --}}
-    <div class="bg-gradient-to-r from-teal-500 to-emerald-600 text-white pt-16 pb-24 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
-        </div>
-
+    {{-- HEADER SECTION --}}
+    <header class="relative bg-gradient-to-r from-red-600 to-red-800 pt-16 pb-32 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
             <span
-                class="inline-block py-1 px-3 rounded-full bg-white/20 border border-white/30 backdrop-blur-sm text-xs font-medium mb-4">Pengumuman</span>
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Pengumuman PPDB</h1>
-            <p class="text-teal-50 text-lg md:text-xl font-light max-w-2xl mx-auto">
-                Informasi dan pengumuman terbaru seputar PPDB SMK Solusi Bangun Indonesia
-            </p>
+                class="inline-block py-1 px-3 rounded-full bg-white/20 text-white text-xs font-semibold backdrop-blur-sm border border-white/30 mb-4">
+                Pengumuman
+            </span>
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Pengumuman PPDB</h1>
+            <p class="text-white/90 text-lg">Informasi dan pengumuman terbaru seputar PPDB</p>
         </div>
-    </div>
+
+        <div
+            class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light">
+        </div>
+    </header>
 
     {{-- Search Section --}}
-    <div class="max-w-3xl mx-auto px-4 -mt-7 relative z-20">
-        <form action="{{ route('pengumuman.index') }}" method="GET" class="relative shadow-lg rounded-xl">
+    <main class="max-w-7xl mx-auto px-4 -mt-20 relative z-20 pb-20">
+        <div class="max-w-3xl mx-auto mb-10">
+            <form action="{{ route('pengumuman.index') }}" method="GET" class="relative shadow-lg rounded-xl bg-white">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -29,18 +32,18 @@
                 </svg>
             </div>
             <input type="text" name="q" value="{{ request('q') }}"
-                class="block w-full pl-11 pr-4 py-4 rounded-xl border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-teal-500 text-sm shadow-sm placeholder-gray-400"
+                class="block w-full pl-11 pr-4 py-4 rounded-xl border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-red-500 text-sm shadow-sm placeholder-gray-400"
                 placeholder="Cari pengumuman...">
         </form>
-    </div>
+        </div>
 
     {{-- Content Section --}}
-    <div class="max-w-4xl mx-auto px-4 py-12 space-y-6">
+    <div class="max-w-4xl mx-auto space-y-6">
 
         @forelse($pengumumans as $pengumuman)
             <div
                 class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition duration-300">
-                <div class="flex items-center gap-3 mb-3">
+                <div class="flex flex-wrap items-center gap-3 mb-3">
                     <span
                         class="bg-blue-50 text-blue-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">{{ $pengumuman->kategori ?? 'Informasi' }}</span>
                     @if($loop->first && $pengumumans->currentPage() == 1)
@@ -178,31 +181,7 @@
                 </a>
             </div>
 
-            <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition duration-300">
-                <div class="flex items-center gap-3 mb-3">
-                    <span
-                        class="bg-purple-50 text-purple-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Biaya</span>
-                    <div class="flex items-center text-slate-400 text-xs ml-auto">
-                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                            </path>
-                        </svg>
-                        15 Desember 2023
-                    </div>
-                </div>
-                <h3 class="text-lg font-bold text-slate-900 mb-2">Informasi Biaya Pendidikan Tahun Ajaran 2024/2025</h3>
-                <p class="text-slate-500 text-sm leading-relaxed mb-4">
-                    Informasi lengkap mengenai biaya pendidikan, SPP, dan biaya lainnya untuk tahun ajaran 2024/2025 dapat
-                    dilihat pada pengumuman ini.
-                </p>
-                <a href="#" class="inline-flex items-center text-sm font-semibold text-sky-600 hover:text-sky-700">
-                    Baca selengkapnya <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3">
-                        </path>
-                    </svg>
-                </a>
-            </div>
+
         @endforelse
 
         <div class="text-center pt-6">
@@ -217,6 +196,7 @@
         </div>
 
     </div>
+    </main>
 
     <div class="bg-slate-50 py-16 border-t border-slate-200">
         <div class="max-w-2xl mx-auto px-4 text-center">

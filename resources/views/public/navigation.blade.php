@@ -22,7 +22,7 @@
                     Beranda
                 </a>
                 <a href="{{ url('/profil') }}" class="text-sm font-medium {{ request()->is('profil') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out">
-                    Profil Sekolah
+                    Informasi Sekolah
                 </a>
                 <a href="{{ url('/') }}#panduan" class="text-sm font-medium text-gray-600 hover:text-red-600 transition duration-150 ease-in-out">
                     Panduan
@@ -110,7 +110,7 @@
                 Beranda
             </a>
             <a href="{{ url('/profil') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('profil') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition">
-                Profil Sekolah
+                Informasi Sekolah
             </a>
             <a href="{{ url('/') }}#panduan" class="block pl-3 pr-4 py-3 border-l-4 border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50 text-base font-medium rounded-r-md transition">
                 Panduan Pendaftaran

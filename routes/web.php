@@ -74,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminJurusanController;
 use App\Http\Controllers\AdminGelombangController;
+use App\Http\Controllers\AdminCalonSiswaController;
 
 // Admin Dashboard Routes
 Route::middleware(['auth'])->prefix('admin')->group(function () {
@@ -81,6 +82,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('users', AdminUserController::class, ['as' => 'admin']);
     Route::resource('jurusan', AdminJurusanController::class, ['as' => 'admin']);
     Route::resource('gelombang', AdminGelombangController::class, ['as' => 'admin']);
+    Route::resource('calon-siswa', AdminCalonSiswaController::class, ['as' => 'admin']);
 });
 
 Route::middleware('auth')->group(function () {

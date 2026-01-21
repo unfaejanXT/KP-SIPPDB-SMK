@@ -72,11 +72,13 @@ Route::middleware(['auth'])->group(function () {
 });
 
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AdminJurusanController;
 
 // Admin Dashboard Routes
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::resource('users', AdminUserController::class, ['as' => 'admin']);
+    Route::resource('jurusan', AdminJurusanController::class, ['as' => 'admin']);
 });
 
 Route::middleware('auth')->group(function () {

@@ -84,8 +84,8 @@
                     <span class="font-medium text-sm">Gelombang</span>
                 </a>
 
-                <a href="#"
-                    class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-gray-50 hover:text-blue-700 rounded-lg transition-colors group">
+                <a href="{{ route('admin.jurusan.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.jurusan.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
                     <i class="fa-solid fa-shapes w-5 group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Jurusan</span>
                 </a>

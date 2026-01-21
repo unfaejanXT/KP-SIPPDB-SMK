@@ -16,12 +16,15 @@ class PeriodePPDB extends Model
         'tanggal_mulai',
         'tanggal_selesai',
         'tahun_ajaran',
+        'kuota',
+        'is_active',
     ];
 
     // Cast tipe data
     protected $casts = [
         'tanggal_mulai' => 'date',
         'tanggal_selesai' => 'date',
+        'is_active' => 'boolean',
     ];
 
     // Validasi data

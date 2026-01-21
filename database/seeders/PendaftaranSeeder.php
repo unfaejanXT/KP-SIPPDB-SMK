@@ -6,15 +6,15 @@ use Illuminate\Database\Seeder;
 use App\Models\Pendaftaran;
 use App\Models\OrangTuaSiswa;
 use App\Models\Jurusan;
-use App\Models\PeriodePPDB;
+use App\Models\Gelombang;
 use App\Models\User; // Asumsi ada model User untuk menghubungkan pendaftaran dengan user
 
 class PendaftaranSeeder extends Seeder
 {
     public function run()
     {
-        // Mendapatkan periode PPDB yang aktif
-        $periodePPDB = PeriodePPDB::where('status', true)->first();
+        // Mendapatkan periode PPDB (Gelombang) yang aktif
+        $periodePPDB = Gelombang::where('is_active', true)->first();
 
         // Mendapatkan jurusan Agribisnis yang memiliki id = 1
         $jurusanAgribisnis = Jurusan::find(1);
@@ -42,7 +42,7 @@ class PendaftaranSeeder extends Seeder
                 'asal_sekolah' => 'SDN 1 Bandung',
                 'pas_foto' => 'contohfoto.png',
                 'user_id' => $user->id, // Asosiasi dengan user
-                'periodeppdb_id' => $periodePPDB->id, // Menghubungkan dengan periode PPDB yang aktif
+                'gelombang_id' => $periodePPDB->id, // Menghubungkan dengan periode PPDB yang aktif
                 'jurusan_id' => $jurusanAgribisnis->id, // Menghubungkan dengan jurusan Agribisnis
             ]);
 

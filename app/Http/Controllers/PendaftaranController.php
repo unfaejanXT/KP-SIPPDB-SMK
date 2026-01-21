@@ -6,7 +6,7 @@ use App\Models\Berkas;
 use App\Models\Jurusan;
 use App\Models\OrangTuaSiswa;
 use App\Models\Pendaftaran;
-use App\Models\PeriodePPDB;
+use App\Models\Gelombang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,8 +29,9 @@ class PendaftaranController extends Controller
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->first();
 
         if (!$pendaftaran) {
-            // Check for active PPDB period
-            $activePeriod = PeriodePPDB::whereDate('tanggal_mulai', '<=', now())
+            // Check for active PPDB Gelombang
+            $activePeriod = Gelombang::where('is_active', true)
+                ->whereDate('tanggal_mulai', '<=', now())
                 ->whereDate('tanggal_selesai', '>=', now())
                 ->first();
             if (!$activePeriod) {
@@ -108,8 +109,9 @@ class PendaftaranController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Get Active Period
-        $activePeriod = PeriodePPDB::whereDate('tanggal_mulai', '<=', now())
+        // Get Active Gelombang
+        $activePeriod = Gelombang::where('is_active', true)
+            ->whereDate('tanggal_mulai', '<=', now())
             ->whereDate('tanggal_selesai', '>=', now())
             ->first();
         if (!$activePeriod) {
@@ -125,7 +127,7 @@ class PendaftaranController extends Controller
         // Prepare data
         $data = [
             'user_id' => $user->id,
-            'periodeppdb_id' => $activePeriod->id,
+            'gelombang_id' => $activePeriod->id,
             'jurusan_id' => $request->jurusan_id,
             'no_pendaftaran' => $no_pendaftaran,
             'nisn' => $request->nisn,

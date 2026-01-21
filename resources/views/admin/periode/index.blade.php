@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'Gelombang Pendaftaran - PPDB SMK SBI')
-@section('header_title', 'Gelombang Pendaftaran')
-@section('header_subtitle', 'Kelola periode dan kuota pendaftaran')
+@section('title', 'Periode PPDB - PPDB SMK SBI')
+@section('header_title', 'Periode PPDB')
+@section('header_subtitle', 'Kelola periode penerimaan peserta didik baru')
 
 @section('content')
 <div x-data="{ 
@@ -11,41 +11,35 @@
     formUrl: '', 
     formData: {
         id: null,
-        nama: '',
+        nama_periode: '',
         tahun_ajaran: '',
         tanggal_mulai: '',
         tanggal_selesai: '',
-        kuota: 0,
-        is_active: true,
-        periode_id: ''
+        is_active: true
     },
     openAddModal() {
         this.isEdit = false;
-        this.formUrl = '{{ route('admin.gelombang.store') }}';
+        this.formUrl = '{{ route('admin.periode.store') }}';
         this.formData = {
             id: null,
-            nama: '',
+            nama_periode: '',
             tahun_ajaran: '{{ date('Y') }}/{{ date('Y')+1 }}',
             tanggal_mulai: '',
             tanggal_selesai: '',
-            kuota: 0,
-            is_active: true,
-            periode_id: ''
+            is_active: true
         };
         this.showModal = true;
     },
     openEditModal(item) {
         this.isEdit = true;
-        this.formUrl = '{{ route('admin.gelombang.update', ':id') }}'.replace(':id', item.id);
+        this.formUrl = '{{ route('admin.periode.update', ':id') }}'.replace(':id', item.id);
         this.formData = {
             id: item.id,
-            nama: item.nama,
+            nama_periode: item.nama_periode,
             tahun_ajaran: item.tahun_ajaran,
             tanggal_mulai: item.tanggal_mulai ? item.tanggal_mulai.split('T')[0] : '',
             tanggal_selesai: item.tanggal_selesai ? item.tanggal_selesai.split('T')[0] : '',
-            kuota: item.kuota,
-            is_active: item.is_active,
-            periode_id: item.periode_id
+            is_active: item.is_active
         };
         this.showModal = true;
     },
@@ -59,12 +53,12 @@
         @if($sedangAktif > 0)
         <div class="flex items-center gap-2 px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold">
             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            {{ $sedangAktif }} Gelombang Aktif
+            {{ $sedangAktif }} Periode Aktif
         </div>
         @else
         <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-500 rounded-full text-xs font-semibold">
             <span class="w-2 h-2 rounded-full bg-slate-400"></span>
-            Tidak ada gelombang aktif
+            Tidak ada periode aktif
         </div>
         @endif
 
@@ -74,7 +68,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
                 </path>
             </svg>
-            Tambah Gelombang
+            Tambah Periode
         </button>
     </div>
 
@@ -83,6 +77,12 @@
     <div class="bg-green-100 border border-green-200 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
         <strong class="font-bold">Berhasil!</strong>
         <span class="block sm:inline">{{ session('success') }}</span>
+    </div>
+    @endif
+    @if(session('error'))
+    <div class="bg-red-100 border border-red-200 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+        <strong class="font-bold">Gagal!</strong>
+        <span class="block sm:inline">{{ session('error') }}</span>
     </div>
     @endif
     @if ($errors->any())
@@ -96,41 +96,25 @@
     @endif
 
     <!-- Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        @forelse($gelombang as $item)
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        @forelse($periodes as $item)
             @php
-                $isActive = $item->is_active && $item->isBerlaku();
-                // Determine styling based on status
+                $isActive = $item->is_active;
                 if ($isActive) {
                     $cardBorder = 'border-emerald-400 ring-1 ring-emerald-400/30 shadow-[0_4px_20px_-5px_rgba(16,185,129,0.15)]';
                     $badgeClass = 'bg-emerald-100 text-emerald-600 border border-emerald-200';
                     $badgeText = 'Aktif';
-                    $progressColor = 'bg-emerald-500';
-                } elseif (now() > $item->tanggal_selesai) {
+                } else {
                     $cardBorder = 'border-slate-200 shadow-sm hover:shadow-md';
                     $badgeClass = 'bg-slate-100 text-slate-500 border border-slate-200';
                     $badgeText = 'Selesai';
-                    $progressColor = 'bg-[#1e293b]';
-                } else {
-                    // Future or Inactive manually
-                    $cardBorder = 'border-slate-200 shadow-sm hover:shadow-md';
-                    $badgeClass = 'bg-blue-50 text-blue-500 border border-blue-100';
-                    $badgeText = 'Akan Datang';
-                    if (!$item->is_active) $badgeText = 'Nonaktif';
-                    $progressColor = 'bg-blue-500';
                 }
-
-                $pendaftarCount = $item->pendaftarans_count;
-                $kuota = $item->kuota;
-                $persenTerisi = $kuota > 0 ? round(($pendaftarCount / $kuota) * 100) : 0;
-                $sisa = max(0, $kuota - $pendaftarCount);
             @endphp
 
             <div class="bg-white rounded-xl p-6 relative transition-shadow {{ $cardBorder }}">
                 <div class="flex justify-between items-start mb-4">
                     <div>
-                        <h3 class="text-lg font-bold text-slate-800">{{ $item->nama }}</h3>
-                        <p class="text-xs text-slate-500">{{ $item->periode ? $item->periode->nama_periode : 'Tanpa Periode' }}</p>
+                        <h3 class="text-lg font-bold text-slate-800">{{ $item->nama_periode }}</h3>
                         <span class="inline-block mt-1 px-2.5 py-0.5 rounded text-[10px] font-bold {{ $badgeClass }}">
                             {{ $badgeText }}
                         </span>
@@ -154,7 +138,18 @@
                                 </svg>
                                 Edit
                             </button>
-                            <form action="{{ route('admin.gelombang.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus gelombang ini?');">
+                            <form action="{{ route('admin.periode.toggle-status', $item->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit"
+                                    class="flex w-full items-center gap-2 px-4 py-2 text-xs text-slate-600 hover:bg-slate-50">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                    </svg>
+                                    Toggle Status
+                                </button>
+                            </form>
+                            <form action="{{ route('admin.periode.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus periode ini?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
@@ -178,94 +173,27 @@
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                             </path>
                         </svg>
-                        {{ $item->tanggal_mulai->format('d M') }} - {{ $item->tanggal_selesai->format('d M Y') }}
+                        Tahun Ajaran: {{ $item->tahun_ajaran }}
                     </div>
                     <div class="flex items-center text-sm text-slate-500">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
-                            </path>
+                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        {{ $pendaftarCount }} / {{ $kuota }} pendaftar
+                        Durasi: {{ $item->tanggal_mulai->format('d M Y') }} - {{ $item->tanggal_selesai->format('d M Y') }}
                     </div>
-
-                    <div>
-                        <div class="flex justify-between text-xs mb-1.5">
-                            <span class="text-slate-400">Terisi</span>
-                            <span class="font-bold text-slate-800">{{ $persenTerisi }}%</span>
-                        </div>
-                        <div class="w-full bg-slate-100 rounded-full h-2">
-                            <div class="{{ $progressColor }} h-2 rounded-full" style="width: {{ min($persenTerisi, 100) }}%"></div>
-                        </div>
-                        <div class="mt-2 text-right">
-                            <span class="text-xs text-slate-400">Sisa Kuota <b class="text-slate-800 ml-1">{{ $sisa }} siswa</b></span>
-                        </div>
+                    <div class="flex items-center text-sm text-slate-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                        Total Gelombang: {{ $item->gelombangs_count }}
                     </div>
                 </div>
             </div>
         @empty
             <div class="col-span-3 text-center py-12 bg-white rounded-xl border border-dashed border-slate-300 text-slate-500">
-                <p>Belum ada gelombang pendaftaran.</p>
+                <p>Belum ada periode pendaftaran.</p>
             </div>
         @endforelse
-    </div>
-
-    <!-- Stats Summary -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center text-slate-500">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                    </path>
-                </svg>
-            </div>
-            <div>
-                <h4 class="text-2xl font-bold text-slate-800">{{ $totalGelombang }}</h4>
-                <p class="text-xs text-slate-500 font-medium">Total Gelombang</p>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-500">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-            </div>
-            <div>
-                <h4 class="text-2xl font-bold text-slate-800">{{ $sedangAktif }}</h4>
-                <p class="text-xs text-slate-500 font-medium">Sedang Aktif</p>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 bg-cyan-50 rounded-lg flex items-center justify-center text-cyan-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
-                    </path>
-                </svg>
-            </div>
-            <div>
-                <h4 class="text-2xl font-bold text-slate-800">{{ $totalKuota }}</h4>
-                <p class="text-xs text-slate-500 font-medium">Total Kuota</p>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center text-blue-500">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
-                    </path>
-                </svg>
-            </div>
-            <div>
-                <h4 class="text-2xl font-bold text-slate-800">{{ $sisaKuota }}</h4>
-                <p class="text-xs text-slate-500 font-medium">Sisa Kuota</p>
-            </div>
-        </div>
     </div>
 
     <!-- Modal Form -->
@@ -274,7 +202,6 @@
         class="fixed inset-0 z-50 overflow-y-auto" 
         aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <!-- Background overlay -->
             <div x-show="showModal" 
                 x-transition:enter="ease-out duration-300"
                 x-transition:enter-start="opacity-0"
@@ -285,7 +212,6 @@
                 class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
                 @click="closeModal()" aria-hidden="true"></div>
 
-            <!-- Modal panel -->
             <div x-show="showModal" 
                 x-transition:enter="ease-out duration-300"
                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -297,7 +223,6 @@
                 
                 <form :action="formUrl" method="POST">
                     @csrf
-                    <!-- Add PUT method if editing -->
                     <template x-if="isEdit">
                         <input type="hidden" name="_method" value="PUT">
                     </template>
@@ -310,24 +235,12 @@
                                 </svg>
                             </div>
                             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title" x-text="isEdit ? 'Edit Gelombang' : 'Tambah Gelombang'"></h3>
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title" x-text="isEdit ? 'Edit Periode' : 'Tambah Periode'"></h3>
                                 <div class="mt-4 space-y-4">
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label for="nama" class="block text-sm font-medium text-gray-700">Nama Gelombang</label>
-                                            <input type="text" name="nama" id="nama" x-model="formData.nama" required
-                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2">
-                                        </div>
-                                        <div>
-                                            <label for="periode_id" class="block text-sm font-medium text-gray-700">Periode PPDB</label>
-                                            <select name="periode_id" id="periode_id" x-model="formData.periode_id" required
-                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2">
-                                                <option value="">Pilih Periode</option>
-                                                @foreach($periodes as $p)
-                                                    <option value="{{ $p->id }}">{{ $p->nama_periode }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                    <div>
+                                        <label for="nama_periode" class="block text-sm font-medium text-gray-700">Nama Periode</label>
+                                        <input type="text" name="nama_periode" id="nama_periode" x-model="formData.nama_periode" required placeholder="Contoh: PPDB 2024/2025"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2">
                                     </div>
                                     <div>
                                         <label for="tahun_ajaran" class="block text-sm font-medium text-gray-700">Tahun Ajaran</label>
@@ -346,19 +259,12 @@
                                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2">
                                         </div>
                                     </div>
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label for="kuota" class="block text-sm font-medium text-gray-700">Kuota</label>
-                                            <input type="number" name="kuota" id="kuota" x-model="formData.kuota" required min="0"
-                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2">
-                                        </div>
-                                        <div class="flex items-center pt-6">
-                                            <input type="checkbox" name="is_active" id="is_active" x-model="formData.is_active" value="1"
-                                                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                                            <label for="is_active" class="ml-2 block text-sm text-gray-900">
-                                                Aktifkan Gelombang
-                                            </label>
-                                        </div>
+                                    <div class="flex items-center pt-2">
+                                        <input type="checkbox" name="is_active" id="is_active" x-model="formData.is_active" value="1"
+                                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <label for="is_active" class="ml-2 block text-sm text-gray-900">
+                                            Aktifkan Periode
+                                        </label>
                                     </div>
                                 </div>
                             </div>

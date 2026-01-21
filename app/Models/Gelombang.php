@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class PeriodePPDB extends Model
+class Gelombang extends Model
 {
     use HasFactory;
 
-    protected $table = 'periodeppdb';
+    protected $table = 'gelombangs';
 
     protected $fillable = [
         'nama',
@@ -18,6 +18,7 @@ class PeriodePPDB extends Model
         'tahun_ajaran',
         'kuota',
         'is_active',
+        'periode_id',
     ];
 
     // Cast tipe data
@@ -35,6 +36,7 @@ class PeriodePPDB extends Model
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after:tanggal_mulai',
             'tahun_ajaran' => 'required|string|regex:/^\d{4}\/\d{4}$/',
+            'periode_id' => 'required|exists:periodes,id',
         ];
     }
 
@@ -47,7 +49,11 @@ class PeriodePPDB extends Model
 
     public function pendaftarans()
     {
-        return $this->hasMany(Pendaftaran::class, 'periodeppdb_id');
+        return $this->hasMany(Pendaftaran::class, 'gelombang_id');
     }
 
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class, 'periode_id');
+    }
 }

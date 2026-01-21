@@ -25,7 +25,7 @@ class Pendaftaran extends Model
         'nomor_hp',
         'asal_sekolah',
         'user_id',
-        'periodeppdb_id',
+        'gelombang_id',
         'jurusan_id',
         'status',
         'current_step'
@@ -42,10 +42,10 @@ class Pendaftaran extends Model
         return $this->belongsTo(User::class);  // Jika ada model User
     }
 
-    // Relasi ke tabel 'periodeppdb' (periode PPDB)
-    public function periodePPDB()
+    // Relasi ke tabel 'gelombangs' (Gelombang PPDB)
+    public function gelombang()
     {
-        return $this->belongsTo(PeriodePPDB::class, 'periodeppdb_id');
+        return $this->belongsTo(Gelombang::class, 'gelombang_id');
     }
 
     // Relasi ke tabel 'Jurusan'
@@ -68,7 +68,7 @@ class Pendaftaran extends Model
             'nomor_hp' => 'required|string|max:15',
             'asal_sekolah' => 'required|string|max:100',
             'user_id' => 'required|exists:users,id', // Asumsi ada tabel 'users' dengan field 'id'
-            'periodeppdb_id' => 'required|exists:periodeppdb,id', // Asumsi ada tabel 'periodeppdb' dengan field 'id'
+            'gelombang_id' => 'required|exists:gelombangs,id', // Asumsi ada tabel 'gelombangs' dengan field 'id'
             'jurusan_id' => 'required|exist:jurusan,id'
         ];
     }
@@ -82,8 +82,8 @@ class Pendaftaran extends Model
     // Scope untuk mencari pendaftaran berdasarkan status aktif
     public function scopeAktif($query)
     {
-        return $query->whereHas('periodePPDB', function ($q) {
-            $q->where('status', true);
+        return $query->whereHas('gelombang', function ($q) {
+            $q->where('is_active', true);
         });
     }
 

@@ -76,6 +76,7 @@ Route::middleware(['auth'])->group(function () {
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminJurusanController;
 use App\Http\Controllers\AdminGelombangController;
+use App\Http\Controllers\AdminPeriodeController;
 use App\Http\Controllers\AdminCalonSiswaController;
 use App\Http\Controllers\AdminVerifikasiController;
 
@@ -84,6 +85,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::resource('users', AdminUserController::class, ['as' => 'admin']);
     Route::resource('jurusan', AdminJurusanController::class, ['as' => 'admin']);
+    Route::resource('periode', AdminPeriodeController::class, ['as' => 'admin']);
+    Route::patch('/periode/{periode}/toggle-status', [AdminPeriodeController::class, 'toggleStatus'])->name('admin.periode.toggle-status');
     Route::resource('gelombang', AdminGelombangController::class, ['as' => 'admin']);
     Route::resource('calon-siswa', AdminCalonSiswaController::class, ['as' => 'admin']);
     

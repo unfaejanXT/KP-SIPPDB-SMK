@@ -78,6 +78,12 @@
 
                 <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-4 mb-2">Master Data</p>
 
+                <a href="{{ route('admin.periode.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.periode.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
+                    <i class="fa-solid fa-calendar-days w-5 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-medium text-sm">Periode PPDB</span>
+                </a>
+
                 <a href="{{ route('admin.gelombang.index') }}"
                     class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.gelombang.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
                     <i class="fa-solid fa-layer-group w-5 group-hover:scale-110 transition-transform"></i>

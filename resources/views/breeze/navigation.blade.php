@@ -16,35 +16,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @hasrole('admin')
-                    <x-nav-link :href="route('sandbox.jurusan')" :active="request()->routeIs('sandbox.jurusan')">
-                        {{ __('Kelola Jurusan') }}
-                    </x-nav-link>
 
-                    <x-nav-link :href="route('sandbox.gelombangppdb')" :active="request()->routeIs('sandbox.gelombangppdb')">
-                        {{ __('Kelola Gelombang Pendaftaran') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('sandbox.siswa')" :active="request()->routeIs('sandbox.siswa')">
-                        {{ __('Kelola Data Calon Siswa') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('sandbox.verifikasi')" :active="request()->routeIs('sandbox.verifikasi')">
-                        {{ __('Verifikasi Berkas Calon Siswa') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('sandbox.rekapanppdb')" :active="request()->routeIs('sandbox.rekapanppdb')">
-                        {{ __('Hasil Rekap PPDB') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('sandbox.akunadmin')" :active="request()->routeIs('sandbox.akunadmin')">
-                        {{ __('Kelola Akun Admin') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('sandbox.akunpanitiappdb')" :active="request()->routeIs('sandbox.akunpanitiappdb')">
-                        {{ __('Kelola Akun Panitia PPDB') }}
-                    </x-nav-link>
-                    @endhasrole
 
 
                     @hasrole('user')

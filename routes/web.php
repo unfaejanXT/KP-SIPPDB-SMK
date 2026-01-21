@@ -23,8 +23,14 @@ use App\Http\Controllers\InstallController;
 Route::get('/install', [InstallController::class, 'index'])->name('install.index');
 Route::post('/install', [InstallController::class, 'store'])->name('install.store');
 
+use App\Models\Jurusan;
+use App\Models\Gelombang;
+
 Route::get('/', function () {
-    return view('index');
+    $jurusan = Jurusan::aktif()->get();
+    $activeGelombang = Gelombang::where('is_active', true)->first();
+    $gelombangs = Gelombang::orderBy('tanggal_mulai', 'asc')->get();
+    return view('index', compact('jurusan', 'activeGelombang', 'gelombangs'));
 });
 
 Route::get('/sandbox/atomic', function () {

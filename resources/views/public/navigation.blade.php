@@ -74,9 +74,11 @@
                         <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 hover:text-red-700 transition px-3 py-2 rounded-lg hover:bg-red-50">
                             Masuk
                         </a>
+                        @if(\App\Models\Gelombang::where('is_active', true)->exists())
                         <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-lg text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                             Daftar Akun
                         </a>
+                        @endif
                     @endauth
                 </div>
             </div>
@@ -151,9 +153,11 @@
                         <a href="{{ route('login') }}" class="flex justify-center items-center px-4 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 transition">
                             Masuk
                         </a>
+                        @if(\App\Models\Gelombang::where('is_active', true)->exists())
                         <a href="{{ route('register') }}" class="flex justify-center items-center px-4 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-red-700 hover:bg-red-800 shadow-md transition">
                             Daftar Akun
                         </a>
+                        @endif
                     </div>
                 @endauth
             </div>

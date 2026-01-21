@@ -96,6 +96,12 @@
                     <span class="font-medium text-sm">Manajemen User</span>
                 </a>
 
+                <a href="{{ route('admin.pengumuman.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.pengumuman.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
+                    <i class="fa-solid fa-bullhorn w-5 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-medium text-sm">Pengumuman</span>
+                </a>
+
                  <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-4 mb-2">Laporan</p>
 
                 <a href="#"

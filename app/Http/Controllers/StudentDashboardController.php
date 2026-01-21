@@ -98,7 +98,11 @@ class StudentDashboardController extends Controller
     }
     public function pengumuman()
     {
-        return view('siswa.pengumuman');
+        $pengumuman = \App\Models\Pengumuman::where('status', 'published')
+            ->orderBy('is_pinned', 'desc')
+            ->latest()
+            ->get();
+        return view('siswa.pengumuman', compact('pengumuman'));
     }
 
     public function kelolaBerkas()

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminPengumumanController;
+
 use App\Exports\RekapPPDBExport;
 
 
@@ -90,6 +92,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/verifikasi-berkas/{pendaftaran}', [AdminVerifikasiController::class, 'show'])->name('admin.verifikasi.show');
     Route::post('/verifikasi-berkas/{berkas}/status', [AdminVerifikasiController::class, 'updateStatus'])->name('admin.verifikasi.updateStatus');
     Route::post('/verifikasi-berkas/{pendaftaran}/verifikasi-semua', [AdminVerifikasiController::class, 'verifyAll'])->name('admin.verifikasi.verifyAll');
+
+    // Pengumuman
+    Route::resource('pengumuman', AdminPengumumanController::class, ['as' => 'admin']);
+    Route::patch('/pengumuman/{pengumuman}/toggle-status', [AdminPengumumanController::class, 'toggleStatus'])->name('admin.pengumuman.toggle-status');
 });
 
 Route::middleware('auth')->group(function () {

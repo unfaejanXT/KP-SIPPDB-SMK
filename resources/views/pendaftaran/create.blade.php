@@ -235,20 +235,18 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {{-- Helper function to check if file uploaded --}}
-                @foreach([
-                    'pas_foto' => 'Pas Foto Resmi (3x4/4x6)',
-                    'berkas_kk' => 'Kartu Keluarga (KK)',
-                    'berkas_akta_kelahiran' => 'Akta Kelahiran',
-                    'berkas_ijazah' => 'Ijazah / SKL (Surat Keterangan Lulus)',
-                    'berkas_ktp_orangtua' => 'KTP Orang Tua / Wali',
-                    'berkas_kip' => 'KIP / PKH / KKS (Opsional)',
-                ] as $name => $label)
+                {{-- Dynamic Loop for File Types --}}
+                @foreach($jenisBerkas as $jb)
                 
                 @php
-                    $upload = $berkas->where('tipe_berkas', $name)->where('is_active', true)->first();
+                    // Check if this specific type is uploaded based on jenis_berkas_id
+                    // We need to filter $uploadedBerkas which is a collection
+                    $upload = $uploadedBerkas->firstWhere('jenis_berkas_id', $jb->id);
                     $isUploaded = !empty($upload);
-                    $fileUrl = $isUploaded ? asset('storage/'.$upload->path_berkas) : '#';
+                    $fileUrl = $isUploaded ? asset('storage/'.$upload->file_path) : '#';
+                    $name = $jb->kode_berkas;
+                    $label = $jb->nama_berkas;
+                    $isWajib = $jb->is_wajib;
                 @endphp
 
                 <div class="bg-white rounded-xl border {{ $isUploaded ? 'border-green-200 bg-green-50' : 'border-gray-200' }} p-5 shadow-sm transition-all duration-200 group" id="card-{{ $name }}">
@@ -258,9 +256,12 @@
                                 <svg class="w-6 h-6 {{ $isUploaded ? 'text-green-600' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                             </div>
                             <div>
-                                <h4 class="text-sm font-bold text-gray-900">{{ $label }}</h4>
+                                <h4 class="text-sm font-bold text-gray-900">
+                                    {{ $label }} 
+                                    @if($isWajib) <span class="text-red-500 text-xs text-red-600">*</span> @endif
+                                </h4>
                                 <span class="text-xs text-gray-500 status-text" id="status-{{ $name }}">
-                                    {{ $isUploaded ? 'Sudah diupload' : 'Belum ada file' }}
+                                    {{ $isUploaded ? 'Sudah diupload' . ($upload->uploaded_at ? ' (' . $upload->uploaded_at->format('d/m/Y') . ')' : '') : 'Belum ada file' }}
                                 </span>
                             </div>
                         </div>
@@ -293,7 +294,7 @@
                     inputs.forEach(input => {
                         input.addEventListener('change', function(e) {
                             const file = e.target.files[0];
-                            const type = e.target.dataset.type;
+                            const type = e.target.dataset.type; // This is kode_berkas
                             if (!file) return;
 
                             // UI Elements
@@ -312,7 +313,7 @@
                             // Form Data
                             const formData = new FormData();
                             formData.append('file', file);
-                            formData.append('tipe_berkas', type);
+                            formData.append('kode_berkas', type); // Modified: sending kode_berkas
                             formData.append('_token', '{{ csrf_token() }}');
 
                             // AJAX Upload
@@ -487,16 +488,11 @@
                      </div>
                      <div class="p-6">
                          <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            @foreach([
-                                'pas_foto' => 'Pas Foto',
-                                'berkas_kk' => 'Kartu Keluarga',
-                                'berkas_akta_kelahiran' => 'Akta Kelahiran',
-                                'berkas_ijazah' => 'Ijazah / SKL',
-                                'berkas_ktp_orangtua' => 'KTP Orang Tua',
-                                'berkas_kip' => 'KIP/KKS (Opsional)'
-                            ] as $key => $label)
+
+                            @foreach($jenisBerkas as $jb)
                                 @php
-                                    $isUploaded = $berkas->where('tipe_berkas', $key)->where('is_active', true)->isNotEmpty();
+                                    $isUploaded = $uploadedBerkas->contains('jenis_berkas_id', $jb->id);
+                                    $label = $jb->nama_berkas;
                                 @endphp
                                 <li class="flex items-center p-3 rounded-lg {{ $isUploaded ? 'bg-green-50 border border-green-100' : 'bg-gray-50 border border-gray-100' }}">
                                     @if($isUploaded)
@@ -514,7 +510,7 @@
                                     @endif
                                 </li>
                             @endforeach
-                         </ul>
+                          </ul>
                      </div>
                  </div>
                  

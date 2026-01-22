@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('periodeppdb', function (Blueprint $table) {
-            $table->integer('kuota')->default(0);
-            $table->boolean('is_active')->default(true);
+            if (!Schema::hasColumn('periodeppdb', 'kuota')) {
+                $table->integer('kuota')->default(0);
+            }
+            if (!Schema::hasColumn('periodeppdb', 'is_active')) {
+                $table->boolean('is_active')->default(true);
+            }
         });
     }
 

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Pendaftaran;
 use App\Models\Berkas;
+use App\Models\JenisBerkas;
 
 class BerkasSeeder extends Seeder
 {
@@ -15,46 +16,52 @@ class BerkasSeeder extends Seeder
 
         // Cek jika ada pendaftaran siswa
         if ($pendaftaran) {
+            
+            // Helper to get ID by code
+            $getJenisId = function($code) {
+                return JenisBerkas::where('kode_berkas', $code)->value('id');
+            };
+
             // Membuat data berkas untuk pendaftaran tersebut
             Berkas::create([
-                'pendaftaran_id' => $pendaftaran->id, // Menghubungkan ke pendaftaran
-                'tipe_berkas' => 'kk',
-                'path_berkas' => 'uploads/berkas/kk_' . $pendaftaran->nisn . '.pdf', // Path file berkas
-                'status_verifikasi' => null, // Status verifikasi belum ada
-                'catatan_verifikasi' => null, // Catatan verifikasi jika ada
-                'tanggal_verifikasi' => null, // Belum diverifikasi
-                'is_active' => true // Berkas aktif
+                'pendaftaran_id' => $pendaftaran->id, 
+                'jenis_berkas_id' => $getJenisId('kk'),
+                'file_path' => 'uploads/berkas/kk_' . $pendaftaran->nisn . '.pdf',
+                'status_verifikasi' => null,
+                'catatan_verifikasi' => null,
+                'verified_at' => null,
+                'uploaded_at' => now(),
             ]);
 
             Berkas::create([
-                'pendaftaran_id' => $pendaftaran->id, // Menghubungkan ke pendaftaran
-                'tipe_berkas' => 'ijazah',
-                'path_berkas' => 'uploads/berkas/ijazah_' . $pendaftaran->nisn . '.pdf', // Path file berkas
-                'status_verifikasi' => null, // Status verifikasi belum ada
-                'catatan_verifikasi' => null, // Catatan verifikasi jika ada
-                'tanggal_verifikasi' => null, // Belum diverifikasi
-                'is_active' => true // Berkas aktif
+                'pendaftaran_id' => $pendaftaran->id,
+                'jenis_berkas_id' => $getJenisId('ijazah'),
+                'file_path' => 'uploads/berkas/ijazah_' . $pendaftaran->nisn . '.pdf',
+                'status_verifikasi' => null,
+                'catatan_verifikasi' => null,
+                'verified_at' => null,
+                'uploaded_at' => now(),
             ]);
 
             Berkas::create([
-                'pendaftaran_id' => $pendaftaran->id, // Menghubungkan ke pendaftaran
-                'tipe_berkas' => 'akta_kelahiran',
-                'path_berkas' => 'uploads/berkas/akta_kelahiran_' . $pendaftaran->nisn . '.pdf', // Path file berkas
-                'status_verifikasi' => null, // Status verifikasi belum ada
-                'catatan_verifikasi' => null, // Catatan verifikasi jika ada
-                'tanggal_verifikasi' => null, // Belum diverifikasi
-                'is_active' => true // Berkas aktif
+                'pendaftaran_id' => $pendaftaran->id,
+                'jenis_berkas_id' => $getJenisId('akta_kelahiran'),
+                'file_path' => 'uploads/berkas/akta_kelahiran_' . $pendaftaran->nisn . '.pdf',
+                'status_verifikasi' => null,
+                'catatan_verifikasi' => null,
+                'verified_at' => null,
+                'uploaded_at' => now(),
             ]);
 
             // Menambahkan berkas KTP Orang Tua
             Berkas::create([
-                'pendaftaran_id' => $pendaftaran->id, // Menghubungkan ke pendaftaran
-                'tipe_berkas' => 'ktp_orangtua',
-                'path_berkas' => 'uploads/berkas/ktp_orangtua_' . $pendaftaran->nisn . '.pdf', // Path file berkas
-                'status_verifikasi' => null, // Status verifikasi belum ada
-                'catatan_verifikasi' => null, // Catatan verifikasi jika ada
-                'tanggal_verifikasi' => null, // Belum diverifikasi
-                'is_active' => true // Berkas aktif
+                'pendaftaran_id' => $pendaftaran->id,
+                'jenis_berkas_id' => $getJenisId('ktp_orangtua'),
+                'file_path' => 'uploads/berkas/ktp_orangtua_' . $pendaftaran->nisn . '.pdf',
+                'status_verifikasi' => null,
+                'catatan_verifikasi' => null,
+                'verified_at' => null,
+                'uploaded_at' => now(),
             ]);
 
             // Output sukses

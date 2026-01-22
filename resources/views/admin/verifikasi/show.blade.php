@@ -65,11 +65,11 @@
                                 @endif
                             </div>
                             <div>
-                                <div class="text-base font-bold text-slate-700">{{ ucwords(str_replace('_', ' ', $berkas->tipe_berkas)) }}</div>
+                                <div class="text-base font-bold text-slate-700">{{ $berkas->jenisBerkas->nama_berkas }}</div>
                                 <div class="flex items-center gap-2 mt-0.5">
-                                    <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">{{ pathinfo($berkas->path_berkas, PATHINFO_EXTENSION) ?: 'File' }} Document</span>
+                                    <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">{{ pathinfo($berkas->file_path, PATHINFO_EXTENSION) ?: 'File' }} Document</span>
                                     <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                                    <a href="{{ asset('storage/' . $berkas->path_berkas) }}" target="_blank" class="text-xs font-semibold text-blue-600 hover:underline">Lihat Dokumen <i class="fa-solid fa-external-link text-[10px]"></i></a>
+                                    <a href="{{ asset('storage/' . $berkas->file_path) }}" target="_blank" class="text-xs font-semibold text-blue-600 hover:underline">Lihat Dokumen <i class="fa-solid fa-external-link text-[10px]"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                                         <i class="fa-solid fa-check"></i>
                                     </button>
                                 </form>
-                                <button onclick="openRejectModal('{{ $berkas->id }}', '{{ ucwords(str_replace('_', ' ', $berkas->tipe_berkas)) }}')" title="Tolak" class="w-9 h-9 rounded-xl border border-gray-100 flex items-center justify-center text-rose-500 hover:bg-rose-50 hover:border-rose-200 bg-white shadow-sm transition-all active:scale-90">
+                                <button onclick="openRejectModal('{{ $berkas->id }}', '{{ $berkas->jenisBerkas->nama_berkas }}')" title="Tolak" class="w-9 h-9 rounded-xl border border-gray-100 flex items-center justify-center text-rose-500 hover:bg-rose-50 hover:border-rose-200 bg-white shadow-sm transition-all active:scale-90">
                                     <i class="fa-solid fa-times"></i>
                                 </button>
                             </div>

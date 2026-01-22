@@ -13,12 +13,13 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-            // AdminSeeder::class,
+            AdminSeeder::class,
             JurusanSeeder::class,
             PeriodePPDBSeeder::class,
-            // PendaftaranSeeder::class,
-            // BerkasSeeder::class,
-            // SekenarioBerkasSeeder::class
+            JenisBerkasSeeder::class,
+            PendaftaranSeeder::class,
+            BerkasSeeder::class,
+            SekenarioBerkasSeeder::class
         ]);
     }
 }

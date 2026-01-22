@@ -110,7 +110,7 @@
                                     $status = $berkas->status_verifikasi ?? 'pending';
                                 @endphp
                                 <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold {{ $statusClasses[$status] }} flex items-center gap-1.5 border">
-                                    <i class="fa-solid {{ $statusIcon[$status] }} text-[10px]"></i> {{ ucwords(str_replace('_', ' ', $berkas->tipe_berkas)) }}
+                                    <i class="fa-solid {{ $statusIcon[$status] }} text-[10px]"></i> {{ $berkas->jenisBerkas->nama_berkas }}
                                 </span>
                             @endforeach
                         </div>

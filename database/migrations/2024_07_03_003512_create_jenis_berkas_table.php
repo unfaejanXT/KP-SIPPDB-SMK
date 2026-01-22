@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('periodeppdb', function (Blueprint $table) {
-            $table->integer('kuota')->default(0);
+        Schema::create('jenis_berkas', function (Blueprint $table) {
+            $table->id();
+            $table->string('kode_berkas')->unique();
+            $table->string('nama_berkas');
+            $table->boolean('is_wajib')->default(false);
             $table->boolean('is_active')->default(true);
+            $table->timestamps();
         });
     }
 
@@ -22,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('periodeppdb', function (Blueprint $table) {
-            $table->dropColumn(['kuota', 'is_active']);
-        });
+        Schema::dropIfExists('jenis_berkas');
     }
 };

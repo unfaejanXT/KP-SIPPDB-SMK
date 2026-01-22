@@ -230,12 +230,15 @@ class PendaftaranController extends Controller
         if (in_array($pendaftaran->status, ['submitted', 'terverifikasi', 'diterima', 'ditolak'])) return redirect()->route('dashboard');
         
         // Get existing files
-        $berkas = Berkas::where('pendaftaran_id', $pendaftaran->id)->get();
+        $uploadedBerkas = Berkas::with('jenisBerkas')->where('pendaftaran_id', $pendaftaran->id)->get();
+        // Get all available file types
+        $jenisBerkas = \App\Models\JenisBerkas::where('is_active', true)->get();
 
         return view('pendaftaran.create', [
             'step' => 3,
             'pendaftaran' => $pendaftaran,
-            'berkas' => $berkas,
+            'uploadedBerkas' => $uploadedBerkas,
+            'jenisBerkas' => $jenisBerkas,
              'jurusans' => []
         ]);
     }
@@ -245,19 +248,24 @@ class PendaftaranController extends Controller
         $user = Auth::user();
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->firstOrFail();
 
-        // Cek berkas wajib: KK dan Akta Kelahiran
-        $uploadedFiles = Berkas::where('pendaftaran_id', $pendaftaran->id)
-                               ->pluck('tipe_berkas')
+        // Cek berkas wajib
+        $uploadedJenisIds = Berkas::where('pendaftaran_id', $pendaftaran->id)
+                               ->pluck('jenis_berkas_id')
                                ->toArray();
         
-        $required = ['kk', 'akta_kelahiran'];
-        $missing = array_diff($required, $uploadedFiles);
+        $wajibBerkas = \App\Models\JenisBerkas::where('is_active', true)
+                            ->where('is_wajib', true)
+                            ->get();
+        
+        $missing = [];
+        foreach ($wajibBerkas as $jb) {
+            if (!in_array($jb->id, $uploadedJenisIds)) {
+                $missing[] = $jb->nama_berkas;
+            }
+        }
 
         if (!empty($missing)) {
-             $missingStr = implode(', ', array_map(function($item) {
-                 return strtoupper(str_replace('_', ' ', $item));
-             }, $missing));
-             
+             $missingStr = implode(', ', $missing);
              return redirect()->back()->with('error', 'Harap upload berkas wajib berikut: ' . $missingStr);
         }
 
@@ -270,29 +278,38 @@ class PendaftaranController extends Controller
     {
          $request->validate([
             'file' => 'required|file|max:2048|mimes:jpg,jpeg,png,pdf',
-            'tipe_berkas' => 'required|string'
+            'kode_berkas' => 'required|string|exists:jenis_berkas,kode_berkas'
         ]);
 
         $user = Auth::user();
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->firstOrFail();
         
         $file = $request->file('file');
-        $type = $request->tipe_berkas;
+        $kode = $request->kode_berkas;
         
-        $path = $file->store('berkas_' . $pendaftaran->id, 'public');
+        // Find Jenis Berkas ID
+        $jenisBerkas = \App\Models\JenisBerkas::where('kode_berkas', $kode)->firstOrFail();
+
+        $path = $file->store('berkas/' . $pendaftaran->nisn, 'public');
         
         $berkas = Berkas::updateOrCreate(
             [
                 'pendaftaran_id' => $pendaftaran->id, 
-                'tipe_berkas' => $type
+                'jenis_berkas_id' => $jenisBerkas->id
             ],
             [
-                'path_berkas' => $path,
+                'file_path' => $path,
                 'status_verifikasi' => 'pending',
-                'is_active' => true,
-                'tanggal_verifikasi' => null
+                'catatan_verifikasi' => null,
+                'verified_at' => null,
+                'uploaded_at' => now()
             ]
         );
+
+        // If pas_foto, maybe update pendaftaran table too if needed, but not strictly required if we use Berkas
+        if ($kode === 'pas_foto') {
+            $pendaftaran->update(['pas_foto' => $path]);
+        }
 
         return response()->json([
             'success' => true,
@@ -311,14 +328,16 @@ class PendaftaranController extends Controller
         if (in_array($pendaftaran->status, ['submitted', 'terverifikasi', 'diterima', 'ditolak'])) return redirect()->route('dashboard');
 
         $orangtua = OrangTuaSiswa::where('pendaftaran_id', $pendaftaran->id)->first();
-        $berkas = Berkas::where('pendaftaran_id', $pendaftaran->id)->get();
+        $uploadedBerkas = Berkas::with('jenisBerkas')->where('pendaftaran_id', $pendaftaran->id)->get();
+        $jenisBerkas = \App\Models\JenisBerkas::where('is_active', true)->get();
         $jurusan = Jurusan::find($pendaftaran->jurusan_id);
 
         return view('pendaftaran.create', [
             'step' => 4,
             'pendaftaran' => $pendaftaran,
             'orangtua' => $orangtua,
-            'berkas' => $berkas,
+            'uploadedBerkas' => $uploadedBerkas,
+            'jenisBerkas' => $jenisBerkas,
             'jurusan' => $jurusan,
              'jurusans' => []
         ]);

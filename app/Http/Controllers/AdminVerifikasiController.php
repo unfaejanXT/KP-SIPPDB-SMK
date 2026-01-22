@@ -10,7 +10,7 @@ class AdminVerifikasiController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Pendaftaran::with(['berkas', 'jurusan']);
+        $query = Pendaftaran::with(['berkas.jenisBerkas', 'jurusan']);
 
         // Search
         if ($request->has('search') && $request->search != '') {
@@ -50,7 +50,7 @@ class AdminVerifikasiController extends Controller
 
     public function show(Pendaftaran $pendaftaran)
     {
-        $pendaftaran->load(['berkas', 'jurusan']);
+        $pendaftaran->load(['berkas.jenisBerkas', 'jurusan']);
         return view('admin.verifikasi.show', compact('pendaftaran'));
     }
 
@@ -64,7 +64,7 @@ class AdminVerifikasiController extends Controller
         $berkas->update([
             'status_verifikasi' => $request->status,
             'catatan_verifikasi' => $request->catatan,
-            'tanggal_verifikasi' => now()
+            'verified_at' => now()
         ]);
 
         // Check if all berkas for this pendaftaran are verified
@@ -88,7 +88,7 @@ class AdminVerifikasiController extends Controller
     {
         $pendaftaran->berkas()->update([
             'status_verifikasi' => 'verified',
-            'tanggal_verifikasi' => now()
+            'verified_at' => now()
         ]);
 
         $pendaftaran->update(['status' => 'terverifikasi']);

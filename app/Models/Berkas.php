@@ -9,59 +9,52 @@ class Berkas extends Model
 {
     use HasFactory;
 
-    // Menentukan nama tabel yang digunakan
     protected $table = 'berkas';
+    public $timestamps = false;
 
-    // Menentukan kolom yang bisa diisi (mass assignable)
     protected $fillable = [
-        'tipe_berkas',
-        'path_berkas',
+        'pendaftaran_id',
+        'jenis_berkas_id',
+        'file_path',
         'status_verifikasi',
         'catatan_verifikasi',
-        'tanggal_verifikasi',
-        'is_active',
-        'pendaftaran_id',
+        'uploaded_at',
+        'verified_at',
     ];
 
-    // Menentukan kolom-kolom yang akan diproses oleh Laravel
     protected $casts = [
-        'tanggal_verifikasi' => 'date',
-        'is_active' => 'boolean',
+        'uploaded_at' => 'datetime',
+        'verified_at' => 'datetime',
     ];
 
-    // Relasi dengan Pendaftaran (menggunakan method belongsTo)
     public function pendaftaran()
     {
         return $this->belongsTo(Pendaftaran::class);
     }
 
-    // Scope untuk mendapatkan berkas yang aktif
-    public function scopeAktif($query)
+    public function jenisBerkas()
     {
-        return $query->where('is_active', true);
+        return $this->belongsTo(JenisBerkas::class);
     }
 
-    // Scope untuk mendapatkan berkas yang sudah terverifikasi
     public function scopeTerverifikasi($query)
     {
-        return $query->whereNotNull('tanggal_verifikasi')
+        return $query->whereNotNull('verified_at')
                     ->where('status_verifikasi', 'verified');
     }
 
-    // Method untuk melakukan verifikasi berkas
     public function verifikasi($status, $catatan = null)
     {
         $this->update([
             'status_verifikasi' => $status,
             'catatan_verifikasi' => $catatan,
-            'tanggal_verifikasi' => now()
+            'verified_at' => now()
         ]);
     }
 
-    // Method untuk mengecek apakah berkas sudah terverifikasi
     public function isTerverifikasi()
     {
         return $this->status_verifikasi === 'verified' && 
-               !is_null($this->tanggal_verifikasi);
+               !is_null($this->verified_at);
     }
 }

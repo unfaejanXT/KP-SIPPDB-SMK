@@ -165,7 +165,7 @@
                     <i
                         class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:text-red-600"></i>
                 </a>
-                <a href="{{ route('pendaftaran.step3') }}"
+                <a href="{{ route('dashboard.berkas') }}"
                     class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-red-50 hover:border-red-100 transition-colors group border border-gray-100">
                     <span class="text-sm font-medium text-slate-600 group-hover:text-red-700">Kelola
                         Berkas</span>

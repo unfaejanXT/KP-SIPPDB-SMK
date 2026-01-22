@@ -107,7 +107,13 @@ class StudentDashboardController extends Controller
 
     public function kelolaBerkas()
     {
-        return view('siswa.kelola-berkas');
+        $user = Auth::user();
+        $pendaftaran = Pendaftaran::where('user_id', $user->id)->firstOrFail();
+        
+        $uploadedBerkas = Berkas::with('jenisBerkas')->where('pendaftaran_id', $pendaftaran->id)->get();
+        $jenisBerkas = \App\Models\JenisBerkas::where('is_active', true)->get();
+
+        return view('siswa.kelola-berkas', compact('pendaftaran', 'uploadedBerkas', 'jenisBerkas'));
     }
 
     public function cetakBukti()

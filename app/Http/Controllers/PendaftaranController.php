@@ -284,6 +284,14 @@ class PendaftaranController extends Controller
         $user = Auth::user();
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->firstOrFail();
         
+        // Prevent upload if pendaftaran is already finalized
+        if (in_array($pendaftaran->status, ['terverifikasi', 'diterima', 'ditolak'])) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Pendaftaran sudah diverifikasi/final. Tidak dapat mengubah berkas.'
+            ], 403);
+        }
+
         $file = $request->file('file');
         $kode = $request->kode_berkas;
         

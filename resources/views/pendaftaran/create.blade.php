@@ -297,6 +297,13 @@
                             const type = e.target.dataset.type; // This is kode_berkas
                             if (!file) return;
 
+                            // Validation: File Size (Max 2MB)
+                            if (file.size > 2 * 1024 * 1024) {
+                                alert('Ukuran file terlalu besar! Maksimal 2MB.');
+                                e.target.value = ''; // Reset input
+                                return;
+                            }
+
                             // UI Elements
                             const progressBar = document.getElementById(`progress-bar-${type}`);
                             const progressContainer = document.getElementById(`progress-container-${type}`);
@@ -308,6 +315,7 @@
                             // Show progress
                             progressContainer.classList.remove('hidden');
                             statusText.innerText = 'Mengupload...';
+                            statusText.classList.remove('text-red-500', 'text-green-600', 'text-gray-500');
                             statusText.classList.add('text-blue-600');
                             
                             // Form Data
@@ -328,29 +336,47 @@
                             };
 
                             xhr.onload = function() {
-                                if (xhr.status === 200) {
-                                    const response = JSON.parse(xhr.responseText);
-                                    if(response.success) {
-                                        // Success State
-                                        statusText.innerText = 'Berhasil diupload';
-                                        statusText.classList.remove('text-blue-600', 'text-gray-500');
-                                        statusText.classList.add('text-green-600');
-                                        
-                                        card.classList.remove('border-gray-200');
-                                        card.classList.add('border-green-200', 'bg-green-50');
-                                        
+                                let response;
+                                try {
+                                    response = JSON.parse(xhr.responseText);
+                                } catch (e) {
+                                    console.error('Response is not JSON:', xhr.responseText);
+                                    statusText.innerText = 'Gagal upload (Server Error)';
+                                    statusText.classList.add('text-red-600');
+                                    alert('Terjadi kesalahan server saat mengupload file. Silahkan coba lagi atau hubungi admin.');
+                                    
+                                     // Hide progress after delay
+                                    setTimeout(() => {
+                                        progressContainer.classList.add('hidden');
+                                        progressBar.style.width = '0%';
+                                    }, 1000);
+                                    return;
+                                }
+
+                                if (xhr.status === 200 && response.success) {
+                                    // Success State
+                                    statusText.innerText = 'Berhasil diupload';
+                                    statusText.classList.remove('text-blue-600', 'text-gray-500', 'text-red-600');
+                                    statusText.classList.add('text-green-600');
+                                    
+                                    card.classList.remove('border-gray-200');
+                                    card.classList.add('border-green-200', 'bg-green-50');
+                                    
+                                    if(response.url) {
                                         viewBtn.href = response.url;
                                         viewBtn.classList.remove('hidden');
-                                        
-                                        btnText.innerText = 'Ganti File';
-                                    } else {
-                                        alert('Gagal mengupload file: ' + response.message);
+                                        // Force display block if it was hidden via d-none or similar
+                                        viewBtn.style.display = 'inline-block'; 
                                     }
+                                    
+                                    btnText.innerText = 'Ganti File';
                                 } else {
                                     statusText.innerText = 'Gagal upload';
+                                    statusText.classList.remove('text-blue-600');
                                     statusText.classList.add('text-red-600');
-                                    alert('Terjadi kesalahan saat mengupload file.');
+                                    alert('Gagal mengupload file: ' + (response.message || 'Unknown error'));
                                 }
+
                                 // Hide progress after delay
                                 setTimeout(() => {
                                     progressContainer.classList.add('hidden');
@@ -360,7 +386,10 @@
 
                             xhr.onerror = function() {
                                 statusText.innerText = 'Error koneksi';
+                                statusText.classList.remove('text-blue-600');
+                                statusText.classList.add('text-red-600');
                                 progressContainer.classList.add('hidden');
+                                alert('Gagal mengupload file karena masalah koneksi.');
                             };
 
                             xhr.send(formData);

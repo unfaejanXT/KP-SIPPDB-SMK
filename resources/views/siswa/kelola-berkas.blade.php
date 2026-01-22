@@ -16,7 +16,7 @@
         <div class="text-sm text-sky-900">
             <span class="font-semibold block mb-0.5">Panduan Upload Berkas</span>
             <span class="text-sky-700">Pastikan file yang diunggah jelas dan dapat dibaca. Format yang diterima:
-                JPG, PNG, PDF. Maksimal ukuran file: 5MB.</span>
+                JPG, JPEG, PNG, PDF. Maksimal ukuran file: 2MB.</span>
         </div>
     </div>
 
@@ -27,257 +27,201 @@
         </div>
 
         <div class="divide-y divide-slate-100">
+            @foreach($jenisBerkas as $jb)
+                @php
+                    $upload = $uploadedBerkas->firstWhere('jenis_berkas_id', $jb->id);
+                    $isUploaded = !empty($upload);
+                    $status = $isUploaded ? ($upload->status_verifikasi ?? 'pending') : 'missing';
+                    $fileUrl = $isUploaded ? asset('storage/'.$upload->file_path) : '#';
+                    $name = $jb->kode_berkas; // Used for ID
+                    
+                    // Status Badge Config
+                    $statusConfig = [
+                        'missing' => ['text' => 'Belum Diunggah', 'class' => 'bg-slate-100 text-slate-600', 'icon' => 'fa-circle'],
+                        'pending' => ['text' => 'Menunggu Verifikasi', 'class' => 'bg-amber-100 text-amber-700', 'icon' => 'fa-clock'],
+                        'verified' => ['text' => 'Terverifikasi', 'class' => 'bg-emerald-100 text-emerald-700', 'icon' => 'fa-check-circle'],
+                        'rejected' => ['text' => 'Ditolak', 'class' => 'bg-rose-100 text-rose-700', 'icon' => 'fa-times-circle'],
+                    ];
+                    $currentStatus = $statusConfig[$status];
+                    $canUpload = in_array($status, ['missing', 'rejected', 'pending']);
+                @endphp
 
-            <div
-                class="p-6 hover:bg-slate-50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div class="flex gap-4 items-start">
-                    <div
-                        class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600 flex-shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2 mb-1">
-                            <h4 class="font-medium text-slate-700">Pas Foto 3x4</h4>
-                            <span
-                                class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                    class="w-3 h-3">
-                                    <path fill-rule="evenodd"
-                                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Terverifikasi
-                            </span>
-                        </div>
-                        <p class="text-xs text-slate-500">pas-foto-ahmad.jpg • Diunggah: 4 Jan 2024</p>
-                    </div>
-                </div>
-                <button
-                    class="px-4 py-2 text-sm text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:text-slate-800 transition-colors flex items-center gap-2 shadow-sm font-medium">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-4 h-4">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Lihat
-                </button>
-            </div>
-
-            <div
-                class="p-6 hover:bg-slate-50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div class="flex gap-4 items-start">
-                    <div
-                        class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600 flex-shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2 mb-1">
-                            <h4 class="font-medium text-slate-700">KTP Orang Tua/Wali</h4>
-                            <span
-                                class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                    class="w-3 h-3">
-                                    <path fill-rule="evenodd"
-                                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Terverifikasi
-                            </span>
-                        </div>
-                        <p class="text-xs text-slate-500">ktp-ortu.pdf • Diunggah: 4 Jan 2024</p>
-                    </div>
-                </div>
-                <button
-                    class="px-4 py-2 text-sm text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:text-slate-800 transition-colors flex items-center gap-2 shadow-sm font-medium">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-4 h-4">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Lihat
-                </button>
-            </div>
-
-            <div
-                class="p-6 hover:bg-slate-50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div class="flex gap-4 items-start">
-                    <div
-                        class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500 flex-shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2 mb-1">
-                            <h4 class="font-medium text-slate-700">Kartu Keluarga</h4>
-                            <span
-                                class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                    class="w-3 h-3">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Menunggu
-                            </span>
-                        </div>
-                        <p class="text-xs text-slate-500">kartu-keluarga.pdf • Diunggah: 4 Jan 2024</p>
-                    </div>
-                </div>
-                <button
-                    class="px-4 py-2 text-sm text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:text-slate-800 transition-colors flex items-center gap-2 shadow-sm font-medium">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-4 h-4">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Lihat
-                </button>
-            </div>
-
-            <div class="bg-rose-50/50 p-6 flex flex-col gap-4">
+            <div class="p-6 hover:bg-slate-50 transition-colors flex flex-col gap-4" id="row-{{ $name }}">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div class="flex gap-4 items-start">
-                        <div
-                            class="w-10 h-10 bg-rose-100 rounded-lg flex items-center justify-center text-rose-600 flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                            </svg>
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 {{ $status == 'verified' ? 'bg-emerald-50 text-emerald-600' : ($status == 'rejected' ? 'bg-rose-50 text-rose-600' : 'bg-slate-100 text-slate-500') }}">
+                             <i class="fa-solid fa-file-lines text-lg"></i>
                         </div>
                         <div>
                             <div class="flex items-center gap-2 mb-1">
-                                <h4 class="font-medium text-slate-800">Ijazah/SKL SMP</h4>
-                                <span
-                                    class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-700 gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                        fill="currentColor" class="w-3 h-3">
-                                        <path
-                                            d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-                                    </svg>
-                                    Ditolak
+                                <h4 class="font-medium text-slate-700">
+                                    {{ $jb->nama_berkas }}
+                                    @if($jb->is_wajib) <span class="text-rose-500">*</span> @endif
+                                </h4>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium gap-1 {{ $currentStatus['class'] }}" id="badge-{{ $name }}">
+                                    <i class="fa-solid {{ $currentStatus['icon'] }}"></i>
+                                    <span id="status-text-{{ $name }}">{{ $currentStatus['text'] }}</span>
                                 </span>
                             </div>
-                            <p class="text-xs text-slate-500">skl-smp.pdf • Diunggah: 4 Jan 2024</p>
+                            <p class="text-xs text-slate-500">
+                                @if($isUploaded)
+                                    <a href="{{ $fileUrl }}" target="_blank" class="hover:text-blue-600 underline decoration-dotted" id="link-{{ $name }}">Lihat File</a>
+                                    • Diunggah: {{ $upload->uploaded_at ? $upload->uploaded_at->format('d M Y H:i') : '-' }}
+                                @else
+                                    <span class="italic text-slate-400">Belum ada file</span>
+                                @endif
+                            </p>
                         </div>
                     </div>
-                    <button
-                        class="px-4 py-2 text-sm text-white bg-[#1A56DB] rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm font-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                        </svg>
-                        Upload Ulang
-                    </button>
-                </div>
-                <div class="bg-rose-100 rounded-md px-3 py-2 text-xs text-rose-800 font-medium">
-                    <span class="font-bold">Catatan:</span> File tidak dapat dibaca, mohon upload ulang dengan
-                    kualitas lebih baik
-                </div>
-            </div>
+                    
+                    <div class="flex items-center gap-2">
+                         @if($isUploaded)
+                            <a href="{{ $fileUrl }}" target="_blank" class="px-4 py-2 text-sm text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-2 shadow-sm font-medium">
+                                <i class="fa-solid fa-eye"></i> Lihat
+                            </a>
+                        @endif
 
-            <div
-                class="p-6 hover:bg-slate-50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div class="flex gap-4 items-start">
-                    <div
-                        class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500 flex-shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                        </svg>
+                        @if($canUpload)
+                            <div class="relative">
+                                <input class="hidden file-input" type="file" id="{{ $name }}" name="{{ $name }}" data-type="{{ $name }}">
+                                <label for="{{ $name }}" class="cursor-pointer px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm font-medium">
+                                    <i class="fa-solid fa-upload"></i> {{ $isUploaded ? 'Ganti File' : 'Upload File' }}
+                                </label>
+                            </div>
+                        @endif
                     </div>
+                </div>
+
+                {{-- Rejection Note --}}
+                @if($status == 'rejected' && !empty($upload->catatan_verifikasi))
+                <div class="bg-rose-50 p-4 rounded-lg border border-rose-100 flex gap-3 text-sm text-rose-800">
+                    <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
                     <div>
-                        <div class="flex items-center gap-2 mb-1">
-                            <h4 class="font-medium text-slate-700">Akte Kelahiran</h4>
-                            <span
-                                class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700 gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                    class="w-3 h-3">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Menunggu
-                            </span>
-                        </div>
-                        <p class="text-xs text-slate-400 italic">Belum diunggah</p>
+                        <span class="font-bold block">Alasan Penolakan:</span>
+                        {{ $upload->catatan_verifikasi }}
                     </div>
                 </div>
-                <button
-                    class="px-4 py-2 text-sm text-white bg-[#1e293b] rounded-lg hover:bg-slate-700 transition-colors flex items-center gap-2 shadow-sm font-medium">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-4 h-4">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                    </svg>
-                    Upload
-                </button>
+                @endif
+                
+                {{-- Progress Bar --}}
+                <div class="w-full bg-slate-200 rounded-full h-1.5 hidden" id="progress-container-{{ $name }}">
+                    <div class="bg-blue-600 h-1.5 rounded-full transition-all duration-300" style="width: 0%" id="progress-bar-{{ $name }}"></div>
+                </div>
             </div>
-
+            @endforeach
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {{-- Stats Summary --}}
+    @php
+        $stats = [
+            'verified' => $uploadedBerkas->where('status_verifikasi', 'verified')->count(),
+            'pending' => $uploadedBerkas->where(function($q) { return $q->status_verifikasi == 'pending' || $q->status_verifikasi == null; })->count(),
+            'rejected' => $uploadedBerkas->where('status_verifikasi', 'rejected')->count(),
+        ];
+    @endphp
 
-        <div
-            class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center">
-            <div
-                class="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-500 mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center">
+            <div class="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-500 mb-3">
+                <i class="fa-solid fa-check text-lg"></i>
             </div>
-            <div class="text-3xl font-bold text-slate-800">2</div>
+            <div class="text-3xl font-bold text-slate-800">{{ $stats['verified'] }}</div>
             <div class="text-xs text-slate-500 mt-1">Terverifikasi</div>
         </div>
 
-        <div
-            class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center">
-            <div
-                class="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center text-amber-500 mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+        <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center">
+            <div class="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center text-amber-500 mb-3">
+                 <i class="fa-solid fa-clock text-lg"></i>
             </div>
-            <div class="text-3xl font-bold text-slate-800">2</div>
-            <div class="text-xs text-slate-500 mt-1">Menunggu</div>
+            <div class="text-3xl font-bold text-slate-800">{{ $stats['pending'] }}</div>
+            <div class="text-xs text-slate-500 mt-1">Menunggu/Pending</div>
         </div>
 
-        <div
-            class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center">
+        <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center">
             <div class="w-10 h-10 bg-rose-50 rounded-full flex items-center justify-center text-rose-500 mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                 <i class="fa-solid fa-times text-lg"></i>
             </div>
-            <div class="text-3xl font-bold text-slate-800">1</div>
+            <div class="text-3xl font-bold text-slate-800">{{ $stats['rejected'] }}</div>
             <div class="text-xs text-slate-500 mt-1">Ditolak</div>
         </div>
-
     </div>
-
 </div>
+
+{{-- AJAX Upload Script --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('.file-input');
+        
+        inputs.forEach(input => {
+            input.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                const type = e.target.dataset.type; // kode_berkas
+                if (!file) return;
+
+                // UI Elements
+                const progressBar = document.getElementById(`progress-bar-${type}`);
+                const progressContainer = document.getElementById(`progress-container-${type}`);
+                const badge = document.getElementById(`badge-${type}`);
+                const statusText = document.getElementById(`status-text-${type}`);
+                
+                // Validation: File Size (Max 2MB) - CLIENT SIDE
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Ukuran file terlalu besar! Maksimal 2MB.');
+                    e.target.value = '';
+                    return;
+                }
+
+                // Show progress
+                progressContainer.classList.remove('hidden');
+                
+                // Form Data
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('kode_berkas', type);
+                formData.append('_token', '{{ csrf_token() }}');
+
+                // AJAX Upload
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '{{ route('pendaftaran.upload') }}', true);
+
+                xhr.upload.onprogress = function(e) {
+                    if (e.lengthComputable) {
+                        const percentComplete = (e.loaded / e.total) * 100;
+                        progressBar.style.width = percentComplete + '%';
+                    }
+                };
+
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        if(response.success) {
+                            // Update UI
+                            statusText.innerText = 'Menunggu Verifikasi';
+                            badge.className = 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium gap-1 bg-amber-100 text-amber-700';
+                            badge.innerHTML = '<i class="fa-solid fa-clock"></i> <span id="status-text-'+type+'">Menunggu Verifikasi</span>';
+                            alert('Berkas berhasil diupload!');
+                            location.reload(); // Reload to refresh timestamps and links
+                        } else {
+                            alert('Gagal mengupload file: ' + response.message);
+                        }
+                    } else {
+                        alert('Terjadi kesalahan saat mengupload file.');
+                    }
+                    setTimeout(() => {
+                        progressContainer.classList.add('hidden');
+                        progressBar.style.width = '0%';
+                    }, 1000);
+                };
+
+                xhr.onerror = function() {
+                    alert('Error koneksi internet.');
+                    progressContainer.classList.add('hidden');
+                };
+
+                xhr.send(formData);
+            });
+        });
+    });
+</script>
 @endsection

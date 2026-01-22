@@ -17,14 +17,61 @@
             </span>
             @endif
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-                Selamat Datang di <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">SMK Solusi Bangun Indonesia</span>
+                @auth
+                    @if(Auth::user()->hasRole('user'))
+                        Halo, {{ Auth::user()->name }}! <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">Selamat Datang Kembali</span>
+                    @else
+                        Halo, {{ Auth::user()->name }}! <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">
+                            @if(Auth::user()->hasRole('admin')) Administrator
+                            @elseif(Auth::user()->hasRole('kepala_sekolah')) Kepala Sekolah
+                            @elseif(Auth::user()->hasRole('panitia_ppdb')) Panitia PPDB
+                            @elseif(Auth::user()->hasRole('operator_sekolah')) Operator Sekolah
+                            @else Staff Sekolah @endif
+                        </span>
+                    @endif
+                @else
+                    Selamat Datang di <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">SMK Solusi Bangun Indonesia</span>
+                @endauth
             </h1>
             <p class="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed max-w-2xl">
-                Bergabunglah dengan kami untuk mewujudkan masa depan gemilang dengan pendidikan berkualitas dan berkarakter. Segera daftarkan diri Anda sekarang.
+                @auth
+                    @if(Auth::user()->hasRole('user'))
+                        Lanjutkan proses pendaftaran Anda atau pantau informasi terbaru seputar PPDB melalui Dashboard Anda.
+                    @else
+                        @if(Auth::user()->hasRole('kepala_sekolah'))
+                            Pantau laporan terkini, statistik pendaftaran, dan evaluasi proses PPDB secara real-time.
+                        @elseif(Auth::user()->hasRole('panitia_ppdb') || Auth::user()->hasRole('operator_sekolah'))
+                            Kelola data calon siswa, verifikasi berkas, dan atur jalannya proses seleksi dengan efisien.
+                        @else
+                            Kelola seluruh sistem PPDB, manajemen pengguna, data siswa, dan konfigurasi aplikasi dengan mudah dan aman.
+                        @endif
+                    @endif
+                @else
+                    Bergabunglah dengan kami untuk mewujudkan masa depan gemilang dengan pendidikan berkualitas dan berkarakter. Segera daftarkan diri Anda sekarang.
+                @endauth
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4">
+                @auth
+                    @if(Auth::user()->hasRole('user'))
+                    <a href="{{ route('dashboard') }}" class="inline-flex justify-center items-center px-8 py-4 text-base font-bold text-white bg-red-700 rounded-xl hover:bg-red-800 transition duration-300 shadow-lg shadow-red-900/30 transform hover:-translate-y-1">
+                        Akses Dashboard
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </a>
+                    @else
+                    <a href="{{ route('admin.dashboard') }}" class="inline-flex justify-center items-center px-8 py-4 text-base font-bold text-white bg-red-700 rounded-xl hover:bg-red-800 transition duration-300 shadow-lg shadow-red-900/30 transform hover:-translate-y-1">
+                        Dashboard Admin
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </a>
+                    @endif
+                @else
                 @if($activeGelombang)
                 <a href="{{ route('register') }}" class="inline-flex justify-center items-center px-8 py-4 text-base font-bold text-white bg-red-700 rounded-xl hover:bg-red-800 transition duration-300 shadow-lg shadow-red-900/30 transform hover:-translate-y-1">
                     Daftar Sekarang
@@ -40,6 +87,7 @@
                 <a href="{{ route('login') }}" class="inline-flex justify-center items-center px-8 py-4 text-base font-bold text-white bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 backdrop-blur-sm transition duration-300">
                     Masuk Akun
                 </a>
+                @endauth
             </div>
 
             <div class="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row gap-8 text-gray-400">

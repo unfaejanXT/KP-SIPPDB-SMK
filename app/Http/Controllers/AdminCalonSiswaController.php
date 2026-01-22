@@ -13,7 +13,7 @@ class AdminCalonSiswaController extends Controller
     public function index()
     {
         // Eager load relationships to avoid N+1 problem
-        $pendaftar = Pendaftaran::with(['user', 'jurusan', 'periodePPDB'])
+        $pendaftar = Pendaftaran::with(['user', 'jurusan', 'gelombang'])
             ->latest()
             ->paginate(10);
 

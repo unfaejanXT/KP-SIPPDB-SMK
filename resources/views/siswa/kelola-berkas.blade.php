@@ -31,7 +31,7 @@
                 @php
                     $upload = $uploadedBerkas->firstWhere('jenis_berkas_id', $jb->id);
                     $isUploaded = !empty($upload);
-                    $status = $isUploaded ? ($upload->status_verifikasi ?? 'pending') : 'missing';
+                    $status = $isUploaded ? strtolower($upload->status_verifikasi ?? 'pending') : 'missing';
                     $fileUrl = $isUploaded ? asset('storage/'.$upload->file_path) : '#';
                     $name = $jb->kode_berkas; // Used for ID
                     
@@ -41,15 +41,16 @@
                         'pending' => ['text' => 'Menunggu Verifikasi', 'class' => 'bg-amber-100 text-amber-700', 'icon' => 'fa-clock'],
                         'verified' => ['text' => 'Terverifikasi', 'class' => 'bg-emerald-100 text-emerald-700', 'icon' => 'fa-check-circle'],
                         'rejected' => ['text' => 'Ditolak', 'class' => 'bg-rose-100 text-rose-700', 'icon' => 'fa-times-circle'],
+                        'ditolak' => ['text' => 'Ditolak', 'class' => 'bg-rose-100 text-rose-700', 'icon' => 'fa-times-circle'],
                     ];
                     $currentStatus = $statusConfig[$status];
-                    $canUpload = in_array($status, ['missing', 'rejected', 'pending']);
+                    $canUpload = in_array($status, ['missing', 'rejected', 'ditolak', 'pending']);
                 @endphp
 
             <div class="p-6 hover:bg-slate-50 transition-colors flex flex-col gap-4" id="row-{{ $name }}">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div class="flex gap-4 items-start">
-                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 {{ $status == 'verified' ? 'bg-emerald-50 text-emerald-600' : ($status == 'rejected' ? 'bg-rose-50 text-rose-600' : 'bg-slate-100 text-slate-500') }}">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 {{ $status == 'verified' ? 'bg-emerald-50 text-emerald-600' : ($status == 'rejected' || $status == 'ditolak' ? 'bg-rose-50 text-rose-600' : 'bg-slate-100 text-slate-500') }}">
                              <i class="fa-solid fa-file-lines text-lg"></i>
                         </div>
                         <div>
@@ -93,7 +94,7 @@
                 </div>
 
                 {{-- Rejection Note --}}
-                @if($status == 'rejected' && !empty($upload->catatan_verifikasi))
+                @if(($status == 'rejected' || $status == 'ditolak') && !empty($upload->catatan_verifikasi))
                 <div class="bg-rose-50 p-4 rounded-lg border border-rose-100 flex gap-3 text-sm text-rose-800">
                     <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
                     <div>

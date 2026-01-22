@@ -79,7 +79,7 @@
                         </td>
 
                         <td class="px-6 py-4 text-sm text-gray-500">
-                            {{ $s->periodePPDB->nama_gelombang ?? '-' }}
+                            {{ $s->gelombang->nama_gelombang ?? '-' }}
                         </td>
 
                         <td class="px-6 py-4 text-center">

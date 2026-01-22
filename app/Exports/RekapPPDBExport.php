@@ -13,7 +13,7 @@ class RekapPPDBExport implements FromView, ShouldAutoSize
     public function view(): View
     {
         // Fetch data from the database
-        $pendaftaranData = Pendaftaran::with(['orangTuaSiswa', 'periodePPDB', 'jurusan'])->get();
+        $pendaftaranData = Pendaftaran::with(['orangTuaSiswa', 'gelombang', 'jurusan'])->get();
 
         return view('admin.rekap.exports.rekap_ppdb', [
             'pendaftaranData' => $pendaftaranData

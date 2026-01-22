@@ -101,13 +101,15 @@
                                         'pending' => 'bg-amber-100 text-amber-700 border-amber-200',
                                         'verified' => 'bg-emerald-100 text-emerald-700 border-emerald-200',
                                         'rejected' => 'bg-rose-100 text-rose-700 border-rose-200',
+                                        'ditolak' => 'bg-rose-100 text-rose-700 border-rose-200',
                                     ];
                                     $statusIcon = [
                                         'pending' => 'fa-clock',
                                         'verified' => 'fa-check-circle',
                                         'rejected' => 'fa-times-circle',
+                                        'ditolak' => 'fa-times-circle',
                                     ];
-                                    $status = $berkas->status_verifikasi ?? 'pending';
+                                    $status = strtolower($berkas->status_verifikasi ?? 'pending');
                                 @endphp
                                 <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold {{ $statusClasses[$status] }} flex items-center gap-1.5 border">
                                     <i class="fa-solid {{ $statusIcon[$status] }} text-[10px]"></i> {{ $berkas->jenisBerkas->nama_berkas }}

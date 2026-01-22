@@ -58,7 +58,7 @@
                     <div class="p-5 border border-gray-100 rounded-2xl bg-slate-50/30 flex flex-col md:flex-row items-center justify-between gap-4 group hover:border-blue-200 hover:bg-white transition-all">
                         <div class="flex items-center gap-4 w-full md:w-auto">
                             <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-slate-400 border border-gray-100 shadow-sm group-hover:text-blue-500 transition-colors">
-                                @if(in_array(pathinfo($berkas->path_berkas, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
+                                @if(in_array(pathinfo($berkas->file_path, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
                                     <i class="fa-solid fa-file-image text-xl"></i>
                                 @else
                                     <i class="fa-solid fa-file-pdf text-xl"></i>
@@ -80,8 +80,9 @@
                                     'pending' => 'bg-amber-100 text-amber-700 border-amber-200',
                                     'verified' => 'bg-emerald-100 text-emerald-700 border-emerald-200',
                                     'rejected' => 'bg-rose-100 text-rose-700 border-rose-200',
+                                    'ditolak' => 'bg-rose-100 text-rose-700 border-rose-200',
                                 ];
-                                $status = $berkas->status_verifikasi ?? 'pending';
+                                $status = strtolower($berkas->status_verifikasi ?? 'pending');
                             @endphp
                             <span class="px-3 py-1.5 rounded-full text-xs font-bold border {{ $statusClasses[$status] }}">
                                 {{ ucfirst($status) }}

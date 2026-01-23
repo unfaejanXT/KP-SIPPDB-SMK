@@ -16,8 +16,8 @@
             Data Pribadi
         </div>
     </button>
-    <button disabled
-        class="px-6 py-3 text-sm font-medium text-slate-500 hover:text-slate-700 border-b-2 border-transparent hover:border-gray-300 transition-colors opacity-50 cursor-not-allowed">
+    <a href="{{ route('pendaftaran.edit.orangtua') }}"
+        class="px-6 py-3 text-sm font-medium text-slate-500 hover:text-slate-700 border-b-2 border-transparent hover:border-gray-300 transition-colors">
         <div class="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="2">
@@ -26,7 +26,7 @@
             </svg>
             Data Orang Tua
         </div>
-    </button>
+    </a>
 </div>
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">

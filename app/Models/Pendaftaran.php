@@ -42,6 +42,11 @@ class Pendaftaran extends Model
         return $this->belongsTo(User::class);  // Jika ada model User
     }
 
+    public function orangTua()
+    {
+        return $this->hasOne(OrangTuaSiswa::class, 'pendaftaran_id');
+    }
+
     // Relasi ke tabel 'gelombangs' (Gelombang PPDB)
     public function gelombang()
     {

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Pendaftaran;
 use App\Models\Berkas;
 use App\Models\Jurusan;
+use App\Models\OrangTuaSiswa;
 use Illuminate\Validation\Rule;
 
 class StudentDashboardController extends Controller
@@ -119,5 +120,48 @@ class StudentDashboardController extends Controller
     public function cetakBukti()
     {
         return view('siswa.cetak-bukti');
+    }
+
+    public function editOrangTua()
+    {
+        $user = Auth::user();
+        $pendaftaran = Pendaftaran::with('orangTua')->where('user_id', $user->id)->firstOrFail();
+        
+        // Cek status untuk lock form
+        $isLocked = in_array($pendaftaran->status, ['terverifikasi', 'diterima', 'ditolak']);
+
+        return view('siswa.edit-orangtua', compact('user', 'pendaftaran', 'isLocked'));
+    }
+
+    public function updateOrangTua(Request $request)
+    {
+        $user = Auth::user();
+        $pendaftaran = Pendaftaran::where('user_id', $user->id)->firstOrFail();
+
+        if (in_array($pendaftaran->status, ['terverifikasi', 'diterima', 'ditolak'])) {
+             return redirect()->route('pendaftaran.edit.orangtua')->with('error', 'Maaf, data tidak dapat diubah karena status pendaftaran sudah diproses/verifikasi final.');
+        }
+
+        $validated = $request->validate([
+            'nama_ayah' => 'required|string|max:100',
+            'pekerjaan_ayah' => 'required|string|max:50',
+            'penghasilan_ayah' => 'required|numeric|min:0',
+            'nama_ibu' => 'required|string|max:100',
+            'pekerjaan_ibu' => 'required|string|max:50',
+            'penghasilan_ibu' => 'required|numeric|min:0',
+            'no_hp_orangtua' => 'required|string|max:20',
+            'nama_wali' => 'nullable|string|max:100',
+            'pekerjaan_wali' => 'nullable|string|max:50',
+            'penghasilan_wali' => 'nullable|numeric|min:0',
+            'no_hp_wali' => 'nullable|string|max:20',
+            'alamat_wali' => 'nullable|string',
+        ]);
+
+        OrangTuaSiswa::updateOrCreate(
+            ['pendaftaran_id' => $pendaftaran->id],
+            $validated
+        );
+
+        return redirect()->route('pendaftaran.edit.orangtua')->with('success', 'Data orang tua berhasil diperbarui.');
     }
 }

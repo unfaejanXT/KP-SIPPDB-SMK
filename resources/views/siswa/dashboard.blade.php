@@ -5,54 +5,54 @@
 @section('header_subtitle', 'Selamat datang di Portal PPDB SMK SBI')
 
 @section('content')
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
 
-    <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-start gap-4">
+    <div class="bg-white p-4 md:p-5 rounded-xl border border-gray-100 shadow-sm flex flex-col sm:flex-row items-center sm:items-start gap-3 md:gap-4 text-center sm:text-left">
         <div
-            class="w-12 h-12 rounded-lg bg-red-50 text-red-600 flex items-center justify-center text-xl shrink-0">
+            class="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-red-50 text-red-600 flex items-center justify-center text-lg md:text-xl shrink-0">
             <i class="fa-regular fa-file-lines"></i>
         </div>
         <div>
-            <p class="text-xs font-medium text-slate-500 mb-1">Nomor Pendaftaran</p>
-            <h3 class="font-bold text-slate-800 text-sm">{{ $pendaftaran->no_pendaftaran ?? '-' }}</h3>
+            <p class="text-[10px] md:text-xs font-medium text-slate-500 mb-0.5 md:mb-1">No. Daftar</p>
+            <h3 class="font-bold text-slate-800 text-xs md:text-sm">{{ $pendaftaran->no_pendaftaran ?? '-' }}</h3>
         </div>
     </div>
 
-    <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-start gap-4">
+    <div class="bg-white p-4 md:p-5 rounded-xl border border-gray-100 shadow-sm flex flex-col sm:flex-row items-center sm:items-start gap-3 md:gap-4 text-center sm:text-left">
         <div
-            class="w-12 h-12 rounded-lg bg-red-50 text-red-600 flex items-center justify-center text-xl shrink-0">
+            class="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-red-50 text-red-600 flex items-center justify-center text-lg md:text-xl shrink-0">
             <i class="fa-solid fa-book-open"></i>
         </div>
         <div>
-            <p class="text-xs font-medium text-slate-500 mb-1">Jurusan Pilihan</p>
-            <h3 class="font-bold text-slate-800">{{ $pendaftaran->jurusan->nama_jurusan ?? '-' }}</h3>
+            <p class="text-[10px] md:text-xs font-medium text-slate-500 mb-0.5 md:mb-1">Jurusan</p>
+            <h3 class="font-bold text-slate-800 text-xs md:text-sm line-clamp-1">{{ $pendaftaran->jurusan->nama_jurusan ?? '-' }}</h3>
         </div>
     </div>
 
-    <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-start gap-4">
+    <div class="bg-white p-4 md:p-5 rounded-xl border border-gray-100 shadow-sm flex flex-col sm:flex-row items-center sm:items-start gap-3 md:gap-4 text-center sm:text-left">
         <div
-            class="w-12 h-12 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center text-xl shrink-0">
+            class="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center text-lg md:text-xl shrink-0">
             <i class="fa-regular fa-clock"></i>
         </div>
         <div>
-            <p class="text-xs font-medium text-slate-500 mb-1">Status Pendaftaran</p>
-            <h3 class="font-bold text-yellow-600 capitalize">{{ str_replace('_', ' ', $pendaftaran->status ?? 'Belum Mendaftar') }}</h3>
+            <p class="text-[10px] md:text-xs font-medium text-slate-500 mb-0.5 md:mb-1">Status</p>
+            <h3 class="font-bold text-yellow-600 capitalize text-xs md:text-sm">{{ str_replace('_', ' ', $pendaftaran->status ?? 'Belum Mendaftar') }}</h3>
         </div>
     </div>
 
-    <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-start gap-4">
+    <div class="bg-white p-4 md:p-5 rounded-xl border border-gray-100 shadow-sm flex flex-col sm:flex-row items-center sm:items-start gap-3 md:gap-4 text-center sm:text-left">
         <div
-            class="w-12 h-12 rounded-lg bg-gray-50 text-gray-600 flex items-center justify-center text-xl shrink-0">
+            class="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gray-50 text-gray-600 flex items-center justify-center text-lg md:text-xl shrink-0">
             <i class="fa-regular fa-calendar"></i>
         </div>
         <div>
-            <p class="text-xs font-medium text-slate-500 mb-1">Tanggal Daftar</p>
-            <h3 class="font-bold text-slate-800">{{ $pendaftaran ? $pendaftaran->created_at->format('d M Y') : '-' }}</h3>
+            <p class="text-[10px] md:text-xs font-medium text-slate-500 mb-0.5 md:mb-1">Tanggal</p>
+            <h3 class="font-bold text-slate-800 text-xs md:text-sm">{{ $pendaftaran ? $pendaftaran->created_at->format('d M Y') : '-' }}</h3>
         </div>
     </div>
 </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
 
     <div class="lg:col-span-2 space-y-6">
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">

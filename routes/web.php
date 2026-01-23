@@ -55,7 +55,7 @@ Route::get('/jadwal', function () {
 });
 
 Route::get('/pengumuman', function (Request $request) {
-    $query = Pengumuman::where('status', 'published');
+    $query = Pengumuman::forUser(\Illuminate\Support\Facades\Auth::user());
 
     if ($request->has('q')) {
         $search = $request->q;

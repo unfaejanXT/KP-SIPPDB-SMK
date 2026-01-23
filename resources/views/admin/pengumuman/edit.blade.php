@@ -48,6 +48,21 @@
                 </div>
 
                 <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Target Pengguna</label>
+                    <div class="flex flex-wrap gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                        @foreach($targets as $role => $label)
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="target_roles[]" value="{{ $role }}" 
+                                    class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                    {{ in_array($role, old('target_roles', $pengumuman->target_roles ?? ['public'])) ? 'checked' : '' }}>
+                                <span class="ml-2 text-sm text-slate-700">{{ $label }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2">Jika "Umum" dipilih, pengumuman akan terlihat oleh semua pengunjung tanpa login.</p>
+                </div>
+
+                <div>
                     <label for="konten" class="block text-sm font-semibold text-slate-700 mb-2">Isi Pengumuman</label>
                     <textarea name="konten" id="konten" rows="8" required
                         class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none text-slate-700"

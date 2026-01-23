@@ -17,7 +17,13 @@ class AdminPengumumanController extends Controller
 
     public function create()
     {
-        return view('admin.pengumuman.create');
+        $targets = [
+            'public' => 'Umum (Semua Pengunjung)',
+            'calon_siswa' => 'Calon Siswa',
+            'panitia' => 'Panitia',
+            'operator' => 'Operator',
+        ];
+        return view('admin.pengumuman.create', compact('targets'));
     }
 
     public function store(Request $request)
@@ -27,6 +33,7 @@ class AdminPengumumanController extends Controller
             'kategori' => 'required|string|max:100',
             'konten' => 'required|string',
             'status' => 'required|in:draft,published',
+            'target_roles' => 'nullable|array',
         ]);
 
         Pengumuman::create([
@@ -35,6 +42,7 @@ class AdminPengumumanController extends Controller
             'kategori' => $request->kategori,
             'konten' => $request->konten,
             'is_pinned' => $request->has('is_pinned'),
+            'target_roles' => $request->target_roles ?? ['public'],
             'status' => $request->status,
         ]);
 
@@ -43,7 +51,13 @@ class AdminPengumumanController extends Controller
 
     public function edit(Pengumuman $pengumuman)
     {
-        return view('admin.pengumuman.edit', compact('pengumuman'));
+        $targets = [
+            'public' => 'Umum (Semua Pengunjung)',
+            'calon_siswa' => 'Calon Siswa',
+            'panitia' => 'Panitia',
+            'operator' => 'Operator',
+        ];
+        return view('admin.pengumuman.edit', compact('pengumuman', 'targets'));
     }
 
     public function update(Request $request, Pengumuman $pengumuman)
@@ -53,6 +67,7 @@ class AdminPengumumanController extends Controller
             'kategori' => 'required|string|max:100',
             'konten' => 'required|string',
             'status' => 'required|in:draft,published',
+            'target_roles' => 'nullable|array',
         ]);
 
         $pengumuman->update([
@@ -61,6 +76,7 @@ class AdminPengumumanController extends Controller
             'kategori' => $request->kategori,
             'konten' => $request->konten,
             'is_pinned' => $request->has('is_pinned'),
+            'target_roles' => $request->target_roles ?? ['public'],
             'status' => $request->status,
         ]);
 

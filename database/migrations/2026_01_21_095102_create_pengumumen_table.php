@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('konten');
             $table->integer('views')->default(0);
             $table->boolean('is_pinned')->default(false);
+            $table->json('target_roles')->nullable()->comment('Null means public/everyone. Otherwise JSON array of role names.');
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamps();
         });

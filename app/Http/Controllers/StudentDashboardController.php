@@ -99,7 +99,7 @@ class StudentDashboardController extends Controller
     }
     public function pengumuman()
     {
-        $pengumuman = \App\Models\Pengumuman::where('status', 'published')
+        $pengumuman = \App\Models\Pengumuman::forUser(Auth::user())
             ->orderBy('is_pinned', 'desc')
             ->latest()
             ->get();

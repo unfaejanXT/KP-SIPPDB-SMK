@@ -27,11 +27,6 @@
                     <i class="fa-solid fa-download text-gray-400"></i>
                     <span>Ekspor</span>
                 </button>
-                <a href="{{ route('admin.calon-siswa.create') }}"
-                    class="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-700 shadow-sm transition-colors">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Tambah</span>
-                </a>
             </div>
         </div>
 
@@ -118,9 +113,13 @@
                                 <a href="{{ route('admin.calon-siswa.edit', $s->id) }}" class="p-1.5 hover:text-amber-600 transition-colors rounded-lg hover:bg-amber-50" title="Edit">
                                     <i class="fa-regular fa-pen-to-square text-lg"></i>
                                 </a>
-                                <button class="p-1.5 hover:text-slate-800 transition-colors rounded-lg hover:bg-slate-100">
-                                    <i class="fa-solid fa-ellipsis text-lg"></i>
-                                </button>
+                                <form action="{{ route('admin.calon-siswa.destroy', $s->id) }}" method="POST" onsubmit="return confirm('Hapus data calon siswa ini?');" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="p-1.5 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50" title="Hapus">
+                                        <i class="fa-regular fa-trash-can text-lg"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>

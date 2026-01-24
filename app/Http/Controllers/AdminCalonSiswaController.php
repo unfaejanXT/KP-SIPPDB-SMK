@@ -39,9 +39,15 @@ class AdminCalonSiswaController extends Controller
     /**
      * Display the specified resource.
      */
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
-        //
+        $calonSiswa = Pendaftaran::with(['user', 'jurusan', 'gelombang', 'orangTua', 'berkas.jenisBerkas'])
+            ->findOrFail($id);
+            
+        return view('admin.calon-siswa.show', compact('calonSiswa'));
     }
 
     /**
@@ -49,7 +55,15 @@ class AdminCalonSiswaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $calonSiswa = Pendaftaran::with(['orangTua', 'jurusan', 'gelombang'])
+            ->findOrFail($id);
+        
+        // Load data for dropdowns if needed (e.g. Jurusan, Gelombang)
+        // Assuming models exist and are imported
+        $jurusans = \App\Models\Jurusan::all();
+        $gelombangs = \App\Models\Gelombang::all();
+
+        return view('admin.calon-siswa.edit', compact('calonSiswa', 'jurusans', 'gelombangs'));
     }
 
     /**
@@ -57,7 +71,67 @@ class AdminCalonSiswaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $calonSiswa = Pendaftaran::findOrFail($id);
+
+        $request->validate([
+            // Pendaftaran validation
+            'nama_lengkap' => 'required|string|max:50',
+            'nisn' => 'required|string|max:10|unique:pendaftaran,nisn,'.$id,
+            'jenis_kelamin' => 'required|in:L,P',
+            'tempat_lahir' => 'required|string|max:50',
+            'tanggal_lahir' => 'required|date',
+            'golongan_darah' => 'nullable|string|max:2',
+            'agama' => 'required|string|max:20',
+            'alamat_rumah' => 'required|string|max:255',
+            'nomor_hp' => 'required|string|max:15',
+            'asal_sekolah' => 'required|string|max:100',
+            'jurusan_id' => 'required|exists:jurusan,id',
+            'gelombang_id' => 'required|exists:gelombangs,id',
+            'status' => 'required|in:draft,menunggu_verifikasi,terverifikasi,diterima,ditolak',
+
+            // OrangTua validation
+            'nama_ayah' => 'required|string|max:100',
+            'pekerjaan_ayah' => 'required|string|max:50',
+            'penghasilan_ayah' => 'required|numeric|min:0',
+            'nama_ibu' => 'required|string|max:100',
+            'pekerjaan_ibu' => 'required|string|max:50',
+            'penghasilan_ibu' => 'required|numeric|min:0',
+            'no_hp_orangtua' => 'required|string|max:20',
+        ]);
+
+        // Update Pendaftaran
+        $calonSiswa->update([
+            'nama_lengkap' => $request->nama_lengkap,
+            'nisn' => $request->nisn,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'golongan_darah' => $request->golongan_darah,
+            'agama' => $request->agama,
+            'alamat_rumah' => $request->alamat_rumah,
+            'nomor_hp' => $request->nomor_hp,
+            'asal_sekolah' => $request->asal_sekolah,
+            'jurusan_id' => $request->jurusan_id,
+            'gelombang_id' => $request->gelombang_id,
+            'status' => $request->status,
+        ]);
+
+        // Update Orang Tua
+        $calonSiswa->orangTua()->updateOrCreate(
+            ['pendaftaran_id' => $calonSiswa->id],
+            [
+                'nama_ayah' => $request->nama_ayah,
+                'pekerjaan_ayah' => $request->pekerjaan_ayah,
+                'penghasilan_ayah' => $request->penghasilan_ayah,
+                'nama_ibu' => $request->nama_ibu,
+                'pekerjaan_ibu' => $request->pekerjaan_ibu,
+                'penghasilan_ibu' => $request->penghasilan_ibu,
+                'no_hp_orangtua' => $request->no_hp_orangtua,
+                // Add wali fields if needed from request
+            ]
+        );
+
+        return redirect()->route('admin.calon-siswa.index')->with('success', 'Data calon siswa berhasil diperbarui.');
     }
 
     /**
@@ -65,6 +139,14 @@ class AdminCalonSiswaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $calonSiswa = Pendaftaran::findOrFail($id);
+        
+        // Delete related data if cascade delete is not set in database
+        // $calonSiswa->orangTua()->delete();
+        // $calonSiswa->berkas()->delete();
+        
+        $calonSiswa->delete();
+
+        return redirect()->route('admin.calon-siswa.index')->with('success', 'Data calon siswa berhasil dihapus.');
     }
 }

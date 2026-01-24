@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\EnsureAppInstalled::class,
             \App\Http\Middleware\RoleRedirect::class,
             \App\Http\Middleware\EnsureUserIsActive::class,
+            \App\Http\Middleware\UpdateLastActivity::class,
         ]);
         //
         $middleware->alias([

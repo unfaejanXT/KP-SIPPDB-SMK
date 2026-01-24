@@ -22,6 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'is_active',
+        'last_login_at',
+        'last_login_ip',
     ];
 
     /**
@@ -44,6 +46,15 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_login_at' => 'datetime',
         ];
+    }
+
+    public function isOnline()
+    {
+        return \Illuminate\Support\Facades\DB::table('sessions')
+            ->where('user_id', $this->id)
+            ->where('last_activity', '>', now()->subMinutes(5)->getTimestamp())
+            ->exists();
     }
 }

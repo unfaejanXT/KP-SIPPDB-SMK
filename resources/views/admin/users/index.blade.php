@@ -104,6 +104,7 @@
                             <th class="px-6 py-4">Pengguna</th>
                             <th class="px-6 py-4">Role</th>
                             <th class="px-6 py-4">Status</th>
+                            <th class="px-6 py-4">Terakhir Aktif</th>
                             <th class="px-6 py-4">Terdaftar</th>
                             <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
@@ -113,8 +114,11 @@
                         <tr class="hover:bg-slate-50 transition-colors">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 text-xs font-bold uppercase">
+                                    <div class="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 text-xs font-bold uppercase relative">
                                         {{ substr($user->name, 0, 2) }}
+                                        @if($user->isOnline())
+                                            <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 border-2 border-white rounded-full" title="Sedang Online"></span>
+                                        @endif
                                     </div>
                                     <div>
                                         <div class="font-medium text-slate-800">{{ $user->name }}</div>
@@ -139,6 +143,17 @@
                                     <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-600 border border-green-200">Aktif</span>
                                 @else
                                     <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 border border-slate-200">Non-Aktif</span>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-slate-500">
+                                @if($user->last_login_at)
+                                    <div class="text-sm text-slate-800">{{ $user->last_login_at->diffForHumans() }}</div>
+                                    <div class="text-xs text-slate-400">{{ $user->last_login_at->format('d M H:i') }}</div>
+                                    @if($user->last_login_ip)
+                                        <div class="text-[10px] text-slate-300">{{ $user->last_login_ip }}</div>
+                                    @endif
+                                @else
+                                    <span class="text-xs text-slate-400 italic">Belum login</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-slate-500">

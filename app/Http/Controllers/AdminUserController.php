@@ -30,12 +30,12 @@ class AdminUserController extends Controller
 
         $totalUsers = User::count();
         $totalAdmin = User::role('admin')->count();
-        $totalOperator = User::role('user')->count(); // Assuming 'user' is the other main role acting as operator/student
-        // In this context, maybe we just count distinct roles found.
+        $totalOperator = User::role('user')->count(); 
+        $totalActive = User::where('is_active', true)->count();
         
         $roles = Role::pluck('name'); 
 
-        return view('admin.users.index', compact('users', 'search', 'roleFilter', 'totalUsers', 'totalAdmin', 'totalOperator', 'roles'));
+        return view('admin.users.index', compact('users', 'search', 'roleFilter', 'totalUsers', 'totalAdmin', 'totalOperator', 'totalActive', 'roles'));
     }
 
     public function create()
@@ -114,5 +114,17 @@ class AdminUserController extends Controller
             \Illuminate\Support\Facades\DB::rollBack();
             return back()->with('error', 'Gagal menghapus user: ' . $e->getMessage());
         }
+    }
+    public function toggleStatus(User $user)
+    {
+        if ($user->id == auth()->id()) {
+            return back()->with('error', 'Anda tidak dapat mengubah status akun sendiri.');
+        }
+
+        $user->is_active = !$user->is_active;
+        $user->save();
+
+        $status = $user->is_active ? 'diaktifkan' : 'dinonaktifkan';
+        return back()->with('success', "Akun pengguna berhasil $status.");
     }
 }

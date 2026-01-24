@@ -56,7 +56,7 @@
                     <i class="fa-solid fa-circle-check text-xl"></i>
                 </div>
                 <div>
-                    <div class="text-2xl font-bold text-slate-800">{{ $totalUsers }}</div>
+                    <div class="text-2xl font-bold text-slate-800">{{ $totalActive }}</div>
                     <div class="text-sm text-slate-500">Aktif</div>
                 </div>
             </div>
@@ -135,14 +135,28 @@
                                 @endforeach
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-600 border border-green-200">Aktif</span>
+                                @if($user->is_active)
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-600 border border-green-200">Aktif</span>
+                                @else
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 border border-slate-200">Non-Aktif</span>
+                                @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-slate-500">
                                 {{ $user->created_at->format('d M Y, H:i') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
                                 <div class="flex items-center justify-end gap-2">
-                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="text-slate-400 hover:text-blue-600 transition-colors">
+                                    @if(auth()->id() !== $user->id)
+                                    <form action="{{ route('admin.users.toggle-status', $user->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors {{ $user->is_active ? 'text-green-600' : 'text-slate-400' }}" title="{{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">
+                                            <i class="fa-solid fa-power-off"></i>
+                                        </button>
+                                    </form>
+                                    @endif
+
+                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-400 hover:text-blue-600 transition-colors" title="Edit">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
                                     
@@ -150,7 +164,7 @@
                                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-slate-400 hover:text-red-600 transition-colors">
+                                        <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-400 hover:text-red-600 transition-colors" title="Hapus">
                                             <i class="fa-regular fa-trash-can"></i>
                                         </button>
                                     </form>

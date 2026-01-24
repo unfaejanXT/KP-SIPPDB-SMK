@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\EnsureAppInstalled::class,
             \App\Http\Middleware\RoleRedirect::class,
+            \App\Http\Middleware\EnsureUserIsActive::class,
         ]);
         //
         $middleware->alias([

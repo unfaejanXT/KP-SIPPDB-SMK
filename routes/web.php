@@ -145,6 +145,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Laporan PPDB
     Route::get('/laporan', [AdminLaporanController::class, 'index'])->name('admin.laporan.index');
     Route::get('/laporan/export', [AdminLaporanController::class, 'export'])->name('admin.laporan.export');
+
+    // Admin Profile
+    Route::get('/profile', [\App\Http\Controllers\Admin\AdminProfileController::class, 'edit'])->name('admin.profile.edit');
+    Route::patch('/profile', [\App\Http\Controllers\Admin\AdminProfileController::class, 'update'])->name('admin.profile.update');
 });
 
 Route::middleware('auth')->group(function () {

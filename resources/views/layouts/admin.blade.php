@@ -119,19 +119,30 @@
 
             <div class="p-4 border-t border-gray-100">
                 <div class="flex items-center gap-3 mb-4 px-2">
-                    <div
-                        class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-bold shadow-sm uppercase">
-                        {{ substr(Auth::user()->name ?? 'AD', 0, 2) }}
+                    <div class="shrink-0">
+                        @if(Auth::user()->foto)
+                            <img src="{{ asset('storage/' . Auth::user()->foto) }}" alt="Profile" class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                        @else
+                            <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-bold shadow-sm uppercase border border-blue-200">
+                                {{ substr(Auth::user()->name ?? 'AD', 0, 2) }}
+                            </div>
+                        @endif
                     </div>
-                    <div>
-                        <p class="text-sm font-semibold truncate w-32 text-slate-800">{{ Auth::user()->name ?? 'Admin' }}</p>
-                        <p class="text-xs text-slate-500">Administrator</p>
+                    <div class="overflow-hidden">
+                        <p class="text-sm font-semibold truncate w-full text-slate-800" title="{{ Auth::user()->name }}">{{ Auth::user()->name ?? 'Admin' }}</p>
+                        <p class="text-xs text-slate-500 truncate w-full" title="{{ Auth::user()->jabatan ?? 'Administrator' }}">{{ Auth::user()->jabatan ?? 'Administrator' }}</p>
                     </div>
                 </div>
+                
+                <a href="{{ route('admin.profile.edit') }}" class="flex items-center gap-2 text-slate-500 hover:text-blue-700 text-sm px-2 transition-colors w-full mb-2">
+                    <i class="fa-solid fa-user-pen w-5"></i>
+                    Edit Profil
+                </a>
+
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="flex items-center gap-2 text-slate-500 hover:text-blue-700 text-sm px-2 transition-colors w-full">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <button type="submit" class="flex items-center gap-2 text-slate-500 hover:text-red-600 text-sm px-2 transition-colors w-full">
+                        <i class="fa-solid fa-arrow-right-from-bracket w-5"></i>
                         Keluar
                     </button>
                 </form>

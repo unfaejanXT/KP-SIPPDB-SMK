@@ -24,6 +24,9 @@ class User extends Authenticatable
         'is_active',
         'last_login_at',
         'last_login_ip',
+        'foto',
+        'nomor_telepon',
+        'jabatan',
     ];
 
     /**

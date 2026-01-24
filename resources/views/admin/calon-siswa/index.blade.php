@@ -22,6 +22,11 @@
                     <span>Semua Status</span>
                     <i class="fa-solid fa-chevron-down text-xs ml-1 text-gray-400"></i>
                 </button>
+                <a href="{{ route('admin.calon-siswa.create') }}"
+                    class="flex items-center gap-2 px-3 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors shadow-sm">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Tambah</span>
+                </a>
                 <button
                     class="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">
                     <i class="fa-solid fa-download text-gray-400"></i>

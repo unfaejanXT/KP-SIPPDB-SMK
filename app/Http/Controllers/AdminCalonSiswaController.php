@@ -25,7 +25,11 @@ class AdminCalonSiswaController extends Controller
      */
     public function create()
     {
-        //
+        $jurusans = \App\Models\Jurusan::aktif()->get();
+        $gelombangs = \App\Models\Gelombang::all();
+        $jenisBerkas = \App\Models\JenisBerkas::where('is_active', true)->get();
+
+        return view('admin.calon-siswa.create', compact('jurusans', 'gelombangs', 'jenisBerkas'));
     }
 
     /**
@@ -33,7 +37,94 @@ class AdminCalonSiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            // User validation
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8',
+
+            // Pendaftaran validation
+            'nama_lengkap' => 'required|string|max:50',
+            'nisn' => 'required|string|max:10|unique:pendaftaran,nisn',
+            'jenis_kelamin' => 'required|in:L,P',
+            'tempat_lahir' => 'required|string|max:50',
+            'tanggal_lahir' => 'required|date',
+            'golongan_darah' => 'nullable|string|max:2',
+            'agama' => 'required|string|max:20',
+            'alamat_rumah' => 'required|string|max:255',
+            'nomor_hp' => 'required|string|max:15',
+            'asal_sekolah' => 'required|string|max:100',
+            'jurusan_id' => 'required|exists:jurusan,id',
+            'gelombang_id' => 'required|exists:gelombangs,id',
+            'status' => 'required|in:draft,menunggu_verifikasi,terverifikasi,diterima,ditolak',
+
+            // OrangTua validation
+            'nama_ayah' => 'required|string|max:100',
+            'pekerjaan_ayah' => 'required|string|max:50',
+            'penghasilan_ayah' => 'required|numeric|min:0',
+            'nama_ibu' => 'required|string|max:100',
+            'pekerjaan_ibu' => 'required|string|max:50',
+            'penghasilan_ibu' => 'required|numeric|min:0',
+            'no_hp_orangtua' => 'required|string|max:20',
+        ]);
+
+        \Illuminate\Support\Facades\DB::transaction(function () use ($request) {
+            // 1. Create User
+            $user = \App\Models\User::create([
+                'name' => $request->nama_lengkap,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'role' => 'calon_siswa',
+            ]);
+
+            // 2. Create Pendaftaran
+            $calonSiswa = Pendaftaran::create([
+                'user_id' => $user->id,
+                'nama_lengkap' => $request->nama_lengkap,
+                'nisn' => $request->nisn,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'golongan_darah' => $request->golongan_darah,
+                'agama' => $request->agama,
+                'alamat_rumah' => $request->alamat_rumah,
+                'nomor_hp' => $request->nomor_hp,
+                'asal_sekolah' => $request->asal_sekolah,
+                'jurusan_id' => $request->jurusan_id,
+                'gelombang_id' => $request->gelombang_id,
+                'status' => $request->status,
+                'tanggal_daftar' => now(),
+            ]);
+
+            // 3. Create Orang Tua
+            $calonSiswa->orangTua()->create([
+                'nama_ayah' => $request->nama_ayah,
+                'pekerjaan_ayah' => $request->pekerjaan_ayah,
+                'penghasilan_ayah' => $request->penghasilan_ayah,
+                'nama_ibu' => $request->nama_ibu,
+                'pekerjaan_ibu' => $request->pekerjaan_ibu,
+                'penghasilan_ibu' => $request->penghasilan_ibu,
+                'no_hp_orangtua' => $request->no_hp_orangtua,
+            ]);
+
+            // 4. Upload Berkas
+            $jenisBerkas = \App\Models\JenisBerkas::where('is_active', true)->get();
+            foreach ($jenisBerkas as $jb) {
+                if ($request->hasFile('berkas_' . $jb->id)) {
+                    $file = $request->file('berkas_' . $jb->id);
+                    $path = $file->store('berkas/' . $calonSiswa->nisn, 'public');
+                    
+                    \App\Models\Berkas::create([
+                        'pendaftaran_id' => $calonSiswa->id,
+                        'jenis_berkas_id' => $jb->id,
+                        'file_path' => $path,
+                        'status_verifikasi' => 'pending', // Default status
+                        'uploaded_at' => now(),
+                    ]);
+                }
+            }
+        });
+
+        return redirect()->route('admin.calon-siswa.index')->with('success', 'Calon siswa baru berhasil ditambahkan.');
     }
 
     /**

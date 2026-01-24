@@ -24,7 +24,7 @@ class AdminDashboardController extends Controller
         $totalPendaftar = Pendaftaran::count();
         
         // Normalize status checks to handle case sensitivity
-        $menungguVerifikasi = Pendaftaran::whereIn(DB::raw('LOWER(status)'), ['menunggu_verifikasi', 'menunggu', 'draft'])->count();
+        $menungguVerifikasi = Pendaftaran::whereIn(DB::raw('LOWER(status)'), ['menunggu_verifikasi', 'menunggu', 'draft', 'submitted', 'pending'])->count();
         $terverifikasi = Pendaftaran::whereIn(DB::raw('LOWER(status)'), ['terverifikasi', 'diterima'])->count();
         $ditolak = Pendaftaran::where(DB::raw('LOWER(status)'), 'ditolak')->count();
 

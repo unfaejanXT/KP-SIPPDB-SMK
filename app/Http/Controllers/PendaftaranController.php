@@ -285,7 +285,7 @@ class PendaftaranController extends Controller
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->firstOrFail();
         
         // Prevent upload if pendaftaran is already finalized
-        if (in_array($pendaftaran->status, ['terverifikasi', 'diterima', 'ditolak'])) {
+        if (in_array($pendaftaran->status, ['terverifikasi', 'diterima'])) {
             return response()->json([
                 'success' => false,
                 'message' => 'Pendaftaran sudah diverifikasi/final. Tidak dapat mengubah berkas.'
@@ -317,6 +317,11 @@ class PendaftaranController extends Controller
         // If pas_foto, maybe update pendaftaran table too if needed, but not strictly required if we use Berkas
         if ($kode === 'pas_foto') {
             $pendaftaran->update(['pas_foto' => $path]);
+        }
+
+        // If data was rejected, update status to waiting for verification again
+        if (in_array($pendaftaran->status, ['ditolak'])) {
+            $pendaftaran->update(['status' => 'menunggu_verifikasi']);
         }
 
         return response()->json([

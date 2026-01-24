@@ -170,7 +170,7 @@
                                 @php
                                     $status = strtolower($p->status);
                                 @endphp
-                                @if(in_array($status, ['menunggu', 'draft', 'menunggu_verifikasi']))
+                                @if(in_array($status, ['menunggu', 'draft', 'menunggu_verifikasi', 'submitted', 'pending']))
                                     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-orange-50 text-orange-700 border border-orange-100">
                                         <span class="w-1.5 h-1.5 rounded-full bg-orange-500 mr-2 animate-pulse"></span>
                                         Menunggu

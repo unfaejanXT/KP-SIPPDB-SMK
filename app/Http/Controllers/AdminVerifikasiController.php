@@ -67,18 +67,23 @@ class AdminVerifikasiController extends Controller
             'verified_at' => now()
         ]);
 
-        // Check if all berkas for this pendaftaran are verified
+        // Check verification status of all files
         $pendaftaran = $berkas->pendaftaran;
-        $allVerified = $pendaftaran->berkas()->count() > 0 && 
-                       $pendaftaran->berkas()->where('status_verifikasi', '!=', 'verified')->count() == 0;
+        
+        $totalBerkas = $pendaftaran->berkas()->count();
+        $verifiedCount = $pendaftaran->berkas()->where('status_verifikasi', 'verified')->count();
+        $rejectedCount = $pendaftaran->berkas()->where('status_verifikasi', 'rejected')->count();
+        $pendingCount = $pendaftaran->berkas()->where(function($q) {
+            $q->whereNull('status_verifikasi')->orWhere('status_verifikasi', 'pending');
+        })->count();
 
-        if ($allVerified) {
+        if ($totalBerkas > 0 && $totalBerkas == $verifiedCount) {
             $pendaftaran->update(['status' => 'terverifikasi']);
-        } else {
-            // If any berkas is rejected, the pendaftaran status might need to reflect that
-            if ($request->status == 'rejected') {
-                $pendaftaran->update(['status' => 'submitted']); // or stay submitted but with rejected berkas
-            }
+        } elseif ($request->status == 'rejected') {
+            $pendaftaran->update(['status' => 'ditolak']);
+        } elseif ($pendingCount == 0 && $rejectedCount > 0) {
+            // If we just verified a file, but there are still rejected files and no pending ones left
+            $pendaftaran->update(['status' => 'ditolak']);
         }
 
         return back()->with('success', 'Status berkas berhasil diperbarui');

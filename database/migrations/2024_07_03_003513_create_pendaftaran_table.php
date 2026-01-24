@@ -25,8 +25,10 @@ return new class extends Migration {
             $table->string('asal_sekolah', 100);
             $table->string('pas_foto',255)->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('periodeppdb_id'); // Referensi ke tabel periode PPDB
+            $table->unsignedBigInteger('gelombang_id'); // Referensi ke tabel gelombang
             $table->unsignedBigInteger('jurusan_id');
+            $table->string('status', 20)->default('draft');
+            $table->integer('current_step')->default(0);
             $table->timestamps();
     
             // Foreign keys
@@ -42,9 +44,9 @@ return new class extends Migration {
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
     
-            $table->foreign('periodeppdb_id')
+            $table->foreign('gelombang_id')
                 ->references('id')
-                ->on('periodeppdb')
+                ->on('gelombangs')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
         });
@@ -57,6 +59,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('studentregistrations');
+        Schema::dropIfExists('pendaftaran');
     }
 };

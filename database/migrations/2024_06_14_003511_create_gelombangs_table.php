@@ -10,12 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('periodeppdb', function (Blueprint $table) {
+        Schema::create('gelombangs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('periode_id')->nullable()->constrained('periodes')->onDelete('cascade');
             $table->string('nama', 100);
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->string('tahun_ajaran', 9);
+            $table->integer('kuota')->default(0);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('periodeppdb');
+        Schema::dropIfExists('gelombangs');
     }
 };

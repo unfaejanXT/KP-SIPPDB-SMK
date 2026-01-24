@@ -16,21 +16,44 @@
                 <i class="fa-regular fa-pen-to-square"></i>
                 <span>Edit Data</span>
             </a>
-            <form action="{{ route('admin.calon-siswa.destroy', $calonSiswa->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data calon siswa ini?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" 
-                        class="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors shadow-sm">
-                    <i class="fa-regular fa-trash-can"></i>
-                    <span>Hapus</span>
-                </button>
-            </form>
+            <button type="button" onclick="openDeleteModal('{{ route('admin.calon-siswa.destroy', $calonSiswa->id) }}')"
+                    class="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors shadow-sm">
+                <i class="fa-regular fa-trash-can"></i>
+                <span>Hapus</span>
+            </button>
         </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Kolom Kiri: Info Utama -->
         <div class="lg:col-span-2 space-y-6">
+            <!-- Data Akun -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+                    <h3 class="font-semibold text-gray-800">Informasi Akun Pengguna</h3>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Email / Username</label>
+                            <div class="text-base font-semibold text-gray-800">{{ $calonSiswa->user->email ?? '-' }}</div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Status Akun</label>
+                            <div>
+                                @if($calonSiswa->user)
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $calonSiswa->user->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ $calonSiswa->user->is_active ? 'Aktif' : 'Nonaktif' }}
+                                    </span>
+                                @else
+                                    <span class="text-sm text-gray-500">-</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Data Pribadi -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
@@ -222,7 +245,7 @@
                     
                     @if($calonSiswa->berkas->isNotEmpty())
                     <div class="mt-4 pt-4 border-t border-gray-100 text-center">
-                        <a href="{{ route('admin.verifikasi.index') }}?q={{ $calonSiswa->nisn }}" class="text-sm font-medium text-blue-600 hover:text-blue-700">
+                        <a href="{{ route('admin.verifikasi.show', $calonSiswa->id) }}" class="text-sm font-medium text-blue-600 hover:text-blue-700">
                             Kelola Verifikasi Berkas &rarr;
                         </a>
                     </div>
@@ -231,4 +254,75 @@
             </div>
         </div>
     </div>
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-900/50 transition-opacity backdrop-blur-sm"></div>
+
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <i class="fa-solid fa-triangle-exclamation text-red-600 text-lg"></i>
+                        </div>
+                        <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                            <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Hapus Data Calon Siswa</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">
+                                    Apakah Anda yakin ingin menghapus data calon siswa ini?
+                                </p>
+                                <div class="mt-3 rounded-md bg-red-50 p-3 border border-red-100">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0">
+                                            <i class="fa-solid fa-circle-exclamation text-red-600 text-sm"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm font-medium text-red-800">
+                                                PERINGATAN!
+                                            </p>
+                                            <p class="text-xs text-red-700 mt-1">
+                                                Akun pengguna yang terkait juga akan <strong>DIHAPUS PERMANEN</strong> dan tidak dapat dipulihkan.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <form id="deleteForm" method="POST" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="inline-flex w-full justify-center rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto transition-colors">
+                            Ya, Hapus Permanen
+                        </button>
+                    </form>
+                    <button type="button" onclick="closeDeleteModal()" class="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto transition-colors">
+                        Batal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+@push('scripts')
+<script>
+    function openDeleteModal(url) {
+        document.getElementById('deleteForm').action = url;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('deleteModal').addEventListener('click', function(e) {
+        if (e.target === this || e.target.querySelector('.backdrop-blur-sm') === e.target) {
+           closeDeleteModal();
+        }
+    });
+</script>
+@endpush

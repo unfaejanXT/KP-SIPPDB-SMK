@@ -34,6 +34,28 @@
             <!-- Kolom Kiri: Form Utama -->
             <div class="lg:col-span-2 space-y-6">
                 
+                <!-- Data Akun -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+                        <h3 class="font-semibold text-gray-800">Informasi Akun Pengguna</h3>
+                    </div>
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="md:col-span-2">
+                             <label class="block text-sm font-medium text-gray-700 mb-1">Email / Username</label>
+                             <input type="email" name="email" value="{{ old('email', $calonSiswa->user->email ?? '') }}"
+                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none transition-all">
+                             <p class="text-xs text-gray-500 mt-1">Email digunakan untuk login.</p>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Password Baru (Opsional)</label>
+                            <input type="password" name="password" 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-400 outline-none transition-all"
+                                placeholder="Biarkan kosong jika tidak ingin mengubah password">
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Data Pribadi -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">

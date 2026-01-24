@@ -113,13 +113,9 @@
                                 <a href="{{ route('admin.calon-siswa.edit', $s->id) }}" class="p-1.5 hover:text-amber-600 transition-colors rounded-lg hover:bg-amber-50" title="Edit">
                                     <i class="fa-regular fa-pen-to-square text-lg"></i>
                                 </a>
-                                <form action="{{ route('admin.calon-siswa.destroy', $s->id) }}" method="POST" onsubmit="return confirm('Hapus data calon siswa ini?');" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="p-1.5 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50" title="Hapus">
-                                        <i class="fa-regular fa-trash-can text-lg"></i>
-                                    </button>
-                                </form>
+                                <button type="button" onclick="openDeleteModal('{{ route('admin.calon-siswa.destroy', $s->id) }}')" class="p-1.5 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50" title="Hapus">
+                                    <i class="fa-regular fa-trash-can text-lg"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -141,4 +137,77 @@
             {{ $pendaftar->links() }}
         </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-gray-900/50 transition-opacity backdrop-blur-sm"></div>
+
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <i class="fa-solid fa-triangle-exclamation text-red-600 text-lg"></i>
+                        </div>
+                        <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                            <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Hapus Data Calon Siswa</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">
+                                    Apakah Anda yakin ingin menghapus data calon siswa ini?
+                                </p>
+                                <div class="mt-3 rounded-md bg-red-50 p-3 border border-red-100">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0">
+                                            <i class="fa-solid fa-circle-exclamation text-red-600 text-sm"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm font-medium text-red-800">
+                                                PERINGATAN!
+                                            </p>
+                                            <p class="text-xs text-red-700 mt-1">
+                                                Akun pengguna yang terkait juga akan <strong>DIHAPUS PERMANEN</strong> dan tidak dapat dipulihkan.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <form id="deleteForm" method="POST" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="inline-flex w-full justify-center rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto transition-colors">
+                            Ya, Hapus Permanen
+                        </button>
+                    </form>
+                    <button type="button" onclick="closeDeleteModal()" class="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto transition-colors">
+                        Batal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+@push('scripts')
+<script>
+    function openDeleteModal(url) {
+        document.getElementById('deleteForm').action = url;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('deleteModal').addEventListener('click', function(e) {
+        if (e.target === this || e.target.querySelector('.backdrop-blur-sm') === e.target) {
+           closeDeleteModal();
+        }
+    });
+</script>
+@endpush

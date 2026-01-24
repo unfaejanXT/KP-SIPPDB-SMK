@@ -16,6 +16,9 @@ class AdminUserController extends Controller
         $roleFilter = $request->input('role');
 
         $users = User::with('roles')
+            ->whereDoesntHave('roles', function ($q) {
+                $q->where('name', 'user');
+            })
             ->when($search, function ($query, $search) {
                 return $query->where('name', 'like', "%{$search}%")
                              ->orWhere('email', 'like', "%{$search}%");
@@ -33,7 +36,7 @@ class AdminUserController extends Controller
         $totalOperator = User::role('user')->count(); 
         $totalActive = User::where('is_active', true)->count();
         
-        $roles = Role::pluck('name'); 
+        $roles = Role::where('name', '!=', 'user')->pluck('name'); // Also filter role dropdown
 
         return view('admin.users.index', compact('users', 'search', 'roleFilter', 'totalUsers', 'totalAdmin', 'totalOperator', 'totalActive', 'roles'));
     }

@@ -71,9 +71,14 @@ class AdminCalonSiswaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $calonSiswa = Pendaftaran::findOrFail($id);
+        $calonSiswa = Pendaftaran::with('user')->findOrFail($id);
+        $user = $calonSiswa->user;
 
         $request->validate([
+            // User validation
+            'email' => 'required|email|max:255|unique:users,email,' . ($user ? $user->id : 'NULL'),
+            'password' => 'nullable|string|min:8',
+
             // Pendaftaran validation
             'nama_lengkap' => 'required|string|max:50',
             'nisn' => 'required|string|max:10|unique:pendaftaran,nisn,'.$id,
@@ -98,6 +103,15 @@ class AdminCalonSiswaController extends Controller
             'penghasilan_ibu' => 'required|numeric|min:0',
             'no_hp_orangtua' => 'required|string|max:20',
         ]);
+
+        // Update User Account
+        if ($user) {
+            $userData = ['email' => $request->email];
+            if ($request->filled('password')) {
+                $userData['password'] = bcrypt($request->password);
+            }
+            $user->update($userData);
+        }
 
         // Update Pendaftaran
         $calonSiswa->update([
@@ -127,11 +141,10 @@ class AdminCalonSiswaController extends Controller
                 'pekerjaan_ibu' => $request->pekerjaan_ibu,
                 'penghasilan_ibu' => $request->penghasilan_ibu,
                 'no_hp_orangtua' => $request->no_hp_orangtua,
-                // Add wali fields if needed from request
             ]
         );
 
-        return redirect()->route('admin.calon-siswa.index')->with('success', 'Data calon siswa berhasil diperbarui.');
+        return redirect()->route('admin.calon-siswa.index')->with('success', 'Data calon siswa dan akun pengguna berhasil diperbarui.');
     }
 
     /**
@@ -139,7 +152,8 @@ class AdminCalonSiswaController extends Controller
      */
     public function destroy(string $id)
     {
-        $calonSiswa = Pendaftaran::findOrFail($id);
+        $calonSiswa = Pendaftaran::with('user')->findOrFail($id);
+        $user = $calonSiswa->user;
         
         // Delete related data if cascade delete is not set in database
         // $calonSiswa->orangTua()->delete();
@@ -147,6 +161,11 @@ class AdminCalonSiswaController extends Controller
         
         $calonSiswa->delete();
 
-        return redirect()->route('admin.calon-siswa.index')->with('success', 'Data calon siswa berhasil dihapus.');
+        // Delete associated user account
+        if ($user) {
+            $user->delete();
+        }
+
+        return redirect()->route('admin.calon-siswa.index')->with('success', 'Data calon siswa dan akun pengguna berhasil dihapus.');
     }
 }

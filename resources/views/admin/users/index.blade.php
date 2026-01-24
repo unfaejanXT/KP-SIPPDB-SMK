@@ -146,6 +146,7 @@
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </a>
                                     
+                                    @if(auth()->id() !== $user->id)
                                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?');">
                                         @csrf
                                         @method('DELETE')
@@ -153,6 +154,7 @@
                                             <i class="fa-regular fa-trash-can"></i>
                                         </button>
                                     </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

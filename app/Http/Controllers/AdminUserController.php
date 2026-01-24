@@ -95,10 +95,24 @@ class AdminUserController extends Controller
 
     public function destroy(User $user)
     {
-        if ($user->id === auth()->id()) {
-            return back()->with('error', 'Tidak dapat menghapus akun sendiri saat sedang login.');
+        if ($user->id == auth()->id()) {
+            return back()->with('error', 'Anda tidak dapat menghapus akun sendiri yang sedang aktif.');
         }
-        $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus.');
+
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+
+            // Hapus role terlebih dahulu untuk menghindari constraint integrity
+            $user->syncRoles([]);
+            
+            $user->delete();
+
+            \Illuminate\Support\Facades\DB::commit();
+
+            return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus.');
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            return back()->with('error', 'Gagal menghapus user: ' . $e->getMessage());
+        }
     }
 }

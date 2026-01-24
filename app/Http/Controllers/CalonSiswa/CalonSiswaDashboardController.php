@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\CalonSiswa;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +12,7 @@ use App\Models\Jurusan;
 use App\Models\OrangTuaSiswa;
 use Illuminate\Validation\Rule;
 
-class StudentDashboardController extends Controller
+class CalonSiswaDashboardController extends Controller
 {
     public function index()
     {

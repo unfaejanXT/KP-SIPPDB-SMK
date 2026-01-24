@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\CalonSiswa;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Berkas;
 use App\Models\Jurusan;

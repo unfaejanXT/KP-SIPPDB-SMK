@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
 
 
-use App\Http\Controllers\StudentDashboardController;
-use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\CalonSiswa\CalonSiswaDashboardController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 
 
 
@@ -82,7 +82,7 @@ Route::get('/demo', function () {
 });
 
 // Route Pendaftaran Siswa using Controller
-use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\CalonSiswa\PendaftaranController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
@@ -98,26 +98,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pendaftaran/sukses', [PendaftaranController::class, 'success'])->name('pendaftaran.success');
     
     // Student Dashboard Edit Routes
-    Route::get('/dashboard/edit', [StudentDashboardController::class, 'edit'])->name('pendaftaran.edit');
-    Route::put('/dashboard/update', [StudentDashboardController::class, 'update'])->name('pendaftaran.update');
+    Route::get('/dashboard/edit', [CalonSiswaDashboardController::class, 'edit'])->name('pendaftaran.edit');
+    Route::put('/dashboard/update', [CalonSiswaDashboardController::class, 'update'])->name('pendaftaran.update');
     
     // Parent Data Edit Routes
-    Route::get('/dashboard/edit/orangtua', [StudentDashboardController::class, 'editOrangTua'])->name('pendaftaran.edit.orangtua');
-    Route::put('/dashboard/update/orangtua', [StudentDashboardController::class, 'updateOrangTua'])->name('pendaftaran.update.orangtua');
+    Route::get('/dashboard/edit/orangtua', [CalonSiswaDashboardController::class, 'editOrangTua'])->name('pendaftaran.edit.orangtua');
+    Route::put('/dashboard/update/orangtua', [CalonSiswaDashboardController::class, 'updateOrangTua'])->name('pendaftaran.update.orangtua');
 
     // New Dashboard Pages
-    Route::get('/dashboard/pengumuman', [StudentDashboardController::class, 'pengumuman'])->name('dashboard.pengumuman');
-    Route::get('/dashboard/pengumuman/{slug}', [StudentDashboardController::class, 'showPengumuman'])->name('dashboard.pengumuman.show');
-    Route::get('/dashboard/kelola-berkas', [StudentDashboardController::class, 'kelolaBerkas'])->name('dashboard.berkas');
-    Route::get('/dashboard/cetak-bukti', [StudentDashboardController::class, 'cetakBukti'])->name('dashboard.cetak');
+    Route::get('/dashboard/pengumuman', [CalonSiswaDashboardController::class, 'pengumuman'])->name('dashboard.pengumuman');
+    Route::get('/dashboard/pengumuman/{slug}', [CalonSiswaDashboardController::class, 'showPengumuman'])->name('dashboard.pengumuman.show');
+    Route::get('/dashboard/kelola-berkas', [CalonSiswaDashboardController::class, 'kelolaBerkas'])->name('dashboard.berkas');
+    Route::get('/dashboard/cetak-bukti', [CalonSiswaDashboardController::class, 'cetakBukti'])->name('dashboard.cetak');
 });
 
-use App\Http\Controllers\AdminUserController;
-use App\Http\Controllers\AdminJurusanController;
-use App\Http\Controllers\AdminGelombangController;
-use App\Http\Controllers\AdminPeriodeController;
-use App\Http\Controllers\AdminCalonSiswaController;
-use App\Http\Controllers\AdminVerifikasiController;
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminJurusanController;
+use App\Http\Controllers\Admin\AdminGelombangController;
+use App\Http\Controllers\Admin\AdminPeriodeController;
+use App\Http\Controllers\Admin\AdminCalonSiswaController;
+use App\Http\Controllers\Admin\AdminVerifikasiController;
 use App\Http\Controllers\Admin\AdminLaporanController;
 
 // Admin Dashboard Routes
@@ -159,7 +159,7 @@ Route::middleware('auth')->group(function () {
 
 
 //Pengujian Model Controller
-Route::get('/dashboard', [StudentDashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [CalonSiswaDashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 
 

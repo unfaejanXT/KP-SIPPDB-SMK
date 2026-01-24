@@ -69,6 +69,14 @@ Route::get('/pengumuman', function (Request $request) {
     return view('public.pengumuman', compact('pengumumans'));
 })->name('pengumuman.index');
 
+Route::get('/pengumuman/{slug}', function ($slug) {
+    $pengumuman = Pengumuman::forUser(\Illuminate\Support\Facades\Auth::user())
+        ->where('slug', $slug)
+        ->firstOrFail();
+        
+    return view('public.pengumuman-detail', compact('pengumuman'));
+})->name('pengumuman.show');
+
 Route::get('/demo', function () {
     return view('demo.biodata');
 });
@@ -99,6 +107,7 @@ Route::middleware(['auth'])->group(function () {
 
     // New Dashboard Pages
     Route::get('/dashboard/pengumuman', [StudentDashboardController::class, 'pengumuman'])->name('dashboard.pengumuman');
+    Route::get('/dashboard/pengumuman/{slug}', [StudentDashboardController::class, 'showPengumuman'])->name('dashboard.pengumuman.show');
     Route::get('/dashboard/kelola-berkas', [StudentDashboardController::class, 'kelolaBerkas'])->name('dashboard.berkas');
     Route::get('/dashboard/cetak-bukti', [StudentDashboardController::class, 'cetakBukti'])->name('dashboard.cetak');
 });

@@ -24,6 +24,7 @@
     {{-- Search Section --}}
     <main class="max-w-7xl mx-auto px-4 -mt-20 relative z-20 pb-20">
         <div class="max-w-3xl mx-auto mb-10">
+        <!--
             <form action="{{ route('pengumuman.index') }}" method="GET" class="relative shadow-lg rounded-xl bg-white">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,6 +36,7 @@
                 class="block w-full pl-11 pr-4 py-4 rounded-xl border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-red-500 text-sm shadow-sm placeholder-gray-400"
                 placeholder="Cari pengumuman...">
         </form>
+        -->
         </div>
 
     {{-- Content Section --}}
@@ -46,10 +48,7 @@
                 <div class="flex flex-wrap items-center gap-3 mb-3">
                     <span
                         class="bg-blue-50 text-blue-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">{{ $pengumuman->kategori ?? 'Informasi' }}</span>
-                    @if($loop->first && $pengumumans->currentPage() == 1)
-                    <span
-                        class="bg-red-50 text-red-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Baru</span>
-                    @endif
+
                     <div class="flex items-center text-slate-400 text-xs ml-auto">
                         <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -63,7 +62,7 @@
                 <div class="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-3">
                     {!! Str::limit(strip_tags($pengumuman->konten), 150) !!}
                 </div>
-                <a href="#" class="inline-flex items-center text-sm font-semibold text-sky-600 hover:text-sky-700">
+                <a href="{{ route('pengumuman.show', $pengumuman->slug) }}" class="inline-flex items-center text-sm font-semibold text-sky-600 hover:text-sky-700">
                     Baca selengkapnya <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3">
                         </path>
@@ -187,11 +186,6 @@
         <div class="text-center pt-6">
             @if($pengumumans instanceof \Illuminate\Pagination\LengthAwarePaginator && $pengumumans->hasPages())
                  {{ $pengumumans->links() }}
-            @else
-            <button
-                class="px-6 py-2.5 bg-white border border-slate-300 text-slate-600 text-sm font-medium rounded-lg hover:bg-slate-50 hover:text-slate-800 transition">
-                Muat Lebih Banyak
-            </button>
             @endif
         </div>
 

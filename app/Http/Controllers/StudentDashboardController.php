@@ -97,13 +97,32 @@ class StudentDashboardController extends Controller
         
         return redirect()->route('pendaftaran.edit')->with('success', 'Data pendaftaran berhasil diperbarui.');
     }
-    public function pengumuman()
+    public function pengumuman(Request $request)
+    {
+        $query = \App\Models\Pengumuman::forUser(Auth::user());
+
+        if ($request->has('q')) {
+            $search = $request->q;
+            $query->where(function($q) use ($search) {
+                $q->where('judul', 'like', "%{$search}%")
+                  ->orWhere('konten', 'like', "%{$search}%");
+            });
+        }
+
+        $pengumuman = $query->orderBy('is_pinned', 'desc')
+            ->latest()
+            ->paginate(5);
+            
+        return view('siswa.pengumuman', compact('pengumuman'));
+    }
+
+    public function showPengumuman($slug)
     {
         $pengumuman = \App\Models\Pengumuman::forUser(Auth::user())
-            ->orderBy('is_pinned', 'desc')
-            ->latest()
-            ->get();
-        return view('siswa.pengumuman', compact('pengumuman'));
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        return view('siswa.pengumuman-detail', compact('pengumuman'));
     }
 
     public function kelolaBerkas()

@@ -7,13 +7,18 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-200">
 
         <div class="p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100">
-            <div class="relative w-full md:w-96">
-                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                    <i class="fa-solid fa-magnifying-glass text-sm"></i>
-                </span>
-                <input type="text" placeholder="Cari berdasarkan nama atau NISN..."
-                    class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400">
-            </div>
+            <form action="{{ route('admin.calon-siswa.index') }}" method="GET" class="flex w-full md:w-auto gap-2">
+                <div class="relative w-full md:w-80">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                        <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                    </span>
+                    <input type="text" name="q" id="searchInput" value="{{ request('q') }}" placeholder="Cari berdasarkan nama atau NISN..."
+                        class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400">
+                </div>
+                <button type="submit" class="px-4 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors shadow-sm">
+                    Cari
+                </button>
+            </form>
 
             <div class="flex items-center gap-2">
                 <button
@@ -49,7 +54,7 @@
                         <th class="px-6 py-4 text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100">
+                <tbody id="pendaftarTableBody" class="divide-y divide-gray-100 transition-opacity duration-200">
                     @forelse($pendaftar as $s)
                     <tr class="hover:bg-slate-50/80 transition-colors group">
                         <td class="px-6 py-4">
@@ -138,7 +143,7 @@
             </table>
         </div>
 
-        <div class="p-4 border-t border-gray-100">
+        <div id="paginationContainer" class="p-4 border-t border-gray-100">
             {{ $pendaftar->links() }}
         </div>
     </div>
@@ -199,6 +204,61 @@
 
 @push('scripts')
 <script>
+    // Live Search Logic
+    const searchInput = document.getElementById('searchInput');
+    const tableBody = document.getElementById('pendaftarTableBody');
+    const paginationContainer = document.getElementById('paginationContainer');
+    let debounceTimer;
+
+    searchInput.addEventListener('input', function(e) {
+        // Clear previous timer
+        clearTimeout(debounceTimer);
+        
+        // Show loading state
+        tableBody.style.opacity = '0.5';
+
+        // Set debounce timer
+        debounceTimer = setTimeout(() => {
+            const query = e.target.value;
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('q', query);
+            
+            // Only update history, don't reload
+            window.history.pushState({}, '', currentUrl);
+
+            fetch(currentUrl, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Update Table Body
+                const newBody = doc.getElementById('pendaftarTableBody');
+                if (newBody) {
+                    tableBody.innerHTML = newBody.innerHTML;
+                }
+                
+                // Update Pagination
+                const newPagination = doc.getElementById('paginationContainer');
+                if (newPagination && paginationContainer) {
+                    paginationContainer.innerHTML = newPagination.innerHTML;
+                }
+            })
+            .catch(error => {
+                console.error('Search error:', error);
+            })
+            .finally(() => {
+                // Restore opacity
+                tableBody.style.opacity = '1';
+            });
+        }, 300); // 300ms delay
+    });
+
+    // Existing Delete Modal Logic
     function openDeleteModal(url) {
         document.getElementById('deleteForm').action = url;
         document.getElementById('deleteModal').classList.remove('hidden');
@@ -208,7 +268,6 @@
         document.getElementById('deleteModal').classList.add('hidden');
     }
 
-    // Close modal when clicking outside
     document.getElementById('deleteModal').addEventListener('click', function(e) {
         if (e.target === this || e.target.querySelector('.backdrop-blur-sm') === e.target) {
            closeDeleteModal();

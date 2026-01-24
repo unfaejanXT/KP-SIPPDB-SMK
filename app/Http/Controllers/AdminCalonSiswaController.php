@@ -10,12 +10,20 @@ class AdminCalonSiswaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // Eager load relationships to avoid N+1 problem
-        $pendaftar = Pendaftaran::with(['user', 'jurusan', 'gelombang'])
-            ->latest()
-            ->paginate(10);
+        $query = Pendaftaran::with(['user', 'jurusan', 'gelombang']);
+
+        if ($request->has('q')) {
+            $search = $request->q;
+            $query->where(function($q) use ($search) {
+                $q->where('nama_lengkap', 'like', "%{$search}%")
+                  ->orWhere('nisn', 'like', "%{$search}%");
+            });
+        }
+
+        $pendaftar = $query->latest()->paginate(10);
 
         return view('admin.calon-siswa.index', compact('pendaftar'));
     }

@@ -149,20 +149,20 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                     <div class="relative hidden md:block">
+                    {{-- <div class="relative hidden md:block">
                         <input type="text" placeholder="Cari data..."
                             class="bg-gray-100 border-none rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64">
                          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-gray-400 text-sm"></i>
-                    </div>
+                    </div> --}}
 
-                    <div class="relative">
+                    {{-- <div class="relative">
                         <button
                             class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-slate-600 hover:bg-gray-50 transition-colors">
                             <i class="fa-regular fa-bell"></i>
                             <span
                                 class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
             </header>
 

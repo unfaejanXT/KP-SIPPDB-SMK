@@ -118,6 +118,7 @@ use App\Http\Controllers\AdminGelombangController;
 use App\Http\Controllers\AdminPeriodeController;
 use App\Http\Controllers\AdminCalonSiswaController;
 use App\Http\Controllers\AdminVerifikasiController;
+use App\Http\Controllers\Admin\AdminLaporanController;
 
 // Admin Dashboard Routes
 Route::middleware(['auth'])->prefix('admin')->group(function () {
@@ -136,9 +137,14 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('/verifikasi-berkas/{berkas}/status', [AdminVerifikasiController::class, 'updateStatus'])->name('admin.verifikasi.updateStatus');
     Route::post('/verifikasi-berkas/{pendaftaran}/verifikasi-semua', [AdminVerifikasiController::class, 'verifyAll'])->name('admin.verifikasi.verifyAll');
 
+
     // Pengumuman
     Route::resource('pengumuman', AdminPengumumanController::class, ['as' => 'admin']);
     Route::patch('/pengumuman/{pengumuman}/toggle-status', [AdminPengumumanController::class, 'toggleStatus'])->name('admin.pengumuman.toggle-status');
+
+    // Laporan PPDB
+    Route::get('/laporan', [AdminLaporanController::class, 'index'])->name('admin.laporan.index');
+    Route::get('/laporan/export', [AdminLaporanController::class, 'export'])->name('admin.laporan.export');
 });
 
 Route::middleware('auth')->group(function () {

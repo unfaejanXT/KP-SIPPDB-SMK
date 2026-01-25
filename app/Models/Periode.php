@@ -9,6 +9,8 @@ class Periode extends Model
 {
     use HasFactory;
 
+    protected $table = 'periode';
+    
     protected $fillable = [
         'nama_periode',
         'tahun_ajaran',

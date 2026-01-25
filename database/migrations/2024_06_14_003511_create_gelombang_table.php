@@ -10,9 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('gelombangs', function (Blueprint $table) {
+        Schema::create('gelombang', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('periode_id')->nullable()->constrained('periodes')->onDelete('cascade');
+            $table->foreignId('periode_id')->nullable()->constrained('periode')->onDelete('cascade');
             $table->string('nama', 100);
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
@@ -30,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('gelombangs');
+        Schema::dropIfExists('gelombang');
     }
 };

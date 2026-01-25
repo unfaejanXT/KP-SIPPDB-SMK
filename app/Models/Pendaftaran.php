@@ -73,7 +73,7 @@ class Pendaftaran extends Model
             'nomor_hp' => 'required|string|max:15',
             'asal_sekolah' => 'required|string|max:100',
             'user_id' => 'required|exists:users,id', // Asumsi ada tabel 'users' dengan field 'id'
-            'gelombang_id' => 'required|exists:gelombangs,id', // Asumsi ada tabel 'gelombangs' dengan field 'id'
+            'gelombang_id' => 'required|exists:gelombang,id', // Asumsi ada tabel 'gelombang' dengan field 'id'
             'jurusan_id' => 'required|exist:jurusan,id'
         ];
     }

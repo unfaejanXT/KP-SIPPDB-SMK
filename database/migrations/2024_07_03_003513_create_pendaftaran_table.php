@@ -46,7 +46,7 @@ return new class extends Migration {
     
             $table->foreign('gelombang_id')
                 ->references('id')
-                ->on('gelombangs')
+                ->on('gelombang')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
         });

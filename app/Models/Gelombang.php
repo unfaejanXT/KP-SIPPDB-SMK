@@ -9,7 +9,7 @@ class Gelombang extends Model
 {
     use HasFactory;
 
-    protected $table = 'gelombangs';
+    protected $table = 'gelombang';
 
     protected $fillable = [
         'nama',
@@ -36,7 +36,7 @@ class Gelombang extends Model
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after:tanggal_mulai',
             'tahun_ajaran' => 'required|string|regex:/^\d{4}\/\d{4}$/',
-            'periode_id' => 'required|exists:periodes,id',
+            'periode_id' => 'required|exists:periode,id',
         ];
     }
 

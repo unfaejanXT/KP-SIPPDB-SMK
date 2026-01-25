@@ -5,6 +5,49 @@
 @section('header_subtitle', 'Atur hak akses dan pengguna sistem')
 
 @section('content')
+<div x-data="{ 
+    showModal: false, 
+    isEdit: false, 
+    formUrl: '', 
+    formData: {
+        name: '',
+        email: '',
+        password: '',
+        role: ''
+    },
+    openAddModal() {
+        this.isEdit = false;
+        this.formUrl = '{{ route('admin.users.store') }}';
+        this.formData = {
+            name: '',
+            email: '',
+            password: '',
+            role: ''
+        };
+        this.showModal = true;
+    },
+    openEditModal(user) {
+        this.isEdit = true;
+        this.formUrl = '{{ route('admin.users.update', ':id') }}'.replace(':id', user.id);
+        // Safely access role if exists
+        let roleName = '';
+        if (user.roles && user.roles.length > 0) {
+            roleName = user.roles[0].name;
+        }
+        
+        this.formData = {
+            name: user.name,
+            email: user.email,
+            password: '',
+            role: roleName
+        };
+        this.showModal = true;
+    },
+    closeModal() {
+        this.showModal = false;
+    }
+}">
+
     <div class="space-y-6">
 
         @if(session('success'))
@@ -17,6 +60,16 @@
             <div class="bg-red-100 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
                 <span class="block sm:inline">{{ session('error') }}</span>
             </div>
+        @endif
+        
+        @if ($errors->any())
+        <div class="bg-red-100 border border-red-200 text-red-700 px-4 py-3 rounded relative mb-6">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>- {{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
         @endif
 
         <!-- Stats Grid -->
@@ -80,7 +133,7 @@
                             <select name="role" onchange="document.getElementById('filterForm').submit()"
                                 class="appearance-none bg-white border border-slate-200 text-slate-600 py-2 pl-3 pr-8 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer">
                                 <option value="">Semua Role</option>
-                                @foreach($roles as $role)
+                                @foreach($filterRoles as $role)
                                     <option value="{{ $role }}" {{ request('role') == $role ? 'selected' : '' }}>{{ ucfirst($role) }}</option>
                                 @endforeach
                             </select>
@@ -88,11 +141,11 @@
                         </div>
                     </form>
 
-                    <a href="{{ route('admin.users.create') }}"
+                    <button @click="openAddModal()"
                         class="bg-[#0f172a] hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors">
                         <i class="fa-solid fa-plus text-sm"></i>
                         Tambah Pengguna
-                    </a>
+                    </button>
                 </div>
             </div>
 
@@ -171,9 +224,9 @@
                                     </form>
                                     @endif
 
-                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-400 hover:text-blue-600 transition-colors" title="Edit">
+                                    <button @click='openEditModal(@json($user))' class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-400 hover:text-blue-600 transition-colors" title="Edit">
                                         <i class="fa-regular fa-pen-to-square"></i>
-                                    </a>
+                                    </button>
                                     
                                     @if(auth()->id() !== $user->id)
                                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?');">
@@ -189,7 +242,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-8 text-center text-slate-500">
+                            <td colspan="6" class="px-6 py-8 text-center text-slate-500">
                                 Tidak ada data pengguna ditemukan.
                             </td>
                         </tr>
@@ -206,4 +259,89 @@
             @endif
         </div>
     </div>
+
+    <!-- Modal Form -->
+    <div x-show="showModal" 
+        style="display: none;"
+        class="fixed inset-0 z-50 overflow-y-auto" 
+        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div x-show="showModal" 
+                x-transition:enter="ease-out duration-300"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="ease-in duration-200"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
+                @click="closeModal()" aria-hidden="true"></div>
+
+            <!-- Modal panel -->
+            <div x-show="showModal" 
+                x-transition:enter="ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave="ease-in duration-200"
+                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+                
+                <form :action="formUrl" method="POST">
+                    @csrf
+                    <!-- Add PUT method if editing -->
+                    <template x-if="isEdit">
+                        <input type="hidden" name="_method" value="PUT">
+                    </template>
+
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900 border-b pb-2 mb-4" id="modal-title" x-text="isEdit ? 'Edit Pengguna' : 'Tambah Pengguna'"></h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                                <input type="text" name="name" id="name" x-model="formData.name" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2">
+                            </div>
+
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" name="email" id="email" x-model="formData.email" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2">
+                            </div>
+
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-700">Password <span x-show="isEdit" class="text-xs text-slate-500 font-normal">(Biarkan kosong jika tidak diubah)</span></label>
+                                <input type="password" name="password" id="password" x-model="formData.password" :required="!isEdit" minlength="8"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2">
+                                <p class="text-xs text-slate-500 mt-1" x-show="!isEdit">Minimal 8 karakter</p>
+                            </div>
+
+                            <div>
+                                <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+                                <select name="role" id="role" x-model="formData.role" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2">
+                                    <option value="">Pilih Role</option>
+                                    @foreach($allRoles as $role)
+                                        <option value="{{ $role->name }}">{{ ucfirst($role->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button type="submit"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            Simpan
+                        </button>
+                        <button type="button" @click="closeModal()"
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                            Batal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

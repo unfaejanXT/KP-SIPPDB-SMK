@@ -123,12 +123,12 @@ use App\Http\Controllers\Admin\AdminLaporanController;
 // Admin Dashboard Routes
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    Route::resource('users', AdminUserController::class, ['as' => 'admin']);
+    Route::resource('users', AdminUserController::class, ['as' => 'admin'])->except(['create', 'edit', 'show']);
     Route::patch('/users/{user}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('admin.users.toggle-status');
-    Route::resource('jurusan', AdminJurusanController::class, ['as' => 'admin']);
-    Route::resource('periode', AdminPeriodeController::class, ['as' => 'admin']);
+    Route::resource('jurusan', AdminJurusanController::class, ['as' => 'admin'])->except(['create', 'edit', 'show']);
+    Route::resource('periode', AdminPeriodeController::class, ['as' => 'admin'])->except(['create', 'edit', 'show']);
     Route::patch('/periode/{periode}/toggle-status', [AdminPeriodeController::class, 'toggleStatus'])->name('admin.periode.toggle-status');
-    Route::resource('gelombang', AdminGelombangController::class, ['as' => 'admin']);
+    Route::resource('gelombang', AdminGelombangController::class, ['as' => 'admin'])->except(['create', 'edit', 'show']);
     Route::resource('calon-siswa', AdminCalonSiswaController::class, ['as' => 'admin']);
     
     // Verifikasi Berkas

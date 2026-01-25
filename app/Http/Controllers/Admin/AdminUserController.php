@@ -38,16 +38,14 @@ class AdminUserController extends Controller
         $totalOperator = User::role('user')->count(); 
         $totalActive = User::where('is_active', true)->count();
         
-        $roles = Role::where('name', '!=', 'user')->pluck('name'); // Also filter role dropdown
+        $filterRoles = Role::where('name', '!=', 'user')->pluck('name'); 
+        $allRoles = Role::all();
 
-        return view('admin.users.index', compact('users', 'search', 'roleFilter', 'totalUsers', 'totalAdmin', 'totalOperator', 'totalActive', 'roles'));
+        return view('admin.users.index', compact('users', 'search', 'roleFilter', 'totalUsers', 'totalAdmin', 'totalOperator', 'totalActive', 'filterRoles', 'allRoles'));
     }
 
-    public function create()
-    {
-        $roles = Role::all();
-        return view('admin.users.create', compact('roles'));
-    }
+
+
 
     public function store(Request $request)
     {
@@ -67,12 +65,6 @@ class AdminUserController extends Controller
         $user->assignRole($request->role);
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan.');
-    }
-
-    public function edit(User $user)
-    {
-        $roles = Role::all();
-        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, User $user)

@@ -4,9 +4,6 @@
 @section('hideContact', true)
 
 @section('content')
-    {{-- Import FontAwesome (Temporary solution to match reference visually with proper icons) --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     {{-- HEADER SECTION --}}
     <header class="relative bg-gradient-to-r from-red-600 to-red-800 pt-16 pb-32 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 text-center relative z-10">

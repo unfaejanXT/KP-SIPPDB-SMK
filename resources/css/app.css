@@ -1,3 +1,15 @@
+/* Import Font Awesome dari node_modules */
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+/* Import Bootstrap Icons dari node_modules */
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+/* Import SweetAlert2 CSS */
+@import "sweetalert2/dist/sweetalert2.min.css";
+
+/* Import Google Fonts - Inter (bisa tetap dari Google Fonts karena optimal untuk web fonts) */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

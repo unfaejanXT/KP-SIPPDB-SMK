@@ -130,12 +130,12 @@
 
         <!-- Latest Registrations Table -->
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-             <div class="p-6 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
+             <div class="p-4 md:p-6 border-b border-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50/50">
                 <div>
                     <h3 class="font-bold text-slate-800 text-lg">Pendaftaran Terbaru</h3>
                     <p class="text-sm text-slate-500">5 pendaftar terakhir yang masuk</p>
                 </div>
-                <a href="{{ route('admin.verifikasi.index') }}" class="px-4 py-2 bg-white border border-slate-200 text-slate-600 text-xs font-semibold rounded-lg hover:bg-slate-50 hover:text-blue-600 transition shadow-sm">Lihat Semua</a>
+                <a href="{{ route('admin.verifikasi.index') }}" class="w-full sm:w-auto text-center px-4 py-2 bg-white border border-slate-200 text-slate-600 text-xs font-semibold rounded-lg hover:bg-slate-50 hover:text-blue-600 transition shadow-sm">Lihat Semua</a>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left">

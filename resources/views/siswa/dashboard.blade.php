@@ -80,7 +80,7 @@
             </div>
 
             <div class="relative space-y-0">
-                <div class="absolute left-[22px] top-4 bottom-8 w-0.5 bg-gray-200 z-0"></div>
+                <div class="absolute left-[23px] top-4 bottom-8 w-0.5 bg-gray-200 z-0"></div>
 
                 <!-- Step 1: Akun -->
                 <div class="relative flex gap-5 pb-8 z-10">

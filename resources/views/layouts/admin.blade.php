@@ -34,14 +34,21 @@
     </style>
 </head>
 
-<body class="bg-[#F8F9FC] text-slate-800">
+<body class="bg-[#F8F9FC] text-slate-800" x-data="{ sidebarOpen: false }">
+
+    <!-- Mobile Sidebar Overlay -->
+    <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition:enter="transition-opacity ease-linear duration-300"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black/50 z-40 md:hidden backdrop-blur-sm"></div>
 
     <div class="flex h-screen overflow-hidden">
 
         <!-- Sidebar -->
         <aside
-            class="w-64 bg-white border-r border-gray-200 flex flex-col fixed md:relative h-full transition-all duration-300 z-50">
-            <div class="h-20 flex items-center px-6 border-b border-gray-100">
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+            class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 md:translate-x-0 md:static md:inset-auto shadow-xl md:shadow-none h-full">
+            <div class="h-20 flex items-center px-6 border-b border-gray-100 justify-between">
                 <div class="flex items-center gap-3">
                     <div class="bg-blue-50 text-blue-600 p-2 rounded-lg">
                         <i class="fa-solid fa-user-shield text-xl"></i>
@@ -51,12 +58,16 @@
                         <p class="text-xs text-slate-500">PPDB SMK SBI</p>
                     </div>
                 </div>
+                <!-- Close Button Mobile -->
+                <button @click="sidebarOpen = false" class="md:hidden text-slate-400 hover:text-blue-600 transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
             </div>
 
-            <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+            <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto custom-scrollbar">
                 <a href="{{ route('admin.dashboard') }}"
                     class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
-                    <i class="fa-solid fa-gauge-high w-5"></i>
+                    <i class="fa-solid fa-gauge-high w-5 text-center"></i>
                     <span class="font-medium text-sm">Dashboard</span>
                 </a>
 
@@ -64,13 +75,13 @@
 
                 <a href="{{ route('admin.calon-siswa.index') }}"
                     class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.calon-siswa.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
-                    <i class="fa-solid fa-users w-5 group-hover:scale-110 transition-transform"></i>
+                    <i class="fa-solid fa-users w-5 text-center group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Data Pendaftar</span>
                 </a>
 
                 <a href="{{ route('admin.verifikasi.index') }}"
                     class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.verifikasi.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
-                    <i class="fa-regular fa-folder-open w-5 group-hover:scale-110 transition-transform"></i>
+                    <i class="fa-regular fa-folder-open w-5 text-center group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Verifikasi Berkas</span>
                 </a>
 
@@ -78,31 +89,31 @@
 
                 <a href="{{ route('admin.periode.index') }}"
                     class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.periode.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
-                    <i class="fa-solid fa-calendar-days w-5 group-hover:scale-110 transition-transform"></i>
+                    <i class="fa-solid fa-calendar-days w-5 text-center group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Periode PPDB</span>
                 </a>
 
                 <a href="{{ route('admin.gelombang.index') }}"
                     class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.gelombang.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
-                    <i class="fa-solid fa-layer-group w-5 group-hover:scale-110 transition-transform"></i>
+                    <i class="fa-solid fa-layer-group w-5 text-center group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Gelombang</span>
                 </a>
 
                 <a href="{{ route('admin.jurusan.index') }}"
                     class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.jurusan.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
-                    <i class="fa-solid fa-shapes w-5 group-hover:scale-110 transition-transform"></i>
+                    <i class="fa-solid fa-shapes w-5 text-center group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Jurusan</span>
                 </a>
 
                 <a href="{{ route('admin.users.index') }}"
                     class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.users.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
-                    <i class="fa-solid fa-users-gear w-5 group-hover:scale-110 transition-transform"></i>
+                    <i class="fa-solid fa-users-gear w-5 text-center group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Manajemen User</span>
                 </a>
 
                 <a href="{{ route('admin.pengumuman.index') }}"
                     class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.pengumuman.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
-                    <i class="fa-solid fa-bullhorn w-5 group-hover:scale-110 transition-transform"></i>
+                    <i class="fa-solid fa-bullhorn w-5 text-center group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Pengumuman</span>
                 </a>
 
@@ -110,7 +121,7 @@
 
                 <a href="{{ route('admin.laporan.index') }}"
                     class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.laporan.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
-                    <i class="fa-solid fa-file-export w-5 group-hover:scale-110 transition-transform"></i>
+                    <i class="fa-solid fa-file-export w-5 text-center group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Laporan PPDB</span>
                 </a>
             </nav>
@@ -133,14 +144,14 @@
                 </div>
                 
                 <a href="{{ route('admin.profile.edit') }}" class="flex items-center gap-2 text-slate-500 hover:text-blue-700 text-sm px-2 transition-colors w-full mb-2">
-                    <i class="fa-solid fa-user-pen w-5"></i>
+                    <i class="fa-solid fa-user-pen w-5 text-center"></i>
                     Edit Profil
                 </a>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="flex items-center gap-2 text-slate-500 hover:text-red-600 text-sm px-2 transition-colors w-full">
-                        <i class="fa-solid fa-arrow-right-from-bracket w-5"></i>
+                        <i class="fa-solid fa-arrow-right-from-bracket w-5 text-center"></i>
                         Keluar
                     </button>
                 </form>
@@ -151,10 +162,19 @@
         <div class="flex-1 flex flex-col h-full overflow-hidden relative">
 
             <header
-                class="bg-white h-20 border-b border-gray-100 flex items-center justify-between px-8 sticky top-0 z-40">
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-800">@yield('header_title', 'Dashboard Admin')</h2>
-                    <p class="text-slate-500 text-sm mt-0.5">@yield('header_subtitle', 'Pantau aktivitas PPDB secara real-time')</p>
+                class="bg-white h-20 border-b border-gray-100 flex items-center justify-between px-4 md:px-8 sticky top-0 z-40 transition-all">
+                
+                <div class="flex items-center gap-4">
+                    <!-- Hamburger Button -->
+                    <button @click="sidebarOpen = !sidebarOpen"
+                        class="md:hidden w-10 h-10 -ml-2 rounded-lg text-slate-600 hover:bg-gray-50 flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+
+                    <div>
+                        <h2 class="text-xl md:text-2xl font-bold text-slate-800 line-clamp-1">@yield('header_title', 'Dashboard Admin')</h2>
+                        <p class="hidden sm:block text-slate-500 text-sm mt-0.5 max-w-md truncate">@yield('header_subtitle', 'Pantau aktivitas PPDB secara real-time')</p>
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-4">
@@ -175,7 +195,7 @@
                 </div>
             </header>
 
-            <main class="flex-1 overflow-y-auto p-8">
+            <main class="flex-1 overflow-y-auto p-4 md:p-8 bg-[#F8F9FC]">
                 @yield('content')
             </main>
         </div>

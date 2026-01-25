@@ -24,3 +24,7 @@ yarn-error.log
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Playwright E2E Tests
+/tests/e2e/
+/database/seeders/PlaywrightTestSeeder.php

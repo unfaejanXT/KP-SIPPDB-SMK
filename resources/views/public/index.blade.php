@@ -232,9 +232,7 @@
                     </svg>
                 </div>
                 <h3 class="font-bold text-lg text-gray-900 mb-1 flex items-center gap-2">
-                    {{ $j->kode }} <span
-                        class="text-xs font-normal px-2 py-0.5 bg-gray-100 rounded text-gray-500">Akreditasi
-                        A</span>
+                    {{ $j->kode }}
                 </h3>
                 <p class="text-gray-600 text-sm mb-4">{{ $j->nama }}</p>
                 <div class="text-red-600 text-sm font-medium flex items-center">
@@ -337,10 +335,6 @@
                     class="px-8 py-3 bg-white text-red-700 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition">
                     Daftar Sekarang
                 </a>
-                <a href="#"
-                    class="px-8 py-3 border border-white text-white font-semibold rounded-lg hover:bg-white/10 transition">
-                    Hubungi Kami
-                </a>
             </div>
         </div>
     </div>
@@ -352,10 +346,6 @@
             <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Mari Bergabung Bersama Kami!</h2>
             <p class="text-white/90 mb-8 text-lg">Nantikan pembukaan Pendaftaran Peserta Didik Baru (PPDB) periode selanjutnya. Ikuti update terbaru melalui website dan sosial media kami.</p>
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#"
-                    class="px-8 py-3 bg-white text-gray-900 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition">
-                    Hubungi Kami
-                </a>
             </div>
         </div>
     </div>
@@ -382,30 +372,17 @@
                 <p class="text-gray-500 text-sm leading-relaxed mb-6 max-w-sm">
                     Mencetak generasi unggul, kompeten, dan siap kerja melalui pendidikan vokasi berkualitas.
                 </p>
-                <div class="flex space-x-4">
-                    <a href="#"
-                        class="w-8 h-8 rounded bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-600 hover:text-white transition"><svg
-                            class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
-                        </svg></a>
-                    <a href="#"
-                        class="w-8 h-8 rounded bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-600 hover:text-white transition"><svg
-                            class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                        </svg></a>
-                </div>
             </div>
 
             {{-- Column 2 --}}
             <div>
                 <h4 class="font-bold text-gray-900 mb-6">Tautan Cepat</h4>
                 <ul class="space-y-3 text-sm text-gray-500">
-                    <li><a href="#" class="hover:text-red-600 transition">Info Pendaftaran</a></li>
-                    <li><a href="#" class="hover:text-red-600 transition">Jadwal Seleksi</a></li>
-                    <li><a href="#" class="hover:text-red-600 transition">Panduan Orang Tua</a></li>
-                    <li><a href="#" class="hover:text-red-600 transition">Beasiswa</a></li>
+                    <li><a href="{{ url('/') }}" class="hover:text-red-600 transition">Beranda</a></li>
+                    <li><a href="{{ url('/profil') }}" class="hover:text-red-600 transition">Informasi Sekolah</a></li>
+                    <li><a href="{{ url('/jadwal') }}" class="hover:text-red-600 transition">Jadwal PPDB</a></li>
+                    <li><a href="{{ url('/panduan') }}" class="hover:text-red-600 transition">Panduan</a></li>
+                    <li><a href="{{ url('/pengumuman') }}" class="hover:text-red-600 transition">Pengumuman</a></li>
                     <li><a href="{{ route('login') }}" class="hover:text-red-600 transition">Masuk Akun</a></li>
                 </ul>
             </div>
@@ -450,10 +427,7 @@
         <div
             class="border-t border-gray-200 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
             <p>&copy; {{ date('Y') }} SMK Solusi Bangun Indonesia. Hak Cipta Dilindungi.</p>
-            <div class="flex gap-6">
-                <a href="#" class="hover:text-red-700">Kebijakan Privasi</a>
-                <a href="#" class="hover:text-red-700">Syarat & Ketentuan</a>
-            </div>
+
         </div>
     </div>
 </footer>

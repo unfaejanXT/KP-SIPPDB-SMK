@@ -2,15 +2,24 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use App\Models\JenisBerkas;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class JenisBerkasTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     */
-    public function test_example(): void
+    use RefreshDatabase;
+
+    public function test_can_create_jenis_berkas()
     {
-        $this->assertTrue(true);
+        $jenis = JenisBerkas::create([
+            'kode_berkas' => 'KK',
+            'nama_berkas' => 'Kartu Keluarga',
+            'is_wajib' => true,
+            'is_active' => true,
+        ]);
+
+        $this->assertDatabaseHas('jenis_berkas', ['kode_berkas' => 'KK']);
+        $this->assertTrue($jenis->is_wajib);
     }
 }

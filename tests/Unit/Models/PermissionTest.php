@@ -2,15 +2,22 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use App\Models\Permission;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class PermissionTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     */
-    public function test_example(): void
+    use RefreshDatabase;
+
+    public function test_can_create_permission()
     {
-        $this->assertTrue(true);
+        $permission = Permission::create(['name' => 'edit articles']);
+
+        $this->assertDatabaseHas('permissions', [
+            'name' => 'edit articles',
+            'guard_name' => 'web'
+        ]);
+        $this->assertInstanceOf(Permission::class, $permission);
     }
 }

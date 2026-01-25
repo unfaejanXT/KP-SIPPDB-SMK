@@ -2,15 +2,22 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use App\Models\Operator;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class OperatorTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     */
-    public function test_example(): void
+    use RefreshDatabase;
+
+    public function test_can_create_operator()
     {
-        $this->assertTrue(true);
+        $operator = Operator::create([
+            'nama_operator' => 'Op1',
+            'jabatan' => 'Staff',
+            'noHP' => '08123'
+        ]);
+
+        $this->assertDatabaseHas('operator', ['nama_operator' => 'Op1']);
     }
 }

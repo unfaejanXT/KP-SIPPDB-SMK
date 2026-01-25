@@ -2,15 +2,22 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use App\Models\Role;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class RoleTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     */
-    public function test_example(): void
+    use RefreshDatabase;
+
+    public function test_can_create_role()
     {
-        $this->assertTrue(true);
+        $role = Role::create(['name' => 'admin']);
+
+        $this->assertDatabaseHas('roles', [
+            'name' => 'admin',
+            'guard_name' => 'web'
+        ]);
+        $this->assertInstanceOf(Role::class, $role);
     }
 }

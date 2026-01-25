@@ -18,3 +18,9 @@ yarn-error.log
 /.idea
 /.vscode
 /.gemini
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

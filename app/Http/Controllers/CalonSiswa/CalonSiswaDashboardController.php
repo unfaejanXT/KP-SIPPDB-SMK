@@ -71,7 +71,13 @@ class CalonSiswaDashboardController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        $pendaftaran = Pendaftaran::with('jurusan')->where('user_id', $user->id)->firstOrFail(); // Must exist to edit
+        $pendaftaran = Pendaftaran::with('jurusan')->where('user_id', $user->id)->firstOrFail();
+
+        // Check if locked
+        if (in_array($pendaftaran->status, ['terverifikasi', 'diterima', 'ditolak'])) {
+            return redirect()->route('dashboard')->with('error', 'Data tidak dapat diubah karena sudah diverifikasi/final.');
+        }
+
         $jurusans = Jurusan::all();
         
         return view('siswa.edit', compact('user', 'pendaftaran', 'jurusans'));
@@ -81,6 +87,11 @@ class CalonSiswaDashboardController extends Controller
     {
         $user = Auth::user();
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->firstOrFail();
+
+        // Check if locked
+        if (in_array($pendaftaran->status, ['terverifikasi', 'diterima', 'ditolak'])) {
+            return redirect()->route('dashboard')->with('error', 'Data tidak dapat diubah karena sudah diverifikasi/final.');
+        }
 
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:50',

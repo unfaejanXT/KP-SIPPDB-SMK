@@ -365,6 +365,27 @@ class PendaftaranController extends Controller
 
         if (!$pendaftaran) return redirect()->route('pendaftaran.step1');
 
+        // Check required documents
+        $uploadedJenisIds = \App\Models\Berkas::where('pendaftaran_id', $pendaftaran->id)
+                               ->pluck('jenis_berkas_id')
+                               ->toArray();
+        
+        $wajibBerkas = \App\Models\JenisBerkas::where('is_active', true)
+                            ->where('is_wajib', true)
+                            ->get();
+        
+        $missing = [];
+        foreach ($wajibBerkas as $jb) {
+            if (!in_array($jb->id, $uploadedJenisIds)) {
+                $missing[] = $jb->nama_berkas;
+            }
+        }
+
+        if (!empty($missing)) {
+             $missingStr = implode(', ', $missing);
+             return redirect()->route('pendaftaran.step3')->with('error', 'Harap upload berkas wajib berikut: ' . $missingStr);
+        }
+
         $pendaftaran->update([
             'status' => 'submitted',
             'current_step' => 4

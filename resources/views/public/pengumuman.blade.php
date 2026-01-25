@@ -70,116 +70,22 @@
                 </a>
             </div>
         @empty
-            {{-- Fallback content if no data is available, matching the reference --}}
-            <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition duration-300">
-                <div class="flex items-center gap-3 mb-3">
-                    <span
-                        class="bg-blue-50 text-blue-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Pendaftaran</span>
-                    <span
-                        class="bg-red-50 text-red-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Baru</span>
-                    <div class="flex items-center text-slate-400 text-xs ml-auto">
-                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                            </path>
-                        </svg>
-                        1 Januari 2024
-                    </div>
-                </div>
-                <h3 class="text-lg font-bold text-slate-900 mb-2">Pembukaan Pendaftaran PPDB Gelombang 1 Tahun Ajaran
-                    2024/2025</h3>
-                <p class="text-slate-500 text-sm leading-relaxed mb-4">
-                    Dengan ini kami mengumumkan bahwa pendaftaran PPDB Gelombang 1 untuk Tahun Ajaran 2024/2025 telah resmi
-                    dibuka mulai tanggal 1 Januari 2024.
-                </p>
-                <a href="#" class="inline-flex items-center text-sm font-semibold text-sky-600 hover:text-sky-700">
-                    Baca selengkapnya <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3">
+            {{-- Empty State --}}
+            <div class="bg-white rounded-xl border border-slate-200 p-12 text-center">
+                <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4">
                         </path>
                     </svg>
-                </a>
-            </div>
-
-            <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition duration-300">
-                <div class="flex items-center gap-3 mb-3">
-                    <span
-                        class="bg-teal-50 text-teal-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Informasi</span>
-                    <span
-                        class="bg-red-50 text-red-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Baru</span>
-                    <div class="flex items-center text-slate-400 text-xs ml-auto">
-                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                            </path>
-                        </svg>
-                        28 Desember 2023
-                    </div>
                 </div>
-                <h3 class="text-lg font-bold text-slate-900 mb-2">Persyaratan Dokumen Pendaftaran PPDB 2024</h3>
-                <p class="text-slate-500 text-sm leading-relaxed mb-4">
-                    Berikut adalah daftar dokumen yang wajib disiapkan oleh calon peserta didik baru untuk proses
-                    pendaftaran PPDB tahun ajaran 2024/2025.
-                </p>
-                <a href="#" class="inline-flex items-center text-sm font-semibold text-sky-600 hover:text-sky-700">
-                    Baca selengkapnya <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3">
-                        </path>
-                    </svg>
+                <h3 class="text-xl font-bold text-slate-900 mb-2">Belum Ada Pengumuman</h3>
+                <p class="text-slate-500 mb-6">Saat ini belum ada pengumuman yang tersedia. Silakan cek kembali nanti.</p>
+                <a href="{{ url('/') }}"
+                    class="inline-flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition">
+                    Kembali ke Beranda
                 </a>
             </div>
-
-            <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition duration-300">
-                <div class="flex items-center gap-3 mb-3">
-                    <span
-                        class="bg-amber-50 text-amber-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Jadwal</span>
-                    <div class="flex items-center text-slate-400 text-xs ml-auto">
-                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                            </path>
-                        </svg>
-                        25 Desember 2023
-                    </div>
-                </div>
-                <h3 class="text-lg font-bold text-slate-900 mb-2">Jadwal Tes Seleksi PPDB Gelombang 1</h3>
-                <p class="text-slate-500 text-sm leading-relaxed mb-4">
-                    Tes seleksi untuk pendaftar PPDB Gelombang 1 akan dilaksanakan pada tanggal 1-3 Maret 2024. Harap
-                    memperhatikan jadwal dan ketentuan yang berlaku.
-                </p>
-                <a href="#" class="inline-flex items-center text-sm font-semibold text-sky-600 hover:text-sky-700">
-                    Baca selengkapnya <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3">
-                        </path>
-                    </svg>
-                </a>
-            </div>
-
-            <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition duration-300">
-                <div class="flex items-center gap-3 mb-3">
-                    <span
-                        class="bg-emerald-50 text-emerald-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Beasiswa</span>
-                    <div class="flex items-center text-slate-400 text-xs ml-auto">
-                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                            </path>
-                        </svg>
-                        20 Desember 2023
-                    </div>
-                </div>
-                <h3 class="text-lg font-bold text-slate-900 mb-2">Program Beasiswa Prestasi PPDB 2024</h3>
-                <p class="text-slate-500 text-sm leading-relaxed mb-4">
-                    SMK Solusi Bangun Indonesia menyediakan program beasiswa prestasi bagi calon siswa berprestasi akademik
-                    maupun non-akademik.
-                </p>
-                <a href="#" class="inline-flex items-center text-sm font-semibold text-sky-600 hover:text-sky-700">
-                    Baca selengkapnya <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3">
-                        </path>
-                    </svg>
-                </a>
-            </div>
-
 
         @endforelse
 

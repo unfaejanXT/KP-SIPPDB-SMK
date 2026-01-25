@@ -178,6 +178,7 @@
             </main>
         </div>
     </div>
+    @include('breeze.partials.alerts')
 </body>
 
 </html>

@@ -24,9 +24,6 @@ class User extends Authenticatable
         'is_active',
         'last_login_at',
         'last_login_ip',
-        'foto',
-        'nomor_telepon',
-        'jabatan',
     ];
 
     /**
@@ -59,5 +56,29 @@ class User extends Authenticatable
             ->where('user_id', $this->id)
             ->where('last_activity', '>', now()->subMinutes(5)->getTimestamp())
             ->exists();
+    }
+
+    /**
+     * Get the staff record associated with the user.
+     */
+    public function staff()
+    {
+        return $this->hasOne(Staff::class);
+    }
+
+    // Accessors for backward compatibility
+    public function getFotoAttribute()
+    {
+        return $this->staff?->foto;
+    }
+
+    public function getNomorTeleponAttribute()
+    {
+        return $this->staff?->nomor_telepon;
+    }
+
+    public function getJabatanAttribute()
+    {
+        return $this->staff?->jabatan ?? 'Administrator';
     }
 }

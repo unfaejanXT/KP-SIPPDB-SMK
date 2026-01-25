@@ -5,16 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Operator extends Model
+class Staff extends Model
 {
     use HasFactory;
     
-    protected $table = "operator";
+    protected $table = "staff";
 
     protected $fillable = [
         "user_id",
-        "nama_operator",
-        "is_active"
+        "nama",
+        "is_active",
+        "foto",
+        "nomor_telepon",
+        "jabatan"
     ];
 
     protected $casts = [
@@ -22,7 +25,7 @@ class Operator extends Model
     ];
 
     /**
-     * Get the user that owns the operator.
+     * Get the user that owns the staff.
      */
     public function user()
     {

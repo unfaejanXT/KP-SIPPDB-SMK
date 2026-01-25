@@ -10,27 +10,23 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('operator', function (Blueprint $table) {
+        Schema::create('staff', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('nama_operator')->nullable();
+            $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('nama')->nullable();
+            $table->string('foto')->nullable();
+            $table->string('nomor_telepon')->nullable();
+            $table->string('jabatan')->nullable()->default('Administrator');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
-
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('operator');
+        Schema::dropIfExists('staff');
     }
 };

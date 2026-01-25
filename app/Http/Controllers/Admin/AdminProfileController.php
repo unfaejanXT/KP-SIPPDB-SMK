@@ -41,13 +41,32 @@ class AdminProfileController extends Controller
             $validatedData['foto'] = $path;
         }
 
-        $user->fill($validatedData);
+        // Update User info
+        $user->fill([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+        ]);
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
-
         $user->save();
+
+        // Update Staff info
+        $staffData = [
+            'nomor_telepon' => $validatedData['nomor_telepon'] ?? null,
+            'jabatan' => $validatedData['jabatan'] ?? 'Administrator',
+        ];
+        
+        if (isset($validatedData['foto'])) {
+            $staffData['foto'] = $validatedData['foto'];
+        }
+
+        // Use updateOrCreate to ensure staff record exists
+        $user->staff()->updateOrCreate(
+            ['user_id' => $user->id],
+            $staffData
+        );
 
         return Redirect::route('admin.profile.edit')->with('status', 'profile-updated');
     }

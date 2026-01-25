@@ -25,5 +25,12 @@ class AdminSeeder extends Seeder
         ]);
 
         $user->assignRole('admin');
+        
+        \App\Models\Staff::create([
+            'user_id' => $user->id,
+            'nama' => $user->name,
+            'jabatan' => 'Administrator',
+            'is_active' => true,
+        ]);
     }
 }

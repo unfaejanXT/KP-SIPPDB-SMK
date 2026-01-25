@@ -151,7 +151,11 @@ class CalonSiswaDashboardController extends Controller
 
     public function cetakBukti()
     {
-        return view('siswa.cetak-bukti');
+        $user = Auth::user();
+        $pendaftaran = Pendaftaran::with('jurusan', 'gelombang')->where('user_id', $user->id)->firstOrFail();
+        $orangtua = OrangTuaSiswa::where('pendaftaran_id', $pendaftaran->id)->first();
+        
+        return view('siswa.cetak-bukti', compact('pendaftaran', 'orangtua'));
     }
 
     public function editOrangTua()

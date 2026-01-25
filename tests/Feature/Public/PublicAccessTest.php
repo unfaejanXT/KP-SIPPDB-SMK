@@ -13,23 +13,8 @@ class PublicAccessTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        // Seed the database with necessary data for public views
-        // We catch exception just in case seeders are missing or fail, but tests should fail if essential data is missing for views
-        try {
-            $this->seed([
-                RoleSeeder::class,
-                AdminSeeder::class,
-                JurusanSeeder::class,
-                PeriodePPDBSeeder::class,
-            ]);
-        } catch (\Exception $e) {
-            // Echoing might break test output format, but helpful for debugging
-            // echo "Seeding failed: " . $e->getMessage();
-        }
-    }
+    // setUp is handled by parent TestCase
+
 
     public function test_homepage_is_accessible(): void
     {

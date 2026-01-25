@@ -14,9 +14,30 @@ class AdminDashboardTest extends TestCase
      * Fitur: Dashboard Admin
      * Route: /admin/dashboard
      */
+
+    protected $admin;
+    protected $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        
+        $this->admin = \App\Models\User::factory()->create();
+        $this->admin->assignRole('admin');
+
+        $this->user = \App\Models\User::factory()->create();
+        $this->user->assignRole('user');
+    }
+
+    /**
+     * Fitur: Dashboard Admin
+     * Route: /admin/dashboard
+     */
     public function test_admin_can_access_dashboard()
     {
-        $this->markTestIncomplete('Test belum diimplementasikan.');
+        $response = $this->actingAs($this->admin)->get(route('admin.dashboard'));
+        $response->assertStatus(200);
+        $response->assertViewIs('admin.dashboard');
     }
 
     /**
@@ -25,7 +46,25 @@ class AdminDashboardTest extends TestCase
      */
     public function test_unauthorized_users_cannot_access_admin_dashboard()
     {
-        $this->markTestIncomplete('Test belum diimplementasikan.');
+        // Test as normal user
+        $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
+        
+        if ($response->status() === 302) {
+             $response->assertStatus(302);
+        } else {
+             $response->assertStatus(403);
+        }
+
+
+        // Logout to test as guest
+        \Illuminate\Support\Facades\Auth::logout();
+        // Clear session data to ensure cleaner state
+        $this->app['session']->invalidate();
+        $this->app['session']->regenerateToken();
+
+        // Test as guest
+        $response = $this->get(route('admin.dashboard'));
+        $response->assertRedirect(route('login'));
     }
     
     /**
@@ -34,6 +73,8 @@ class AdminDashboardTest extends TestCase
      */
     public function test_admin_can_view_student_list()
     {
-        $this->markTestIncomplete('Test belum diimplementasikan.');
+        $response = $this->actingAs($this->admin)->get(route('admin.calon-siswa.index'));
+        $response->assertStatus(200);
+        $response->assertSee('Data Calon Siswa'); // Adjust based on actual view content
     }
 }

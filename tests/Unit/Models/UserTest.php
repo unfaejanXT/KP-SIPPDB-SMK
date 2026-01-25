@@ -12,6 +12,14 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Clear any seeded roles to ensure clean state
+        \App\Models\Role::query()->delete();
+        \App\Models\Permission::query()->delete();
+    }
+
     public function test_can_create_user()
     {
         $user = User::factory()->create([
@@ -28,11 +36,11 @@ class UserTest extends TestCase
     public function test_user_can_assign_role()
     {
         $user = User::factory()->create();
-        $role = Role::create(['name' => 'admin']);
+        $role = Role::create(['name' => 'test_role']);
 
         $user->assignRole($role);
 
-        $this->assertTrue($user->hasRole('admin'));
+        $this->assertTrue($user->hasRole('test_role'));
     }
 
     public function test_user_is_online_check()

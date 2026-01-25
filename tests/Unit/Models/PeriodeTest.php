@@ -61,10 +61,12 @@ class PeriodeTest extends TestCase
         ]);
 
         $gelombang = Gelombang::create([
-            'nama_gelombang' => 'Gelombang 1',
+            'nama' => 'Gelombang 1',
             'periode_id' => $periode->id,
+            'tahun_ajaran' => '2025/2026',
             'tanggal_mulai' => '2025-01-01',
             'tanggal_selesai' => '2025-02-01',
+            'kuota' => 100,
             'is_active' => true,
         ]);
 

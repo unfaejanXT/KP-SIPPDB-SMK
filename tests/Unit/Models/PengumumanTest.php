@@ -12,6 +12,14 @@ class PengumumanTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Clear any seeded data to ensure clean state
+        \App\Models\Role::query()->delete();
+        \App\Models\Permission::query()->delete();
+    }
+
     public function test_scope_for_user()
     {
         // 1. General Public Announcement

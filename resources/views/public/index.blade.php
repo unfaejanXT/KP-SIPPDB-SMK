@@ -198,37 +198,16 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            @php
-            $defaultIcons = [
-                'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4', // Code
-                'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10', // Server
-                'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z', // Gear
-                'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z', // Building/Calc
-                'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z', // Image
-                'M13 10V3L4 14h7v7l9-11h-7z', // Lightning
-            ];
-            $colors = [
-                'bg-blue-100 text-blue-600',
-                'bg-green-100 text-green-600',
-                'bg-orange-100 text-orange-600',
-                'bg-purple-100 text-purple-600',
-                'bg-pink-100 text-pink-600',
-                'bg-red-100 text-red-600',
-            ];
-            @endphp
-
             @forelse($jurusan as $j)
-            @php
-                $color = $colors[$loop->index % count($colors)];
-                $icon = $defaultIcons[$loop->index % count($defaultIcons)];
-            @endphp
             <div
                 class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition group cursor-pointer">
                 <div
-                    class="w-12 h-12 rounded-lg {{ $color }} flex items-center justify-center mb-4 group-hover:scale-110 transition">
+                    class="w-12 h-12 rounded-lg bg-red-50 text-red-600 flex items-center justify-center mb-4 group-hover:scale-110 transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="{{ $icon }}"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
                     </svg>
                 </div>
                 <h3 class="font-bold text-lg text-gray-900 mb-1 flex items-center gap-2">

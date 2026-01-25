@@ -12,9 +12,17 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        // 1. Administrator -> admin
+        // 2. Panitia PPDB -> panitia_ppdb
+        // 3. Kepala Sekolah -> kepala_sekolah
+        // 4. Calon Siswa -> user
+        
         $roleData = [
             ["name"=> "admin"],
             ["name"=> "user"],
+            ["name"=> "panitia_ppdb"],
+            ["name"=> "kepala_sekolah"],
+            // ["name"=> "operator_sekolah"], // Optional, based on web.php presence but not requested explicitly
         ];
 
         foreach ($roleData as $data){

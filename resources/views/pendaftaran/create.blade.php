@@ -231,7 +231,7 @@
             </h3>
             
             <div class="p-4 mb-6 text-sm text-yellow-800 rounded-lg bg-yellow-50 border border-yellow-200">
-                <span class="font-medium">Perhatian!</span> Pastikan dokumen yang diupload terlihat jelas, terbaca, dan dalam format (JPG/JPEG/PNG/PDF). Maksimal ukuran file 2MB per dokumen.
+                <span class="font-medium">Perhatian!</span> Pastikan dokumen yang diupload terlihat jelas, terbaca, dan dalam format (JPG/JPEG/PNG/PDF). Maksimal ukuran file 5MB per dokumen.
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -297,9 +297,9 @@
                             const type = e.target.dataset.type; // This is kode_berkas
                             if (!file) return;
 
-                            // Validation: File Size (Max 2MB)
-                            if (file.size > 2 * 1024 * 1024) {
-                                alert('Ukuran file terlalu besar! Maksimal 2MB.');
+                            // Validation: File Size (Max 5MB)
+                            if (file.size > 5 * 1024 * 1024) {
+                                alert('Ukuran file terlalu besar! Maksimal 5MB.');
                                 e.target.value = ''; // Reset input
                                 return;
                             }
@@ -327,6 +327,7 @@
                             // AJAX Upload
                             const xhr = new XMLHttpRequest();
                             xhr.open('POST', '{{ route('pendaftaran.upload') }}', true);
+                            xhr.setRequestHeader('Accept', 'application/json'); // Ensure JSON response
 
                             xhr.upload.onprogress = function(e) {
                                 if (e.lengthComputable) {
@@ -371,10 +372,19 @@
                                     
                                     btnText.innerText = 'Ganti File';
                                 } else {
+                                    // Handle Errors
                                     statusText.innerText = 'Gagal upload';
                                     statusText.classList.remove('text-blue-600');
                                     statusText.classList.add('text-red-600');
-                                    alert('Gagal mengupload file: ' + (response.message || 'Unknown error'));
+                                    
+                                    let errorMessage = response.message || 'Unknown error';
+                                    
+                                    // Check if we have validation errors
+                                    if (response.errors && response.errors.file) {
+                                        errorMessage = response.errors.file[0];
+                                    }
+                                    
+                                    alert(errorMessage);
                                 }
 
                                 // Hide progress after delay

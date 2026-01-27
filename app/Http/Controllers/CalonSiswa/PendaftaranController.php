@@ -281,8 +281,34 @@ class PendaftaranController extends Controller
     public function uploadBerkas(Request $request)
     {
          $request->validate([
-            'file' => 'required|file|max:2048|mimes:jpg,jpeg,png,pdf',
+            'file' => [
+                'required',
+                'file',
+                'max:5120',
+                function ($attribute, $value, $fail) {
+                    $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
+                    $extension = strtolower($value->getClientOriginalExtension());
+                    
+                    if (!in_array($extension, $allowedExtensions)) {
+                         $fail('Format file tidak didukung');
+                         return;
+                    }
+                    
+                    // Check actual mime type against allowed types
+                    // Note: getMimeType() guesses based on content
+                    $actualMime = $value->getMimeType();
+                    $validMimes = ['image/jpeg', 'image/png', 'application/pdf'];
+                    
+                    if (!in_array($actualMime, $validMimes)) {
+                        $fail('File tidak valid atau rusak');
+                    }
+                }
+            ],
             'kode_berkas' => 'required|string|exists:jenis_berkas,kode_berkas'
+        ], [
+            'file.max' => 'Ukuran file terlalu besar',
+            'file.file' => 'File tidak valid atau rusak',
+            'file.uploaded' => 'File tidak valid atau rusak',
         ]);
 
         $user = Auth::user();

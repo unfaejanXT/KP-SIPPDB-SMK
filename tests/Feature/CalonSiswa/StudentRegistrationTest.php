@@ -319,4 +319,30 @@ class StudentRegistrationTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('breeze.auth.register-closed');
     }
+
+
+    /**
+     * Fitur: Validasi Tanggal Lahir (Masa Depan)
+     * Tujuan: Tidak bisa mengisi tanggal lahir dengan tanggal masa depan
+     */
+    public function test_student_cannot_store_step_1_with_future_date()
+    {
+        $futureDate = now()->addYear()->format('Y-m-d');
+        
+        $response = $this->actingAs($this->student)->post(route('pendaftaran.storeStep1'), [
+            'nisn' => '1234567899',
+            'nama_lengkap' => 'Test Siswa Future',
+            'jenis_kelamin' => 'L',
+            'tempat_lahir' => 'Bandung',
+            'tanggal_lahir' => $futureDate,
+            'agama' => 'Islam',
+            'nomor_hp' => '081234567890',
+            'alamat_rumah' => 'Jalan Test',
+            'asal_sekolah' => 'SMP Test',
+            'jurusan_id' => $this->jurusan->id,
+            'gelombang_id' => $this->gelombang->id 
+        ]);
+
+        $response->assertSessionHasErrors(['tanggal_lahir' => 'Tanggal lahir tidak valid']);
+    }
 }

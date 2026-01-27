@@ -105,13 +105,15 @@ class PendaftaranController extends Controller
             'nama_lengkap' => 'required|string|max:50',
             'nisn' => ['required', 'digits:10', 'unique:pendaftaran,nisn,' . ($pendaftaran->id ?? 'NULL')],
             'tempat_lahir' => 'required|string|max:50',
-            'tanggal_lahir' => 'required|date',
+            'tanggal_lahir' => 'required|date|before:tomorrow',
             'jenis_kelamin' => 'required|in:L,P',
             'agama' => 'required|string',
             'jurusan_id' => 'required|exists:jurusan,id',
             'nomor_hp' => 'required|string|max:15|regex:/^[0-9]+$/',
             'asal_sekolah' => 'required|string|max:100',
             'alamat_rumah' => 'required|string',
+        ], [
+            'tanggal_lahir.before' => 'Tanggal lahir tidak valid'
         ]);
 
         if ($validator->fails()) {

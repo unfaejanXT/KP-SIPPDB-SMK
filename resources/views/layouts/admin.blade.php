@@ -125,37 +125,6 @@
                     <span class="font-medium text-sm">Laporan PPDB</span>
                 </a>
             </nav>
-
-            <div class="p-4 border-t border-gray-100">
-                <div class="flex items-center gap-3 mb-4 px-2">
-                    <div class="shrink-0">
-                        @if(Auth::user()->foto)
-                            <img src="{{ asset('storage/' . Auth::user()->foto) }}" alt="Profile" class="w-10 h-10 rounded-full object-cover border border-gray-200">
-                        @else
-                            <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-bold shadow-sm uppercase border border-blue-200">
-                                {{ substr(Auth::user()->name ?? 'AD', 0, 2) }}
-                            </div>
-                        @endif
-                    </div>
-                    <div class="overflow-hidden">
-                        <p class="text-sm font-semibold truncate w-full text-slate-800" title="{{ Auth::user()->name }}">{{ Auth::user()->name ?? 'Admin' }}</p>
-                        <p class="text-xs text-slate-500 truncate w-full" title="{{ Auth::user()->jabatan ?? 'Administrator' }}">{{ Auth::user()->jabatan ?? 'Administrator' }}</p>
-                    </div>
-                </div>
-                
-                <a href="{{ route('admin.profile.edit') }}" class="flex items-center gap-2 text-slate-500 hover:text-blue-700 text-sm px-2 transition-colors w-full mb-2">
-                    <i class="fa-solid fa-user-pen w-5 text-center"></i>
-                    Edit Profil
-                </a>
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="flex items-center gap-2 text-slate-500 hover:text-red-600 text-sm px-2 transition-colors w-full">
-                        <i class="fa-solid fa-arrow-right-from-bracket w-5 text-center"></i>
-                        Keluar
-                    </button>
-                </form>
-            </div>
         </aside>
 
         <!-- Main Content -->
@@ -178,20 +147,67 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    {{-- <div class="relative hidden md:block">
-                        <input type="text" placeholder="Cari data..."
-                            class="bg-gray-100 border-none rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64">
-                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-gray-400 text-sm"></i>
-                    </div> --}}
-
-                    {{-- <div class="relative">
-                        <button
-                            class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-slate-600 hover:bg-gray-50 transition-colors">
-                            <i class="fa-regular fa-bell"></i>
-                            <span
-                                class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                    @php
+                        $staff = Auth::user()->staff;
+                        $foto = $staff && $staff->foto ? asset('storage/' . $staff->foto) : null;
+                        $nama = $staff && $staff->nama ? $staff->nama : Auth::user()->name;
+                        $jabatan = $staff && $staff->jabatan ? $staff->jabatan : 'Administrator';
+                    @endphp
+                    
+                    <!-- Profile Dropdown -->
+                    <div class="relative" x-data="{ profileOpen: false }">
+                        <button @click="profileOpen = !profileOpen" 
+                            class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors">
+                            <div class="shrink-0">
+                                @if($foto)
+                                    <img src="{{ $foto }}" alt="Profile" class="w-9 h-9 rounded-full object-cover border-2 border-gray-200">
+                                @else
+                                    <div class="w-9 h-9 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-bold shadow-sm uppercase border-2 border-blue-200">
+                                        {{ substr($nama, 0, 2) }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="hidden md:block text-left">
+                                <p class="text-sm font-semibold text-slate-800">{{ $nama }}</p>
+                                <p class="text-xs text-slate-500">{{ $jabatan }}</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-xs text-slate-400 hidden md:block" :class="profileOpen ? 'rotate-180' : ''"></i>
                         </button>
-                    </div> --}}
+                        
+                        <!-- Dropdown Menu -->
+                        <div x-show="profileOpen" 
+                            @click.away="profileOpen = false"
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 scale-95"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 scale-100"
+                            x-transition:leave-end="opacity-0 scale-95"
+                            class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                            
+                            <div class="px-4 py-3 border-b border-gray-100">
+                                <p class="text-sm font-semibold text-slate-800">{{ $nama }}</p>
+                                <p class="text-xs text-slate-500 mt-0.5">{{ Auth::user()->email }}</p>
+                            </div>
+                            
+                            <a href="{{ route('admin.profile.edit') }}" 
+                                class="flex items-center gap-3 px-4 py-2.5 text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                                <i class="fa-solid fa-user-pen w-5 text-center"></i>
+                                <span class="text-sm font-medium">Edit Profil</span>
+                            </a>
+                            
+                            <div class="border-t border-gray-100 my-1"></div>
+                            
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" 
+                                    class="w-full flex items-center gap-3 px-4 py-2.5 text-slate-600 hover:bg-red-50 hover:text-red-600 transition-colors">
+                                    <i class="fa-solid fa-arrow-right-from-bracket w-5 text-center"></i>
+                                    <span class="text-sm font-medium">Keluar</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </header>
 

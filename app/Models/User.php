@@ -66,6 +66,14 @@ class User extends Authenticatable
         return $this->hasOne(Staff::class);
     }
 
+    /**
+     * Get the pendaftaran record associated with the user.
+     */
+    public function pendaftaran()
+    {
+        return $this->hasOne(Pendaftaran::class);
+    }
+
     // Accessors for backward compatibility
     public function getFotoAttribute()
     {

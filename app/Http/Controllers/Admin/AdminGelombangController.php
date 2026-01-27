@@ -32,7 +32,7 @@ class AdminGelombangController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:100',
-            'periode_id' => 'required|exists:periodes,id',
+            'periode_id' => 'required|exists:periode,id',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
             'tahun_ajaran' => 'required|string',
@@ -53,7 +53,7 @@ class AdminGelombangController extends Controller
         
         $validated = $request->validate([
             'nama' => 'required|string|max:100',
-            'periode_id' => 'required|exists:periodes,id',
+            'periode_id' => 'required|exists:periode,id',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
             'tahun_ajaran' => 'required|string',
@@ -71,6 +71,11 @@ class AdminGelombangController extends Controller
     public function destroy($id)
     {
         $gelombang = Gelombang::findOrFail($id);
+
+        if ($gelombang->is_active) {
+            return redirect()->back()->with('error', 'Gelombang yang sedang aktif tidak dapat dihapus');
+        }
+
         $gelombang->delete();
 
         return redirect()->back()->with('success', 'Gelombang berhasil dihapus');

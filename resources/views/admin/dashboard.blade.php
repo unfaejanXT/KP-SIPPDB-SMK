@@ -218,131 +218,149 @@
 @endsection
 
 @push('scripts')
-<script>
-    // Constants from Backend
+<script type="module">
+    // Retrieve data from PHP, default to empty arrays/objects if null
     const chartLabels = {!! json_encode($formattedLabels ?? []) !!};
     const chartData = {!! json_encode($chartValues ?? []) !!};
     const jurusanLabels = {!! json_encode($jurusanLabels ?? []) !!};
     const jurusanData = {!! json_encode($jurusanValues ?? []) !!};
 
-    // Common Chart Options
-    Chart.defaults.font.family = "'Inter', sans-serif";
-    Chart.defaults.color = '#64748b';
-
-    // Line Chart
-    const ctxLine = document.getElementById('lineChart').getContext('2d');
-    const gradient = ctxLine.createLinearGradient(0, 0, 0, 300);
-    gradient.addColorStop(0, 'rgba(37, 99, 235, 0.1)'); // Blue 600
-    gradient.addColorStop(1, 'rgba(37, 99, 235, 0)');
-
-    new Chart(ctxLine, {
-        type: 'line',
-        data: {
-            labels: chartLabels,
-            datasets: [{
-                label: 'Pendaftar',
-                data: chartData,
-                borderColor: '#2563eb', // Blue 600
-                backgroundColor: gradient,
-                borderWidth: 2,
-                tension: 0.3, 
-                fill: true,
-                pointBackgroundColor: '#ffffff',
-                pointBorderColor: '#2563eb',
-                pointBorderWidth: 2,
-                pointRadius: 4,
-                pointHoverRadius: 6,
-                pointHoverBackgroundColor: '#2563eb',
-                pointHoverBorderColor: '#ffffff'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: '#1e293b',
-                    padding: 12,
-                    titleFont: { size: 13 },
-                    bodyFont: { size: 14, weight: 'bold' },
-                    displayColors: false,
-                    cornerRadius: 8,
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: { borderDash: [4, 4], color: '#e2e8f0', drawBorder: false },
-                    ticks: { stepSize: 1, font: { size: 11 } }
-                },
-                x: {
-                    grid: { display: false },
-                    ticks: { font: { size: 11 } }
-                }
-            },
-            interaction: {
-                intersect: false,
-                mode: 'index',
-            },
+    // Ensure Chart is available (wait for window.Chart if needed, though module type usually suffices with Vite)
+    const initCharts = () => {
+        if (typeof Chart === 'undefined') {
+            console.warn('Chart.js not loaded yet, retrying...');
+            setTimeout(initCharts, 100);
+            return;
         }
-    });
 
-    // Donut Chart
-    const ctxDonut = document.getElementById('donutChart').getContext('2d');
-    
-    // Palette
-    const palette = [
-        '#3b82f6', // Blue 500
-        '#10b981', // Emerald 500
-        '#f59e0b', // Amber 500
-        '#6366f1', // Indigo 500
-        '#ec4899', // Pink 500
-        '#8b5cf6', // Violet 500
-    ];
+        // Common Chart Options
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.color = '#64748b';
 
-    new Chart(ctxDonut, {
-        type: 'doughnut',
-        data: {
-            labels: jurusanLabels,
-            datasets: [{
-                data: jurusanData,
-                backgroundColor: palette,
-                borderWidth: 0,
-                hoverOffset: 10
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '75%',
-            plugins: {
-                legend: { 
-                    display: true, 
-                    position: 'bottom',
-                    labels: {
-                        usePointStyle: true,
-                        pointStyle: 'circle',
-                        padding: 20,
-                        font: { size: 11 }
-                    }
+        // Line Chart
+        const lineChartEl = document.getElementById('lineChart');
+        if (lineChartEl) {
+            const ctxLine = lineChartEl.getContext('2d');
+            const gradient = ctxLine.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(37, 99, 235, 0.1)'); // Blue 600
+            gradient.addColorStop(1, 'rgba(37, 99, 235, 0)');
+
+            new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Pendaftar',
+                        data: chartData,
+                        borderColor: '#2563eb', // Blue 600
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        tension: 0.3, 
+                        fill: true,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#2563eb',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointHoverBackgroundColor: '#2563eb',
+                        pointHoverBorderColor: '#ffffff'
+                    }]
                 },
-                tooltip: {
-                    backgroundColor: '#1e293b',
-                    padding: 12,
-                    cornerRadius: 8,
-                    callbacks: {
-                        label: function(context) {
-                            let label = context.label || '';
-                            let value = context.parsed;
-                            let total = context.dataset.data.reduce((a, b) => a + b, 0);
-                            let percentage = Math.round((value / total) * 100) + '%';
-                            return label + ': ' + value + ' (' + percentage + ')';
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            padding: 12,
+                            titleFont: { size: 13 },
+                            bodyFont: { size: 14, weight: 'bold' },
+                            displayColors: false,
+                            cornerRadius: 8,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { borderDash: [4, 4], color: '#e2e8f0', drawBorder: false },
+                            ticks: { stepSize: 1, font: { size: 11 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 11 } }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                }
+            });
+        }
+
+        // Donut Chart
+        const donutChartEl = document.getElementById('donutChart');
+        if (donutChartEl) {
+            const ctxDonut = donutChartEl.getContext('2d');
+            
+            // Palette
+            const palette = [
+                '#3b82f6', // Blue 500
+                '#10b981', // Emerald 500
+                '#f59e0b', // Amber 500
+                '#6366f1', // Indigo 500
+                '#ec4899', // Pink 500
+                '#8b5cf6', // Violet 500
+            ];
+
+            new Chart(ctxDonut, {
+                type: 'doughnut',
+                data: {
+                    labels: jurusanLabels,
+                    datasets: [{
+                        data: jurusanData,
+                        backgroundColor: palette,
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { 
+                            display: true, 
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                padding: 20,
+                                font: { size: 11 }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    let value = context.parsed;
+                                    let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    let percentage = total > 0 ? Math.round((value / total) * 100) + '%' : '0%';
+                                    return label + ': ' + value + ' (' + percentage + ')';
+                                }
+                            }
                         }
                     }
                 }
-            }
+            });
         }
-    });
+    };
+
+    // Initialize
+    initCharts();
 </script>
 @endpush

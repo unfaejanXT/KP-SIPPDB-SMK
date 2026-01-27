@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "test:report": "npx playwright test tests/e2e/report-screenshots.spec.js"
     },
     "devDependencies": {
         "@playwright/test": "^1.58.0",

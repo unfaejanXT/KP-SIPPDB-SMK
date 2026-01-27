@@ -28,3 +28,6 @@ yarn-error.log
 # Playwright E2E Tests
 /tests/e2e/
 /database/seeders/PlaywrightTestSeeder.php
+# Laporan
+/docs
+/screenshots-laporan

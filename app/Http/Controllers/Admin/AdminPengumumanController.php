@@ -34,6 +34,9 @@ class AdminPengumumanController extends Controller
             'konten' => 'required|string',
             'status' => 'required|in:draft,published',
             'target_roles' => 'nullable|array',
+        ], [
+            'judul.required' => 'Please fill out this field', // Custom message for title
+            'konten.required' => 'Konten pengumuman harus diisi', // Custom message for content
         ]);
 
         Pengumuman::create([
@@ -68,6 +71,9 @@ class AdminPengumumanController extends Controller
             'konten' => 'required|string',
             'status' => 'required|in:draft,published',
             'target_roles' => 'nullable|array',
+        ], [
+            'judul.required' => 'Please fill out this field',
+            'konten.required' => 'Konten pengumuman harus diisi',
         ]);
 
         $pengumuman->update([

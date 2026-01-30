@@ -44,6 +44,7 @@
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
                                 <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-bold rounded-lg text-gray-700 hover:text-red-700 focus:outline-none transition ease-in-out duration-150">
+                                    <i class="fa-solid fa-circle-user mr-2 text-lg"></i>
                                     <div class="truncate max-w-[150px]">{{ Auth::user()->name }}</div>
                 
                                     <div class="ml-1">
@@ -55,19 +56,30 @@
                             </x-slot>
                 
                             <x-slot name="content">
-                                @if(auth()->user()->hasRole('admin'))
-                                    <x-dropdown-link :href="route('admin.dashboard')">
-                                        {{ __('Dashboard') }}
+                                @unless(request()->is('pendaftaran*'))
+                                    @if(auth()->user()->hasRole('admin'))
+                                        <x-dropdown-link :href="route('admin.dashboard')">
+                                            <div class="flex items-center gap-2">
+                                                <i class="fa-solid fa-gauge"></i>
+                                                <span>{{ __('Dashboard') }}</span>
+                                            </div>
+                                        </x-dropdown-link>
+                                    @else
+                                        <x-dropdown-link :href="route('dashboard')">
+                                            <div class="flex items-center gap-2">
+                                                <i class="fa-solid fa-gauge"></i>
+                                                <span>{{ __('Dashboard') }}</span>
+                                            </div>
+                                        </x-dropdown-link>
+                                    @endif
+                                    
+                                    <x-dropdown-link :href="route('profile.edit')">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fa-solid fa-user-pen"></i>
+                                            <span>{{ __('Profile') }}</span>
+                                        </div>
                                     </x-dropdown-link>
-                                @else
-                                    <x-dropdown-link :href="route('dashboard')">
-                                        {{ __('Dashboard') }}
-                                    </x-dropdown-link>
-                                @endif
-                                
-                                <x-dropdown-link :href="route('profile.edit')">
-                                    {{ __('Profile') }}
-                                </x-dropdown-link>
+                                @endunless
                 
                                 <!-- Authentication -->
                                 <form method="POST" action="{{ route('logout') }}">
@@ -76,7 +88,10 @@
                                     <x-dropdown-link :href="route('logout')"
                                             onclick="event.preventDefault();
                                                         this.closest('form').submit();">
-                                        {{ __('Log Out') }}
+                                        <div class="flex items-center gap-2 text-red-600">
+                                            <i class="fa-solid fa-right-from-bracket"></i>
+                                            <span>{{ __('Log Out') }}</span>
+                                        </div>
                                     </x-dropdown-link>
                                 </form>
                             </x-slot>
@@ -148,18 +163,29 @@
                     </div>
             
                     <div class="space-y-1">
-                        @if(auth()->user()->hasRole('admin'))
-                            <x-responsive-nav-link :href="route('admin.dashboard')">
-                                {{ __('Dashboard') }}
+                        @unless(request()->is('pendaftaran*'))
+                            @if(auth()->user()->hasRole('admin'))
+                                <x-responsive-nav-link :href="route('admin.dashboard')">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-gauge"></i>
+                                        <span>{{ __('Dashboard') }}</span>
+                                    </div>
+                                </x-responsive-nav-link>
+                            @else
+                                <x-responsive-nav-link :href="route('dashboard')">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-gauge"></i>
+                                        <span>{{ __('Dashboard') }}</span>
+                                    </div>
+                                </x-responsive-nav-link>
+                            @endif
+                             <x-responsive-nav-link :href="route('profile.edit')">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-user-pen"></i>
+                                    <span>{{ __('Profile') }}</span>
+                                </div>
                             </x-responsive-nav-link>
-                        @else
-                            <x-responsive-nav-link :href="route('dashboard')">
-                                {{ __('Dashboard') }}
-                            </x-responsive-nav-link>
-                        @endif
-                         <x-responsive-nav-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-responsive-nav-link>
+                        @endunless
             
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -168,7 +194,10 @@
                             <x-responsive-nav-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                <div class="flex items-center gap-2 text-red-600">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <span>{{ __('Log Out') }}</span>
+                                </div>
                             </x-responsive-nav-link>
                         </form>
                     </div>

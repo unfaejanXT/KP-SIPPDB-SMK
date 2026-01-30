@@ -28,7 +28,7 @@
                             class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none text-slate-700 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1em_1em]"
                             style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C/polyline%3E%3C/svg%3E');">
                             <option value="Informasi" {{ old('kategori', $pengumuman->kategori) == 'Informasi' ? 'selected' : '' }}>Informasi</option>
-                            <option value="Hasil Seleksi" {{ old('kategori', $pengumuman->kategori) == 'Hasil Seleksi' ? 'selected' : '' }}>Hasil Seleksi</option>
+
                             <option value="Jadwal" {{ old('kategori', $pengumuman->kategori) == 'Jadwal' ? 'selected' : '' }}>Jadwal</option>
                             <option value="Lainnya" {{ old('kategori', $pengumuman->kategori) == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                         </select>
@@ -76,7 +76,7 @@
                             class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
                     </div>
                     <div class="ml-1 text-sm">
-                        <label for="is_pinned" class="font-semibold text-blue-900">Sematkan Pengumuman</label>
+                        <label for="is_pinned" class="font-semibold text-blue-900"><i class="fa-solid fa-thumbtack mr-2"></i>Sematkan Pengumuman</label>
                         <p class="text-blue-700">Pengumuman ini akan diprioritaskan dan muncul paling atas.</p>
                     </div>
                 </div>
@@ -85,11 +85,11 @@
             <div class="flex items-center justify-end gap-3 mt-10 pt-6 border-t border-gray-100">
                 <a href="{{ route('admin.pengumuman.index') }}" 
                     class="px-6 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-gray-100 transition-colors">
-                    Batal
+                    <i class="fa-solid fa-arrow-left mr-2"></i>Batal
                 </a>
                 <button type="submit" 
                     class="px-8 py-2.5 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all">
-                    Simpan Perubahan
+                    <i class="fa-solid fa-paper-plane mr-2"></i>Simpan Perubahan
                 </button>
             </div>
         </form>

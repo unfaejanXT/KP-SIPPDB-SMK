@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instalasi Sistem - Setup Admin</title>
+    <title>Instalasi Sistem - PPDB SMKS Solusi Bangun Indonesia</title>
+    <link rel="icon" href="{{ asset('assets/images/sbi-logo.png') }}" type="image/png">
     
     {{-- Vite Assets - Semua assets sudah lokal --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])

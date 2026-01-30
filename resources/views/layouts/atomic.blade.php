@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Laravel') }} - Atomic Design</title>
+    <title>Atomic Design - PPDB SMKS Solusi Bangun Indonesia</title>
+    <link rel="icon" href="{{ asset('assets/images/sbi-logo.png') }}" type="image/png">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin Dashboard PPDB SMK SBI')</title>
+    <title>@yield('title', 'Admin Dashboard - PPDB SMKS Solusi Bangun Indonesia')</title>
+    <link rel="icon" href="{{ asset('assets/images/sbi-logo.png') }}" type="image/png">
 
     {{-- Vite Assets - Semua assets sudah lokal --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])

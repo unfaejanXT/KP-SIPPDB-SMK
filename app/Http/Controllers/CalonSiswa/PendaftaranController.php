@@ -284,7 +284,7 @@ class PendaftaranController extends Controller
             'file' => [
                 'required',
                 'file',
-                'max:5120',
+                'max:1024',
                 function ($attribute, $value, $fail) {
                     $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
                     $extension = strtolower($value->getClientOriginalExtension());
@@ -306,7 +306,7 @@ class PendaftaranController extends Controller
             ],
             'kode_berkas' => 'required|string|exists:jenis_berkas,kode_berkas'
         ], [
-            'file.max' => 'Ukuran file terlalu besar',
+            'file.max' => 'Ukuran file terlalu besar (maksimal 1MB)',
             'file.file' => 'File tidak valid atau rusak',
             'file.uploaded' => 'File tidak valid atau rusak',
         ]);

@@ -26,7 +26,7 @@ class AdminProfileUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
-            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:1024'],
             'nomor_telepon' => ['nullable', 'string', 'max:20'],
             'jabatan' => ['nullable', 'string', 'max:100'],
         ];

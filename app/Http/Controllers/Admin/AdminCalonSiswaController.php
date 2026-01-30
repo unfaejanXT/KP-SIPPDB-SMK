@@ -121,6 +121,14 @@ class AdminCalonSiswaController extends Controller
             foreach ($jenisBerkas as $jb) {
                 if ($request->hasFile('berkas_' . $jb->id)) {
                     $file = $request->file('berkas_' . $jb->id);
+
+                    // Validate file size
+                    if ($file->getSize() > 1024 * 1024) { // 1MB in bytes
+                        throw \Illuminate\Validation\ValidationException::withMessages([
+                           'berkas_' . $jb->id => 'Ukuran berkas ' . $jb->nama_berkas . ' terlalu besar (maksimal 1MB)'
+                        ]);
+                    }
+
                     $path = $file->store('berkas/' . $calonSiswa->nisn, 'public');
                     
                     \App\Models\Berkas::create([

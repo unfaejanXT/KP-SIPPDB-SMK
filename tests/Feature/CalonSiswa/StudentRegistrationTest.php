@@ -345,4 +345,49 @@ class StudentRegistrationTest extends TestCase
 
         $response->assertSessionHasErrors(['tanggal_lahir' => 'Tanggal lahir tidak valid']);
     }
+
+    /**
+     * Fitur: Validasi Ukuran Upload
+     * Tujuan: Mencegah upload file > 1MB
+     */
+    public function test_student_cannot_upload_large_file()
+    {
+        Storage::fake('public');
+        
+        $pendaftaran = Pendaftaran::create([
+            'user_id' => $this->student->id,
+            'gelombang_id' => $this->gelombang->id,
+            'jurusan_id' => $this->jurusan->id,
+            'no_pendaftaran' => 'TEST001',
+            'nisn' => '1234567899',
+            'nama_lengkap' => 'Test Siswa',
+            'jenis_kelamin' => 'L',
+            'tempat_lahir' => 'Bandung',
+            'tanggal_lahir' => '2008-01-01',
+            'agama' => 'Islam',
+            'alamat_rumah' => 'Jalan Test',
+            'nomor_hp' => '081234567890',
+            'asal_sekolah' => 'SMP Test',
+            'status' => 'draft',
+            'current_step' => 3
+        ]);
+
+        $jenis = \App\Models\JenisBerkas::create([
+            'kode_berkas' => 'IJAZAH',
+            'nama_berkas' => 'Ijazah',
+            'is_wajib' => true,
+            'is_active' => true
+        ]);
+
+        // Create 2MB file (2048 KB)
+        $file = UploadedFile::fake()->create('large.pdf', 2048);
+
+        $response = $this->actingAs($this->student)->post(route('pendaftaran.upload'), [
+            'kode_berkas' => $jenis->kode_berkas,
+            'file' => $file
+        ]);
+
+        // Expect validation error
+        $response->assertSessionHasErrors(['file' => 'Ukuran file terlalu besar (maksimal 1MB)']);
+    }
 }

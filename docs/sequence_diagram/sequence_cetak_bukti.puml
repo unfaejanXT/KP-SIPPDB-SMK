@@ -1,0 +1,37 @@
+@startuml
+title Sequence Diagram - Cetak Bukti Pendaftaran
+autonumber
+
+actor "Calon Siswa" as CS
+participant "Dashboard Siswa" as Dash
+participant "PendaftaranController" as PC
+participant "PDFService" as PDF
+entity "Pendaftaran" as PendM
+
+CS -> Dash: Klik Menu "Cetak Bukti Pendaftaran"
+Dash -> PC: cetakBukti()
+
+opt Cek Session
+    PC -> PC: checkAuth()
+end
+
+PC -> PendM: findByUserId(user_id)
+PendM --> PC: data_pendaftaran
+
+alt Data Ditemukan
+    PC -> PC: checkStatus(data_pendaftaran)
+    
+    alt Status >= Submitted (Finalized)
+        PC -> PC: loadSchoolData()
+        PC -> PC: loadTemplate()
+        PC -> PDF: generate(data, template)
+        PDF --> PC: pdf_stream
+        PC --> CS: Download File PDF
+    else Status Masih Draft
+        PC --> Dash: Redirect dengan Pesan "Selesaikan Pendaftaran Dahulu"
+    end
+else Data Tidak Ditemukan
+    PC --> Dash: Redirect dengan Pesan "Data Tidak Ditemukan"
+end
+
+@enduml

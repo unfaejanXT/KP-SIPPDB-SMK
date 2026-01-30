@@ -1,0 +1,57 @@
+@startuml
+title Activity Diagram: Verifikasi Berkas Pendaftaran
+
+|Admin/Panitia|
+start
+:Mengakses menu Verifikasi Berkas;
+
+|Sistem|
+:Menampilkan daftar pendaftaran calon siswa;
+:Menampilkan opsi filter (Pencarian, Status);
+
+|Admin/Panitia|
+:Memilih salah satu data pendaftaran (Detail);
+
+|Sistem|
+:Menampilkan detail data siswa dan daftar berkas;
+
+|Admin/Panitia|
+:Memeriksa dokumen fisik/file yang diunggah;
+if (Metode Verifikasi?) then (Per Berkas)
+    :Memilih aksi pada salah satu berkas;
+    if (Keputusan?) then (Terima)
+        :Set status berkas 'Verified';
+    else (Tolak)
+        :Set status berkas 'Rejected';
+        :Input catatan penolakan;
+    endif
+    :Klik Update Status;
+
+    |Sistem|
+    :Menyimpan status dan catatan berkas;
+    :Melakukan pengecekan status keseluruhan;
+    if (Status == Rejected?) then (Ya)
+        :Update status pendaftaran menjadi 'Ditolak';
+    elseif (Semua Berkas Verified?) then (Ya)
+        :Update status pendaftaran menjadi 'Terverifikasi';
+    else
+        :Menunggu sisa berkas diverifikasi;
+    endif
+
+else (Verifikasi Semua)
+    |Admin/Panitia|
+    :Klik tombol 'Verifikasi Semua Berkas';
+
+    |Sistem|
+    :Update semua berkas menjadi 'Verified';
+    :Update status pendaftaran menjadi 'Terverifikasi';
+endif
+
+|Sistem|
+:Menampilkan notifikasi keberhasilan;
+:Memperbarui tampilan detail pendaftaran;
+
+|Admin/Panitia|
+stop
+
+@enduml

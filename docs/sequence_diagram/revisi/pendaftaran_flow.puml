@@ -1,0 +1,65 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Calon Siswa" as User
+boundary "Form Pendaftaran" as View
+control "PendaftaranController" as Ctrl
+entity "Pendaftaran" as ModelP
+entity "Biodata" as ModelB
+entity "OrangTua" as ModelO
+entity "Berkas" as ModelF
+
+User -> View : Mengakses menu pendaftaran
+activate View
+
+View -> Ctrl : checkStatus()
+activate Ctrl
+Ctrl -> ModelP : findByUser()
+activate ModelP
+ModelP --> Ctrl : statusPendaftaran
+deactivate ModelP
+
+alt Pendaftaran Selesai
+    Ctrl --> View : Show Info Status
+else Pendaftaran Dibuka / Draft
+    Ctrl --> View : Show Form Steps
+    
+    loop Loop Steps
+        User -> View : Input Data Step (Biodata/Ortu/Berkas)
+        View -> Ctrl : storeStep(data)
+        
+        Ctrl -> Ctrl : validate(data)
+        
+        alt Data Valid
+            alt Step Biodata
+                Ctrl -> ModelB : save(data)
+            else Step Orang Tua
+                Ctrl -> ModelO : save(data)
+            else Step Berkas
+                Ctrl -> ModelF : uploadAndSave(file)
+            end
+            
+            Ctrl -> ModelP : updateStep()
+            Ctrl --> View : Lanjut Step Berikutnya
+        else Data Invalid
+            Ctrl --> View : Show Error Validation
+            View --> User : Perbaiki Input
+        end
+    end
+    
+    User -> View : Konfirmasi & Submit
+    View -> Ctrl : finalisasi()
+    Ctrl -> ModelP : updateStatus('Submitted')
+    Ctrl --> View : Tampilkan Bukti Berhasil
+end
+
+deactivate Ctrl
+deactivate View
+
+@enduml

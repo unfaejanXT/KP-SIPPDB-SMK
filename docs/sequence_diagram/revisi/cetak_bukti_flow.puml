@@ -1,0 +1,38 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Calon Siswa" as User
+boundary "Halaman Cetak Bukti" as View
+control "CetakController" as Ctrl
+entity "Pendaftaran" as Model
+
+User -> View : Memilih menu cetak bukti
+activate View
+
+View -> Ctrl : cetakBukti()
+activate Ctrl
+
+Ctrl -> Model : findByUser()
+activate Model
+Model --> Ctrl : dataPendaftaran
+deactivate Model
+
+alt Status Final (Submitted)
+    Ctrl -> Ctrl : generatePDF(dataPendaftaran)
+    Ctrl --> View : Return File Stream (Download)
+    View --> User : Download file bukti pendaftaran
+else Belum Final
+    Ctrl --> View : Show Error "Belum Finalisasi"
+    View --> User : Tampilkan info belum selesai
+end
+
+deactivate Ctrl
+deactivate View
+
+@enduml

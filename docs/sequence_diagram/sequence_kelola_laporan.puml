@@ -1,0 +1,37 @@
+@startuml
+title Sequence Diagram - Kelola Laporan PPDB (Admin)
+autonumber
+
+actor "Admin" as Admin
+participant "Laporan View" as View
+participant "LaporanController" as Controller
+participant "ExcelService" as Excel
+entity "Pendaftaran" as Model
+
+Admin -> View: Akses Laporan
+View -> Controller: index(request)
+Controller -> Model: query()
+Controller -> Model: paginate()
+Model --> Controller: data
+Controller --> View: render(data)
+View --> Admin: Tampilkan Laporan
+
+opt Filter Data
+    Admin -> View: Pilih Filter (Jurusan/Gelombang/Status)
+    View -> Controller: index(filter_params)
+    Controller -> Model: where(filter_conditions)
+    Model --> Controller: filtered_data
+    Controller --> View: render(filtered_data)
+end
+
+opt Export Excel
+    Admin -> View: Klik Export Excel
+    View -> Controller: export(current_filters)
+    Controller -> Model: get(current_filters)
+    Model --> Controller: all_data
+    Controller -> Excel: download(new RekapPPDBExport(all_data))
+    Excel --> Controller: file_stream
+    Controller --> Admin: Download .xlsx File
+end
+
+@enduml

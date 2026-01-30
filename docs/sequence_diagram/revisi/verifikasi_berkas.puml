@@ -1,0 +1,58 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Panitia PPDB" as Admin
+boundary "Halaman Verifikasi" as View
+control "VerifikasiController" as Ctrl
+entity "Berkas" as ModelF
+entity "Pendaftaran" as ModelP
+
+Admin -> View : Mengakses menu verifikasi berkas
+activate View
+View -> Ctrl : index()
+activate Ctrl
+Ctrl -> ModelP : getPendingVerifikasi()
+activate ModelP
+ModelP --> Ctrl : listSiswa
+deactivate ModelP
+Ctrl -> View : renderList(listSiswa)
+deactivate Ctrl
+
+Admin -> View : Pilih Detail Siswa
+View -> Ctrl : show(id)
+Ctrl --> View : Show Detail & Documents
+
+loop Periksa Dokumen
+    Admin -> View : Verifikasi Dokumen (Terima/Tolak)
+    
+    alt Valid
+        View -> Ctrl : updateStatusBerkas(id, 'Valid')
+        Ctrl -> ModelF : update('Valid')
+    else Invalid
+        View -> Ctrl : updateStatusBerkas(id, 'Invalid', Note)
+        Ctrl -> ModelF : update('Invalid', Note)
+    end
+    
+    Ctrl -> ModelF : checkAllBerkasStatus(siswa_id)
+    activate ModelF
+    ModelF --> Ctrl : allStatus
+    deactivate ModelF
+    
+    alt Semua Valid
+        Ctrl -> ModelP : updateStatus('Terverifikasi')
+    else Ada yang Invalid
+        Ctrl -> ModelP : updateStatus('Ditolak/Perbaikan')
+    end
+    
+    Ctrl --> View : Update UI Status
+end
+
+deactivate View
+
+@enduml

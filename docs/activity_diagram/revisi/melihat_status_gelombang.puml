@@ -1,0 +1,34 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Calon Siswa|
+start
+:Mengakses informasi status pendaftaran;
+
+|Sistem|
+:Memeriksa ketersediaan gelombang aktif;
+
+if (Apakah ada gelombang aktif?) then (Ya)
+    :Memeriksa tanggal jadwal gelombang;
+    
+    if (Apakah saat ini dalam periode pendaftaran?) then (Ya)
+        :Menampilkan status pendaftaran DIBUKA;
+        :Menampilkan tombol daftar sekarang;
+        
+        |Calon Siswa|
+        :Melanjutkan ke proses pendaftaran;
+    else (Tidak)
+        :Menampilkan status pendaftaran DITUTUP;
+    endif
+else (Tidak)
+    :Menampilkan status pendaftaran BELUM TERSEDIA;
+endif
+
+stop
+@enduml

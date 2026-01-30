@@ -1,0 +1,65 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Admin" as Admin
+boundary "Halaman Pengumuman" as View
+control "PengumumanController" as Ctrl
+entity "Pengumuman" as Model
+
+Admin -> View : Mengakses menu pengumuman
+activate View
+View -> Ctrl : index()
+activate Ctrl
+Ctrl -> Model : getAll()
+activate Model
+Model --> Ctrl : listData
+deactivate Model
+Ctrl -> View : renderList()
+deactivate Ctrl
+
+alt Tambah Pengumuman
+    Admin -> View : Buat pengumuman baru
+    View -> Ctrl : store(request)
+    activate Ctrl
+    Ctrl -> Ctrl : validate(request)
+    
+    alt Valid
+        Ctrl -> Model : create(data)
+        Ctrl --> View : Show Success
+    else Invalid
+        Ctrl --> View : Show Error
+    end
+    deactivate Ctrl
+
+else Edit Pengumuman
+    Admin -> View : Edit pengumuman
+    View -> Ctrl : update(request)
+    activate Ctrl
+    Ctrl -> Ctrl : validate(request)
+    
+    alt Valid
+        Ctrl -> Model : update(data)
+        Ctrl --> View : Show Success
+    else Invalid
+        Ctrl --> View : Show Error
+    end
+    deactivate Ctrl
+
+else Hapus Pengumuman
+    Admin -> View : Hapus pengumuman
+    View -> Ctrl : destroy(id)
+    activate Ctrl
+    Ctrl -> Model : delete()
+    Ctrl --> View : Show Success
+    deactivate Ctrl
+end
+
+deactivate View
+
+@enduml

@@ -1,0 +1,178 @@
+@startuml
+!theme plain
+hide circle
+skinparam linetype ortho
+
+entity "users" as users {
+  *id : bigint <<generated>>
+  --
+  *name : varchar(255)
+  *email : varchar(255)
+  password : varchar(255)
+  is_active : boolean
+  last_login_at : timestamp
+  last_login_ip : varchar(255)
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "roles" as roles {
+  *id : bigint <<generated>>
+  --
+  *name : varchar(255)
+  guard_name : varchar(255)
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "model_has_roles" as model_has_roles {
+  *role_id : bigint <<FK>>
+  *model_type : varchar(255)
+  *model_id : bigint <<FK>>
+}
+
+entity "periode" as periode {
+  *id : bigint <<generated>>
+  --
+  *nama_periode : varchar(255)
+  *tahun_ajaran : varchar(255)
+  *tanggal_mulai : date
+  *tanggal_selesai : date
+  is_active : boolean
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "gelombang" as gelombang {
+  *id : bigint <<generated>>
+  --
+  *periode_id : bigint <<FK>>
+  *nama : varchar(100)
+  *tanggal_mulai : date
+  *tanggal_selesai : date
+  *tahun_ajaran : varchar(9)
+  kuota : integer
+  is_active : boolean
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "jurusan" as jurusan {
+  *id : bigint <<generated>>
+  --
+  *kode : varchar(50)
+  *nama : varchar(100)
+  deskripsi : text
+  kuota : smallint
+  status : enum('aktif', 'nonaktif')
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "staff" as staff {
+  *id : bigint <<generated>>
+  --
+  *user_id : bigint <<FK>>
+  nama : varchar(255)
+  foto : varchar(255)
+  nomor_telepon : varchar(255)
+  jabatan : varchar(255)
+  is_active : boolean
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "jenis_berkas" as jenis_berkas {
+  *id : bigint <<generated>>
+  --
+  *kode_berkas : varchar(255)
+  *nama_berkas : varchar(255)
+  is_wajib : boolean
+  is_active : boolean
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "pendaftaran" as pendaftaran {
+  *id : bigint <<generated>>
+  --
+  *no_pendaftaran : varchar(255)
+  *nisn : varchar(10)
+  *nama_lengkap : varchar(50)
+  *jenis_kelamin : char(1)
+  *tempat_lahir : varchar(50)
+  *tanggal_lahir : date
+  golongan_darah : char(2)
+  *agama : varchar(20)
+  *alamat_rumah : varchar(255)
+  *nomor_hp : varchar(15)
+  *asal_sekolah : varchar(100)
+  pas_foto : varchar(255)
+  *user_id : bigint <<FK>>
+  *gelombang_id : bigint <<FK>>
+  *jurusan_id : bigint <<FK>>
+  status : varchar(20)
+  current_step : integer
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "orangtuasiswa" as orangtuasiswa {
+  *id : bigint <<generated>>
+  --
+  *pendaftaran_id : bigint <<FK>>
+  *nama_ayah : varchar(100)
+  *pekerjaan_ayah : varchar(50)
+  penghasilan_ayah : decimal(12,2)
+  *nama_ibu : varchar(100)
+  *pekerjaan_ibu : varchar(50)
+  penghasilan_ibu : decimal(12,2)
+  nama_wali : varchar(100)
+  pekerjaan_wali : varchar(50)
+  penghasilan_wali : decimal(12,2)
+  alamat_wali : text
+  no_hp_wali : varchar(20)
+  no_hp_orangtua : varchar(20)
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "berkas" as berkas {
+  *id : bigint <<generated>>
+  --
+  *pendaftaran_id : bigint <<FK>>
+  *jenis_berkas_id : bigint <<FK>>
+  *file_path : varchar(255)
+  status_verifikasi : varchar(255)
+  catatan_verifikasi : text
+  uploaded_at : timestamp
+  verified_at : timestamp
+}
+
+entity "pengumuman" as pengumuman {
+  *id : bigint <<generated>>
+  --
+  *judul : varchar(255)
+  *slug : varchar(255)
+  *kategori : varchar(255)
+  *konten : text
+  views : integer
+  is_pinned : boolean
+  target_roles : json
+  status : enum('draft', 'published')
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+users ||..o{ model_has_roles
+roles ||..o{ model_has_roles
+users ||..o{ staff : "has"
+users ||..o{ pendaftaran : "registers"
+periode ||..o{ gelombang : "has"
+gelombang ||..o{ pendaftaran : "has"
+jurusan ||..o{ pendaftaran : "chooses"
+pendaftaran ||..|| orangtuasiswa : "has"
+pendaftaran ||..o{ berkas : "uploads"
+jenis_berkas ||..o{ berkas : "defines"
+
+@enduml

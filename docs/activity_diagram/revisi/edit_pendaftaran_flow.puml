@@ -1,0 +1,42 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Calon Siswa|
+start
+:Memilih menu edit data pendaftaran;
+
+|Sistem|
+:Memeriksa status pendaftaran siswa;
+
+if (Apakah data terkunci?) then (Ya)
+    :Menampilkan pesan data tidak dapat diubah;
+else (Tidak)
+    :Menampilkan formulir edit data pendaftaran;
+    
+    |Calon Siswa|
+    :Memperbarui informasi data pendaftaran;
+    :Menyimpan perubahan data;
+    
+    |Sistem|
+    :Memvalidasi perubahan data;
+    
+    if (Apakah data valid?) then (Ya)
+        :Menyimpan pembaruan data pendaftaran;
+        :Menampilkan konfirmasi keberhasilan;
+    else (Tidak)
+        :Menampilkan pesan kesalahan input;
+        
+        |Calon Siswa|
+        :Memperbaiki data input;
+        stop
+    endif
+endif
+
+stop
+@enduml

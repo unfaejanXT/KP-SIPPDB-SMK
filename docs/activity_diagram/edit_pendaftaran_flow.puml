@@ -1,0 +1,55 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+
+|Calon Siswa|
+start
+:Klik Menu Edit Data Pendaftaran;
+
+|Sistem|
+:Ambil Data Pendaftaran (User ID);
+if (Data Ditemukan?) then (Ya)
+    :Cek Status Pendaftaran;
+    if (Status Terkunci/Final?\n(Terverifikasi/Diterima/Ditolak)) then (Ya)
+        :Set Pesan Error "Data Locked";
+        :Redirect ke Dashboard;
+        stop
+    else (Tidak)
+        :Ambil Data Master (Jurusan, dll);
+        :Tampilkan Form Edit Data;
+    endif
+else (Tidak)
+    :Redirect ke Halaman Utama;
+    stop
+endif
+
+|Calon Siswa|
+:Ubah Data Pendaftaran;
+:Klik Simpan Perubahan;
+
+|Sistem|
+:Cek Ulang Status Pendaftaran;
+if (Status Terkunci?) then (Ya)
+    :Tampilkan Pesan Error;
+    :Redirect ke Dashboard;
+    stop
+else (Tidak)
+    :Validasi Input Data;
+    if (Valid?) then (Ya)
+        :Update Data ke Database;
+        :Set Pesan Sukses;
+        :Redirect ke Halaman Edit/Dashboard;
+        stop
+    else (Tidak)
+        :Tampilkan Pesan Error Validasi;
+        |Calon Siswa|
+        :Perbaiki Input Data;
+        stop
+    endif
+endif
+
+@enduml

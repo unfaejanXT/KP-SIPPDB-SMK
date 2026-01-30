@@ -1,0 +1,105 @@
+@startuml
+title Activity Diagram - Kelola Pengumuman (Admin)
+
+|Admin|
+start
+:Akses Menu Kelola Pengumuman;
+
+|Sistem|
+:Terima Request Halaman Index;
+note right
+  Route: admin.pengumuman.index
+  Controller: AdminPengumumanController@index
+end note
+:Ambil Data Pengumuman (Latest);
+:Render View 'admin.pengumuman.index';
+
+|Admin|
+:Melihat Daftar Pengumuman;
+
+split
+    :Klik Tombol "Tambah Pengumuman";
+    |Sistem|
+    :Tampilkan Form Tambah;
+    note right
+      Route: admin.pengumuman.create
+      View: admin.pengumuman.create
+    end note
+    
+    |Admin|
+    :Isi Form (Judul, Konten, Kategori, Target, Status);
+    :Submit Form;
+    
+    |Sistem|
+    :Validasi Data;
+    if (Valid?) then (Ya)
+        :Simpan Data ke Database;
+        note right
+          Model: Pengumuman::create()
+        end note
+        :Redirect ke Index dengan Pesan Sukses;
+    else (Tidak)
+        :Kembali ke Form dengan Error;
+        detach
+    endif
+
+split again
+    :Klik Tombol "Edit" pada Data;
+    |Sistem|
+    :Cari Data Pengumuman;
+    :Tampilkan Form Edit;
+    note right
+      Route: admin.pengumuman.edit
+      View: admin.pengumuman.edit
+    end note
+    
+    |Admin|
+    :Update Data Form;
+    :Submit Perubahan;
+    
+    |Sistem|
+    :Validasi Data;
+    if (Valid?) then (Ya)
+        :Update Data di Database;
+        note right
+          Model: $pengumuman->update()
+        end note
+        :Redirect ke Index dengan Pesan Sukses;
+    else (Tidak)
+        :Kembali ke Form Edit dengan Error;
+        detach
+    endif
+
+split again
+    :Klik Tombol "Hapus" pada Data;
+    |Sistem|
+    :Terima Request Delete;
+    note right
+      Route: admin.pengumuman.destroy
+      Method: DELETE
+    end note
+    :Hapus Data dari Database;
+    note right
+      Model: $pengumuman->delete()
+    end note
+    :Redirect ke Index dengan Pesan Sukses;
+
+split again
+    :Klik Tombol "Toggle Status" (Draft/Publish);
+    |Sistem|
+    :Terima Request Toggle Status;
+    note right
+      Route: admin.pengumuman.toggle-status
+      Controller: AdminPengumumanController@toggleStatus
+    end note
+    :Ubah Status (Draft <-> Published);
+    :Simpan Perubahan;
+    :Redirect Back dengan Pesan Sukses;
+
+end split
+
+|Admin|
+:Melihat Daftar Pengumuman Terupdate;
+stop
+
+@enduml

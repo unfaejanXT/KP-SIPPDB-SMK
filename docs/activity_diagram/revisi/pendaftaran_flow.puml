@@ -1,0 +1,74 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Calon Siswa|
+start
+:Mengakses menu pendaftaran;
+
+|Sistem|
+:Memvalidasi status akses pengguna;
+
+if (Apakah akses diizinkan?) then (Tidak)
+    :Menampilkan pesan peringatan akses;
+else (Ya)
+    :Memeriksa data pendaftaran pengguna;
+    if (Apakah pendaftaran sudah selesai?) then (Ya)
+        :Menampilkan informasi status pendaftaran;
+    else (Tidak)
+        :Memeriksa jadwal pendaftaran;
+        if (Apakah pendaftaran dibuka?) then (Tidak)
+            :Menampilkan informasi pendaftaran ditutup;
+        else (Ya)
+            :Menampilkan formulir data diri siswa;
+            
+            repeat
+                |Calon Siswa|
+                :Melengkapi formulir data diri;
+                
+                |Sistem|
+                :Memverifikasi kelengkapan data diri;
+            repeat while (Apakah data valid?) is (Tidak)
+            ->Ya;
+            
+            :Menampilkan formulir data orang tua;
+            
+            repeat
+                |Calon Siswa|
+                :Melengkapi formulir data orang tua;
+                
+                |Sistem|
+                :Memverifikasi kelengkapan data orang tua;
+            repeat while (Apakah data valid?) is (Tidak)
+            ->Ya;
+            
+            :Menampilkan halaman unggah dokumen;
+            
+            repeat
+                |Calon Siswa|
+                :Mengunggah dokumen persyaratan;
+                
+                |Sistem|
+                :Memverifikasi kesesuaian dokumen;
+            repeat while (Apakah dokumen sesuai?) is (Tidak)
+            ->Ya;
+            
+            :Menampilkan ringkasan data pendaftaran;
+            
+            |Calon Siswa|
+            :Mengonfirmasi dan mengirim pendaftaran;
+            
+            |Sistem|
+            :Mencatat seluruh data pendaftaran;
+            :Menampilkan bukti pendaftaran berhasil;
+        endif
+    endif
+endif
+
+stop
+@enduml

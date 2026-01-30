@@ -1,0 +1,38 @@
+@startuml
+title Activity Diagram - Melihat Panduan Pendaftaran
+
+|Calon Siswa / Pengunjung|
+start
+:Akses Menu Panduan Pendaftaran;
+
+|Sistem|
+:Terima Request Halaman Panduan;
+note right
+  Route: /panduan
+  Method: GET
+end note
+
+:Memuat View 'public.panduan';
+note right
+  Memuat konten panduan:
+  - Syarat-syarat Pendaftaran
+  - Alur Pendaftaran (Langkah-langkah)
+  - Dokumen yang diperlukan
+  - Kontak Panitia (jika ada)
+end note
+
+:Render Halaman Panduan Pendaftaran;
+
+|Calon Siswa / Pengunjung|
+:Melihat Halaman Panduan Pendaftaran;
+
+fork
+    :Membaca Persyaratan Umum & Khusus;
+fork again
+    :Mempelajari Alur Pendaftaran;
+fork again
+    :Melihat Dokumen yang Diperlukan;
+end fork
+
+stop
+@enduml

@@ -1,0 +1,98 @@
+@startuml
+title Activity Diagram - Kelola Gelombang Pendaftaran
+
+|Admin|
+start
+:Mengakses Menu "Gelombang Pendaftaran";
+
+|Sistem|
+:Terima Request Halaman Index;
+note right
+  Route: admin.gelombang.index
+  Controller: AdminGelombangController@index
+end note
+
+:Ambil Data Gelombang (with Periode & Count Pendaftar);
+:Ambil Data Periode Aktif;
+:Hitung Statistik (Total, Aktif, Sisa Kuota);
+:Render View 'admin.gelombang.index';
+
+|Admin|
+:Melihat Daftar Gelombang & Statistik;
+
+if (Pilih Aksi?) then (Tambah Gelombang)
+    |Admin|
+    :Klik Tombol "Tambah Gelombang";
+    :Isi Form Tambah Gelombang;
+    note right
+      - Nama Gelombang
+      - Pilih Periode
+      - Tanggal Mulai & Selesai
+      - Tahun Ajaran
+      - Kuota
+      - Status Aktif
+    end note
+    :Klik Simpan;
+
+    |Sistem|
+    :Terima Request Store;
+    note right
+      Route: admin.gelombang.store
+      Method: POST
+    end note
+    :Validasi Input Server-Side;
+    
+    if (Valid?) then (Ya)
+        :Simpan Data Gelombang Baru;
+        :Redirect Back dengan Pesan Sukses;
+    else (Tidak)
+        :Redirect Back dengan Error Validasi;
+    endif
+
+elseif (Edit Gelombang)
+    |Admin|
+    :Klik Tombol "Edit" pada Baris Gelombang;
+    :Ubah Data pada Form Edit;
+    note right
+      Edit Nama, Tanggal, Kuota, Status, dll
+    end note
+    :Klik Simpan Perubahan;
+
+    |Sistem|
+    :Terima Request Update;
+    note right
+      Route: admin.gelombang.update
+      Method: PUT/PATCH
+    end note
+    :Cari Data Gelombang by ID;
+    :Validasi Input Server-Side;
+
+    if (Valid?) then (Ya)
+        :Update Data Gelombang;
+        :Redirect Back dengan Pesan Sukses;
+    else (Tidak)
+        :Redirect Back dengan Error Validasi;
+    endif
+
+elseif (Hapus Gelombang)
+    |Admin|
+    :Klik Tombol "Hapus";
+    :Konfirmasi Hapus;
+
+    |Sistem|
+    :Terima Request Delete;
+    note right
+      Route: admin.gelombang.destroy
+      Method: DELETE
+    end note
+    :Cari Data Gelombang by ID;
+    :Hapus Data Gelombang;
+    :Redirect Back dengan Pesan Sukses;
+
+endif
+
+|Admin|
+:Melihat Pesan Feedback & Data Terupdate;
+stop
+
+@enduml

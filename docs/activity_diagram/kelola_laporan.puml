@@ -1,0 +1,62 @@
+@startuml
+title Activity Diagram - Kelola Laporan PPDB
+
+|Admin|
+start
+:Akses Menu Laporan PPDB;
+
+|Sistem|
+:Terima Request Halaman Laporan;
+note right
+  Route: admin.laporan.index
+  Method: GET
+end note
+:Query Data Pendaftaran (Latest, Paginate);
+:Memuat View 'admin.laporan.index';
+:Menampilkan Halaman Dashboard Laporan;
+
+|Admin|
+repeat
+  if (Perlu Filter Data?) then (Ya)
+    :Pilih Kriteria Filter;
+    note right
+      Opsi Filter:
+      - Jurusan
+      - Gelombang
+      - Status (Draft, Submitted, Terverifikasi)
+    end note
+    :Klik 'Terapkan Filter';
+    
+    |Sistem|
+    :Terima Request Filter;
+    note right
+      Route: admin.laporan.index
+      Method: GET (with params)
+    end note
+    :Query Data dengan Kondisi Filter;
+    :Render Ulang Tabel Data Laporan;
+  else (Tidak)
+  endif
+
+  |Admin|
+  if (Ingin Export Laporan?) then (Ya)
+    :Klik Tombol 'Export Excel';
+    
+    |Sistem|
+    :Terima Request Export;
+    note right
+      Route: admin.laporan.export
+      Method: GET
+      Class: RekapPPDBExport
+    end note
+    :Ambil Data Sesuai Filter Saat Ini;
+    :Generate File Excel (.xlsx);
+    :Download File ke Browser Admin;
+  else (Tidak)
+  endif
+
+|Admin|
+repeat while (Ingin Mengelola Laporan Lain?) is (Ya)
+
+stop
+@enduml

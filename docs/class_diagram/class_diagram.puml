@@ -1,0 +1,192 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+scale 1.5
+
+package "App\\Models" {
+    class User {
+        +id: int
+        +name: string
+        +email: string
+        +password: string
+        +is_active: boolean
+        +last_login_at: datetime
+        +isOnline(): boolean
+        +staff(): HasOne
+    }
+
+    class Pendaftaran {
+        +id: int
+        +user_id: int
+        +gelombang_id: int
+        +jurusan_id: int
+        +no_pendaftaran: string
+        +nisn: string
+        +nama_lengkap: string
+        +jenis_kelamin: enum
+        +tempat_lahir: string
+        +tanggal_lahir: date
+        +golongan_darah: string
+        +agama: string
+        +alamat_rumah: string
+        +nomor_hp: string
+        +asal_sekolah: string
+        +status: enum
+        +current_step: int
+        +user(): BelongsTo
+        +orangTua(): HasOne
+        +gelombang(): BelongsTo
+        +jurusan(): BelongsTo
+        +berkas(): HasMany
+        +scopeAktif(query)
+        +getUsiaAttribute(): int
+    }
+
+    class OrangTuaSiswa {
+        +id: int
+        +pendaftaran_id: int
+        +nama_ayah: string
+        +pekerjaan_ayah: string
+        +penghasilan_ayah: double
+        +nama_ibu: string
+        +pekerjaan_ibu: string
+        +penghasilan_ibu: double
+        +nama_wali: string
+        +pekerjaan_wali: string
+        +penghasilan_wali: double
+        +alamat_wali: string
+        +no_hp_orangtua: string
+        +pendaftaran(): BelongsTo
+        +getNamaOrangtuaFormattedAttribute(): string
+    }
+
+    class Gelombang {
+        +id: int
+        +periode_id: int
+        +nama: string
+        +tanggal_mulai: date
+        +tanggal_selesai: date
+        +tahun_ajaran: string
+        +kuota: int
+        +is_active: boolean
+        +pendaftarans(): HasMany
+        +periode(): BelongsTo
+        +isBerlaku(): boolean
+    }
+
+    class Periode {
+        +id: int
+        +nama_periode: string
+        +tahun_ajaran: string
+        +tanggal_mulai: date
+        +tanggal_selesai: date
+        +is_active: boolean
+        +gelombangs(): HasMany
+        +isBerlaku(): boolean
+    }
+
+    class Jurusan {
+        +id: int
+        +kode: string
+        +nama: string
+        +deskripsi: string
+        +kuota: int
+        +status: enum
+        +pendaftaran(): HasMany
+        +scopeAktif(query)
+        +isKuotaTersedia(): boolean
+        +kurangiKuota(): boolean
+        +tambahKuota(jumlah: int)
+        +ubahStatus(status)
+    }
+
+    class Berkas {
+        +id: int
+        +pendaftaran_id: int
+        +jenis_berkas_id: int
+        +file_path: string
+        +status_verifikasi: string
+        +catatan_verifikasi: string
+        +uploaded_at: datetime
+        +verified_at: datetime
+        +pendaftaran(): BelongsTo
+        +jenisBerkas(): BelongsTo
+        +scopeTerverifikasi(query)
+        +verifikasi(status, catatan)
+        +isTerverifikasi(): boolean
+    }
+
+    class JenisBerkas {
+        +id: int
+        +nama_berkas: string
+        +kode_berkas: string
+        +is_wajib: boolean
+        +is_active: boolean
+        +berkas(): HasMany
+    }
+    
+    class Staff {
+        +id: int
+        +user_id: int
+        +nomor_telepon: string
+        +jabatan: string
+        +foto: string
+        +user(): BelongsTo
+    }
+
+    class Pengumuman {
+        +id: int
+        +judul: string
+        +slug: string
+        +kategori: string
+        +konten: text
+        +views: int
+        +is_pinned: boolean
+        +target_roles: json
+        +status: enum
+        +scopeForUser(query, user)
+    }
+}
+
+package "App\\Http\\Controllers" {
+    class PendaftaranController {
+        +index(request)
+        +step1()
+        +storeStep1(request)
+        +step2()
+        +storeStep2(request)
+        +step3()
+        +storeStep3(request)
+        +uploadBerkas(request)
+        +step4()
+        +submit()
+    }
+
+    class AdminCalonSiswaController {
+        +index(request)
+        +create()
+        +store(request)
+        +show(id)
+        +edit(id)
+        +update(request, id)
+        +destroy(id)
+    }
+}
+
+' Relationships
+User "1" -- "1" Pendaftaran : registers >
+User "1" -- "0..1" Staff : has >
+Pendaftaran "1" -- "1" OrangTuaSiswa : has >
+Pendaftaran "*" -- "1" Gelombang : belongs to >
+Gelombang "*" -- "1" Periode : belongs to >
+Pendaftaran "*" -- "1" Jurusan : chooses >
+Pendaftaran "1" -- "*" Berkas : uploads >
+Berkas "*" -- "1" JenisBerkas : defines type >
+
+' Controller Dependencies
+PendaftaranController ..> Pendaftaran : uses
+PendaftaranController ..> OrangTuaSiswa : uses
+PendaftaranController ..> Berkas : uses
+AdminCalonSiswaController ..> Pendaftaran : manages
+
+@enduml

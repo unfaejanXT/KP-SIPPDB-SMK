@@ -1,0 +1,71 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Admin" as Admin
+boundary "Halaman Gelombang" as View
+control "GelombangController" as Ctrl
+entity "Gelombang" as Model
+
+Admin -> View : Mengakses menu gelombang
+activate View
+View -> Ctrl : index()
+activate Ctrl
+Ctrl -> Model : getAll()
+activate Model
+Model --> Ctrl : listGelombang
+deactivate Model
+Ctrl -> View : renderList()
+deactivate Ctrl
+
+alt Tambah Gelombang
+    Admin -> View : Input data gelombang baru
+    View -> Ctrl : store(request)
+    activate Ctrl
+    Ctrl -> Ctrl : validate(request)
+    
+    alt Valid
+        Ctrl -> Model : create(data)
+        Ctrl --> View : Show Success
+    else Invalid
+        Ctrl --> View : Show Error
+    end
+    deactivate Ctrl
+
+else Edit Gelombang
+    Admin -> View : Update data gelombang
+    View -> Ctrl : update(request)
+    activate Ctrl
+    Ctrl -> Ctrl : validate(request)
+    
+    alt Valid
+        Ctrl -> Model : update(data)
+        Ctrl --> View : Show Success
+    else Invalid
+        Ctrl --> View : Show Error
+    end
+    deactivate Ctrl
+
+else Hapus Gelombang
+    Admin -> View : Hapus gelombang
+    View -> Ctrl : destroy(id)
+    activate Ctrl
+    
+    Ctrl -> Model : checkUsage(id)
+    alt Not Used
+        Ctrl -> Model : delete()
+        Ctrl --> View : Show Success
+    else Used
+        Ctrl --> View : Show Error "Data in Use"
+    end
+    deactivate Ctrl
+end
+
+deactivate View
+
+@enduml

@@ -1,0 +1,48 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Admin|
+start
+:Mengakses menu kelola data pendaftaran;
+
+|Sistem|
+:Menampilkan daftar calon siswa mendaftar;
+
+|Admin|
+if (Pilih aksi data?) then (Lihat Detail)
+    :Memilih siswa untuk melihat detail;
+    
+    |Sistem|
+    :Menampilkan informasi lengkap pendaftaran;
+    
+elseif (Edit Data)
+    :Memilih siswa untuk mengubah data;
+    :Memperbarui data pendaftaran siswa;
+    :Menyimpan perubahan;
+    
+    |Sistem|
+    :Memvalidasi data yang diubah;
+    if (Apakah data valid?) then (Ya)
+        :Menyimpan pembaruan data pendaftaran;
+        :Menampilkan konfirmasi sukses;
+    else (Tidak)
+        :Menampilkan pesan kesalahan input;
+    endif
+
+elseif (Hapus Data)
+    :Memilih data pendaftaran untuk dihapus;
+    :Mengonfirmasi penghapusan data;
+    
+    |Sistem|
+    :Menghapus data pendaftaran dan relasinya;
+    :Menampilkan konfirmasi penghapusan;
+endif
+
+stop
+@enduml

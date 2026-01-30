@@ -1,0 +1,106 @@
+@startuml
+autonumber
+title Sequence Diagram - Kelola Laporan PPDB
+
+actor Admin
+participant "View\n(Laporan Index)" as View
+participant "Route" as Route
+participant "AdminLaporanController" as Controller
+participant "Jurusan Model" as Jurusan
+participant "Gelombang Model" as Gelombang
+participant "Pendaftaran Model" as Pendaftaran
+participant "RekapPPDBExport" as ExportClass
+participant "Maatwebsite\nExcel" as Excel
+
+== Menampilkan Halaman Laporan ==
+
+Admin -> View : Akses Menu Laporan PPDB
+activate View
+View -> Route : GET /admin/laporan
+activate Route
+Route -> Controller : index(Request $request)
+activate Controller
+
+Controller -> Jurusan : all()
+activate Jurusan
+Jurusan --> Controller : List<Jurusan>
+deactivate Jurusan
+
+Controller -> Gelombang : all()
+activate Gelombang
+Gelombang --> Controller : List<Gelombang>
+deactivate Gelombang
+
+Controller -> Pendaftaran : with(['orangTua', 'gelombang', 'jurusan'])
+activate Pendaftaran
+note right of Controller
+  Cek Filters:
+  - jurusan_id
+  - gelombang_id
+  - status
+end note
+Pendaftaran --> Controller : Paginator<Pendaftaran>
+deactivate Pendaftaran
+
+Controller --> View : return view('admin.laporan.index', data)
+deactivate Controller
+deactivate Route
+
+View --> Admin : Tampilkan Halaman Laporan & Tabel Data
+deactivate View
+
+== Filter Data ==
+
+Admin -> View : Pilih Filter & Klik Cari
+activate View
+View -> Route : GET /admin/laporan?jurusan_id=...
+activate Route
+Route -> Controller : index(Request $request)
+activate Controller
+
+note right of Controller
+  Logika pengambilan data 
+  dengan kondisi filter
+end note
+Controller -> Pendaftaran : where(...)->latest()->paginate()
+activate Pendaftaran
+Pendaftaran --> Controller : Filtered Collection
+deactivate Pendaftaran
+
+Controller --> View : return view('admin.laporan.index', data)
+deactivate Controller
+deactivate Route
+View --> Admin : Update Tabel Data Sesuai Filter
+deactivate View
+
+== Export Data Excel ==
+
+Admin -> View : Klik Tombol "Export Excel"
+activate View
+View -> Route : GET /admin/laporan/export?filters...
+activate Route
+Route -> Controller : export(Request $request)
+activate Controller
+
+Controller -> ExportClass : new RekapPPDBExport($filters)
+activate ExportClass
+ExportClass -> Pendaftaran : Query Data sesuai Filter
+activate Pendaftaran
+Pendaftaran --> ExportClass : Collection<Pendaftaran>
+deactivate Pendaftaran
+note right of ExportClass
+  Render View:
+  admin.laporan.export_excel
+end note
+deactivate ExportClass
+
+Controller -> Excel : download(exportInstance, 'laporan-ppdb.xlsx')
+activate Excel
+Excel --> Admin : Download File .xlsx
+deactivate Excel
+
+deactivate Controller
+deactivate Route
+deactivate View
+
+@enduml

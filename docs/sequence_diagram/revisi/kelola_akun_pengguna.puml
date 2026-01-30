@@ -1,0 +1,71 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Admin" as Admin
+boundary "Halaman Kelola Akun" as View
+control "UserController" as Ctrl
+entity "User" as Model
+
+Admin -> View : Mengakses menu kelola akun
+activate View
+View -> Ctrl : index()
+activate Ctrl
+Ctrl -> Model : getAllUsers()
+activate Model
+Model --> Ctrl : listUsers
+deactivate Model
+Ctrl -> View : renderList(listUsers)
+deactivate Ctrl
+
+alt Tambah Akun
+    Admin -> View : Input data pengguna baru
+    View -> Ctrl : store(request)
+    activate Ctrl
+    Ctrl -> Ctrl : validate(request)
+    
+    alt Valid
+        Ctrl -> Model : create(data)
+        Ctrl --> View : Show Success Message
+    else Invalid
+        Ctrl --> View : Show Error Validation
+    end
+    deactivate Ctrl
+
+else Edit Akun
+    Admin -> View : Update data pengguna
+    View -> Ctrl : update(request)
+    activate Ctrl
+    Ctrl -> Ctrl : validate(request)
+    
+    alt Valid
+        Ctrl -> Model : update(data)
+        Ctrl --> View : Show Success Update
+    else Invalid
+        Ctrl --> View : Show Error Validation
+    end
+    deactivate Ctrl
+
+else Hapus Akun
+    Admin -> View : Klik Hapus
+    View -> Ctrl : destroy(id)
+    activate Ctrl
+    
+    Ctrl -> Model : find(id)
+    alt Bisa Dihapus (Not Self)
+        Ctrl -> Model : delete()
+        Ctrl --> View : Show Success Delete
+    else Rejected
+        Ctrl --> View : Show Error "Cannot Delete Self"
+    end
+    deactivate Ctrl
+end
+
+deactivate View
+
+@enduml

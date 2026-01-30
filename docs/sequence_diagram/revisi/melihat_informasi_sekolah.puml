@@ -1,0 +1,30 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Calon Siswa / Pengunjung" as User
+boundary "Halaman Profil Sekolah" as View
+control "ProfilController" as Ctrl
+
+User -> View : Mengakses halaman profil sekolah
+activate View
+
+View -> Ctrl : requestHalamanProfil()
+activate Ctrl
+
+Ctrl -> View : renderView('public.profilsekolah')
+deactivate Ctrl
+
+View --> User : Menampilkan informasi profil sekolah
+deactivate View
+
+User -> View : Melihat visi dan misi
+User -> View : Melihat fasilitas pendidikan
+User -> View : Melihat kontak dan lokasi
+
+@enduml

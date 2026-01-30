@@ -1,0 +1,38 @@
+@startuml
+title Activity Diagram - Melihat Informasi Sekolah
+
+|Calon Siswa / Pengunjung|
+start
+:Akses Menu Informasi Sekolah;
+
+|Sistem|
+:Terima Request Halaman Profil Sekolah;
+note right
+  Route: /profil
+  Method: GET
+end note
+
+:Memuat View 'public.profilsekolah';
+note right
+  Memuat komponen informasi:
+  - Header & Judul
+  - Visi & Misi Sekolah
+  - Daftar Fasilitas (Laboratorium, Bengkel, dll)
+  - Informasi Kontak & Lokasi
+end note
+
+:Render Halaman Profil Sekolah;
+
+|Calon Siswa / Pengunjung|
+:Melihat Halaman Informasi Sekolah;
+
+fork
+    :Melihat Visi & Misi;
+fork again
+    :Melihat Fasilitas Sekolah;
+fork again
+    :Melihat Kontak & Alamat;
+end fork
+
+stop
+@enduml

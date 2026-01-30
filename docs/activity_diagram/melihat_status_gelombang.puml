@@ -1,0 +1,62 @@
+@startuml
+title Activity Diagram - Melihat Status Gelombang Pendaftaran
+
+|Calon Siswa|
+start
+:Akses Halaman Informasi Pendaftaran / PPDB;
+
+|Sistem|
+:Terima Request Halaman Pendaftaran;
+note right
+  Route: /pendaftaran
+  Method: GET
+end note
+
+:Query Data Gelombang Aktif;
+note right
+  Logic:
+  Mengambil data gelombang
+  dengan status aktif dari Database
+end note
+
+if (Data Gelombang Tersedia?) then (Ya)
+    :Cek Validitas Tanggal;
+    note right
+      Logic:
+      If (Date.Now >= Tgl_Mulai 
+      AND Date.Now <= Tgl_Selesai)
+    end note
+
+    if (Masih Dalam Periode?) then (Ya)
+        :Set Status Pendaftaran: **BUKA**;
+        :Siapkan Data Form & Info Biaya;
+    else (Tidak)
+        :Set Status Pendaftaran: **TUTUP**;
+        note right
+          Gelombang ada tapi
+          sudah lewat tanggal
+        end note
+    endif
+else (Tidak)
+    :Set Status Pendaftaran: **BELUM ADA / TUTUP**;
+endif
+
+:Render Halaman Informasi Pendaftaran;
+note right
+  Menampilkan:
+  - Nama Gelombang
+  - Status (Buka/Tutup)
+  - Sisa Kuota (Opsional)
+end note
+
+|Calon Siswa|
+:Melihat Informasi Status Gelombang;
+
+if (Status == BUKA) then (Ya)
+    :Tombol 'Daftar Sekarang' Muncul;
+else (Tidak)
+    :Tombol Daftar Disabled / Informasi Next Batch;
+endif
+
+stop
+@enduml

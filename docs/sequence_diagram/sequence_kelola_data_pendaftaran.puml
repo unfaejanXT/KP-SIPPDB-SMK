@@ -1,0 +1,93 @@
+@startuml
+title Sequence Diagram - Kelola Data Pendaftaran (Admin)
+autonumber
+
+actor "Admin" as Admin
+participant "Pendaftaran Index View" as IndexView
+participant "Pendaftaran Form View" as FormView
+participant "Pendaftaran Detail View" as ShowView
+participant "AdminCalonSiswaController" as AC
+entity "User" as UserM
+entity "Pendaftaran" as PendM
+entity "OrangTua" as OtM
+entity "Berkas" as BerkasM
+
+Admin -> IndexView: Akses Menu Kelola Data
+IndexView -> AC: index()
+AC -> PendM: query().with(['user', 'jurusan'])
+PendM --> AC: data_list
+AC --> IndexView: render(data_list)
+IndexView --> Admin: Tampilkan Daftar Pendaftaran
+
+alt Cari Data
+    Admin -> IndexView: Input Keyword
+    IndexView -> AC: index(search=keyword)
+    AC -> PendM: input(keyword)
+    PendM --> AC: filtered_data
+    AC --> IndexView: render(filtered_data)
+end
+
+alt Tambah Data Manual
+    Admin -> IndexView: Klik Tambah Data
+    IndexView -> AC: create()
+    AC --> FormView: render(master_data)
+    FormView --> Admin: Tampilkan Form
+    
+    Admin -> FormView: Isi Data (Akun, Siswa, Ortu)
+    Admin -> FormView: Klik Simpan
+    FormView -> AC: store(request)
+    AC -> AC: validate()
+    
+    alt Valid
+        AC -> AC: beginTransaction()
+        AC -> UserM: create(account_data)
+        AC -> PendM: create(student_data)
+        AC -> OtM: create(parent_data)
+        opt Ada Berkas
+            AC -> BerkasM: store()
+        end
+        AC -> AC: commit()
+        AC --> IndexView: Redirect Sukses
+    else Invalid
+        AC --> FormView: Redirect Back with Errors
+    end
+
+else Edit Data
+    Admin -> IndexView: Klik Edit
+    IndexView -> AC: edit(id)
+    AC -> PendM: find(id)
+    PendM --> AC: data
+    AC --> FormView: render(data)
+    
+    Admin -> FormView: Update Data
+    Admin -> FormView: Klik Update
+    FormView -> AC: update(request, id)
+    AC -> AC: validate()
+    
+    alt Valid
+        AC -> UserM: update()
+        AC -> PendM: update()
+        AC -> OtM: update()
+        AC --> IndexView: Redirect Sukses
+    else Invalid
+        AC --> FormView: Redirect Back with Errors
+    end
+    
+else Hapus Data
+    Admin -> IndexView: Klik Hapus
+    IndexView -> AC: destroy(id)
+    AC -> PendM: find(id)
+    AC -> PendM: delete() (Cascade)
+    AC -> UserM: delete()
+    AC --> IndexView: Redirect Sukses
+
+else Detail Data
+    Admin -> IndexView: Klik Detail
+    IndexView -> AC: show(id)
+    AC -> PendM: load(['berkas', 'orangtua', 'user'])
+    PendM --> AC: full_data
+    AC --> ShowView: render(full_data)
+    ShowView --> Admin: Tampilkan Detail Lengkap
+end
+
+@enduml

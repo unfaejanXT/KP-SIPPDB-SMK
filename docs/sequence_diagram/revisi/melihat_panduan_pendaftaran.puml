@@ -1,0 +1,30 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Calon Siswa / Pengunjung" as User
+boundary "Halaman Panduan" as View
+control "PanduanController" as Ctrl
+
+User -> View : Mengakses menu panduan pendaftaran
+activate View
+
+View -> Ctrl : getPanduanPage()
+activate Ctrl
+
+Ctrl -> View : renderView('public.panduan')
+deactivate Ctrl
+
+View --> User : Menampilkan halaman panduan informasi
+deactivate View
+
+User -> View : Membaca persyaratan pendaftaran
+User -> View : Mempelajari alur proses pendaftaran
+User -> View : Melihat daftar dokumen yang diperlukan
+
+@enduml

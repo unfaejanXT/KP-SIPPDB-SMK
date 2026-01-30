@@ -1,0 +1,86 @@
+@startuml
+title Sequence Diagram - Flow Detail Pendaftaran (Implementation)
+autonumber
+
+actor "Calon Siswa" as CS
+participant "Pendaftaran View" as View
+participant "PendaftaranController" as Controller
+entity "Gelombang" as GelombangM
+entity "Pendaftaran" as PendM
+entity "Biodata" as BioM
+entity "OrangTua" as OtM
+entity "Berkas" as BerkasM
+
+CS -> View: Akses Menu Pendaftaran
+View -> Controller: index()
+
+opt Cek Status Login
+    Controller -> Controller: checkAuth()
+end
+
+Controller -> PendM: findByUserId()
+PendM --> Controller: data_pendaftaran
+
+alt Data Ada
+    alt Status Submitted
+        Controller --> View: Redirect Dashboard (Locked)
+        View --> CS: Tampilkan Status Pendaftaran
+    else Status Draft
+        Controller -> Controller: checkCurrentStep()
+        Controller --> View: Redirect ke Halaman Step Terakhir
+    end
+else Belum Ada Data
+    Controller -> GelombangM: getActiveGelombang()
+    
+    alt Ada Gelombang Aktif
+        Controller --> View: Tampilkan Form Step 1
+        
+        group Step 1: Biodata
+             CS -> View: Input Biodata
+             View -> Controller: storeStep1()
+             Controller -> Controller: validate()
+             Controller -> PendM: create(no_pendaftaran, status=draft, step=1)
+             Controller -> BioM: create()
+             Controller --> View: Redirect Step 2
+        end
+
+        group Step 2: Orang Tua
+             CS -> View: Input Data Ortu
+             View -> Controller: storeStep2()
+             Controller -> Controller: validate()
+             Controller -> OtM: create()
+             Controller -> PendM: update(step=2)
+             Controller --> View: Redirect Step 3
+        end
+
+        group Step 3: Upload Berkas
+             CS -> View: Upload File
+             View -> Controller: storeStep3(file)
+             Controller -> Controller: validateFile()
+             Controller -> Controller: saveToStorage()
+             Controller -> BerkasM: createOrUpdate(status=pending)
+             
+             CS -> View: Klik Lanjut
+             View -> Controller: checkStep3Completion()
+             alt Berkas Lengkap
+                 Controller -> PendM: update(step=3)
+                 Controller --> View: Redirect Step 4
+             else Kurang
+                 Controller --> View: Alert "Berkas Belum Lengkap"
+             end
+        end
+
+        group Step 4: Finalisasi
+             CS -> View: Review & Submit
+             View -> Controller: finalize()
+             Controller -> BerkasM: checkAllRequired()
+             Controller -> PendM: update(status=submitted, step=4)
+             Controller --> View: Redirect Dashboard
+        end
+
+    else Tidak Ada Gelombang
+        Controller --> View: Tampilkan "Pendaftaran Tutup"
+    end
+end
+
+@enduml

@@ -1,0 +1,49 @@
+@startuml
+title Sequence Diagram - Edit Data Pendaftaran (Calon Siswa)
+autonumber
+
+actor "Calon Siswa" as CS
+participant "Dashboard Siswa" as Dash
+participant "PendaftaranController" as PC
+participant "View Edit" as EditView
+entity "Pendaftaran" as PendM
+
+CS -> Dash: Klik Menu "Edit Data Pendaftaran"
+Dash -> PC: edit()
+
+PC -> PendM: findByUserId(user_id)
+PendM --> PC: data
+
+alt Data Pendaftaran Ada
+    PC -> PC: checkIsLocked(data.status)
+    
+    alt Status Locked (Terverifikasi/Diterima/Ditolak)
+        PC --> Dash: Redirect dengan Error "Data Terkunci"
+    else Status Editable
+        PC -> EditView: render(data, master_data)
+        EditView --> CS: Tampilkan Form Edit
+        
+        CS -> EditView: Ubah Data
+        CS -> EditView: Klik Simpan
+        EditView -> PC: update(request)
+        
+        PC -> PC: checkIsLocked(data.status)
+        alt Masih Editable
+            PC -> PC: validate(request)
+            alt Valid
+                PC -> PendM: update(request.all())
+                PendM --> PC: success
+                PC --> Dash: Redirect Sukses
+            else Invalid
+                PC --> EditView: Tampilkan Error Validasi
+                CS -> EditView: Perbaiki Input
+            end
+        else Sudah Terkunci Saat Edit
+             PC --> Dash: Redirect Error "Status Berubah, Data Terkunci"
+        end
+    end
+else Tidak Ada Data
+    PC --> Dash: Redirect Home
+end
+
+@enduml

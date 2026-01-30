@@ -1,0 +1,79 @@
+@startuml
+title Activity Diagram - Kelola Jurusan
+
+|Admin|
+start
+:Membuka Menu Kelola Jurusan;
+
+|Sistem|
+:Mengambil Data Jurusan & Statistik Pendaftar;
+note right
+    Data:
+    - List Jurusan
+    - Statistik (Total Jurusan, Kuota, Total Pendaftar, Kepenuhan)
+end note
+:Menampilkan Halaman Daftar Jurusan;
+
+|Admin|
+split
+    -[hidden]->
+    :Klik Tombol Tambah;
+    repeat
+        :Mengisi Form Tambah Jurusan:
+        - Kode (Unique)
+        - Nama (Unique)
+        - Deskripsi
+        - Kuota
+        - Status (Aktif/Nonaktif);
+        :Klik Simpan;
+        
+        |Sistem|
+        :Validasi Input;
+    repeat while (Input Valid?) is (Tidak)
+    ->Ya;
+    :Simpan Data Jurusan Baru;
+    :Set Pesan Sukses;
+    
+split again
+    -[hidden]->
+    :Klik Tombol Edit pada Baris Jurusan;
+    
+    |Sistem|
+    :Menampilkan Form Edit Data Jurusan;
+    
+    |Admin|
+    repeat
+        :Mengubah Data Jurusan;
+        :Klik Simpan Perubahan;
+        
+        |Sistem|
+        :Validasi Input;
+    repeat while (Input Valid?) is (Tidak)
+    ->Ya;
+    :Update Data Jurusan;
+    :Set Pesan Sukses;
+    
+split again
+    -[hidden]->
+    :Klik Tombol Hapus pada Baris Jurusan;
+    :Konfirmasi Penghapusan;
+    
+    |Sistem|
+    :Cek Dependencies (Table Pendaftaran);
+    if (Ada Pendaftar di Jurusan Tersebut?) then (Ya)
+        :Batalkan Penghapusan;
+        :Set Pesan Error (Gagal Hapus);
+    else (Tidak)
+        :Hapus Data Jurusan;
+        :Set Pesan Sukses;
+    endif
+    
+end split
+
+:Redirect ke Halaman Daftar Jurusan;
+:Tampilkan Pesan (Sukses/Error);
+
+|Admin|
+stop
+
+@enduml

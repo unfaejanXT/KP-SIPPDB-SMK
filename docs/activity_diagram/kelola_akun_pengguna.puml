@@ -1,0 +1,94 @@
+@startuml
+title Activity Diagram - Kelola Akun Pengguna
+
+|Admin|
+start
+:Membuka Menu Kelola Akun Pengguna;
+
+|Sistem|
+:Mengambil Data Pengguna & Statistik;
+note right
+    Data:
+    - List Users (Search & Filter Role)
+    - Statistik (Total User, Admin, Operator, Active)
+end note
+:Menampilkan Halaman Daftar Pengguna;
+
+|Admin|
+split
+    -[hidden]->
+    :Klik Tombol Tambah User;
+    repeat
+        :Mengisi Form Tambah User:
+        - Nama
+        - Email (Unique)
+        - Password (Min 8 char)
+        - Role (Admin/User/etc);
+        :Klik Simpan;
+        
+        |Sistem|
+        :Validasi Input;
+    repeat while (Input Valid?) is (Tidak)
+    ->Ya;
+    :Simpan Data User Baru;
+    :Assign Role ke User;
+    :Set Pesan Sukses;
+    
+split again
+    -[hidden]->
+    :Klik Tombol Edit pada Baris User;
+    
+    |Sistem|
+    :Menampilkan Form Edit Data User;
+    
+    |Admin|
+    repeat
+        :Mengubah Data User (Nama/Email/Role);
+        :Opsional: Mengubah Password;
+        :Klik Simpan Perubahan;
+        
+        |Sistem|
+        :Validasi Input;
+    repeat while (Input Valid?) is (Tidak)
+    ->Ya;
+    :Update Data User;
+    :Sync Role User;
+    :Set Pesan Sukses;
+    
+split again
+    -[hidden]->
+    :Klik Tombol Hapus pada Baris User;
+    :Konfirmasi Penghapusan;
+    
+    |Sistem|
+    if (User adalah Diri Sendiri?) then (Ya)
+        :Batalkan Penghapusan;
+        :Set Pesan Error (Tidak bisa hapus akun sendiri);
+    else (Tidak)
+        :Hapus Role User;
+        :Hapus Data User;
+        :Set Pesan Sukses;
+    endif
+
+split again
+    -[hidden]->
+    :Klik Toggle Status Aktif/Nonaktif;
+    
+    |Sistem|
+    if (User adalah Diri Sendiri?) then (Ya)
+        :Batalkan Perubahan Status;
+        :Set Pesan Error (Tidak bisa ubah status sendiri);
+    else (Tidak)
+        :Update Status is_active;
+        :Set Pesan Sukses (Diaktifkan/Dinonaktifkan);
+    endif
+    
+end split
+
+:Redirect ke Halaman Daftar User;
+:Tampilkan Pesan (Sukses/Error);
+
+|Admin|
+stop
+
+@enduml

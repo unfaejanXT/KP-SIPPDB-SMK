@@ -1,0 +1,55 @@
+@startuml
+title Activity Diagram - Melihat Pengumuman
+
+|Calon Siswa / Pengunjung|
+start
+:Akses Menu Pengumuman;
+
+|Sistem|
+:Terima Request Halaman Pengumuman;
+:Inisialisasi Query Pengumuman;
+note right
+  Model: Pengumuman
+  Scope: forUser(Auth::user())
+end note
+
+if (Ada Parameter Pencarian 'q'?) then (Ya)
+    :Tambahkan Filter 'LIKE' pada Judul/Konten;
+else (Tidak)
+    :Gunakan Query Standar;
+endif
+
+:Eksekusi Query (Latest & Paginate);
+:Ambil Data Pengumuman dari Database;
+
+if (Data Pengumuman Ada?) then (Ya)
+    :Render View 'public.pengumuman';
+    :Tampilkan Daftar Pengumuman & Pagination;
+else (Tidak)
+    :Render View dengan Pesan Kosong;
+    :Tampilkan "Tidak ada pengumuman";
+endif
+
+|Calon Siswa / Pengunjung|
+if (Ingin melihat detail?) then (Ya)
+    :Klik Judul/Tombol "Baca Selengkapnya";
+    
+    |Sistem|
+    :Terima Request Detail (Slug);
+    :Cari Pengumuman berdasarkan Slug & User Scope;
+    
+    if (Data Ditemukan?) then (Ya)
+        :Render View 'public.pengumuman-detail';
+        :Tampilkan Detail Pengumuman;
+    else (Tidak)
+        :Throw 404 Exception;
+        :Tampilkan Halaman Not Found;
+        stop
+    endif
+    
+    |Calon Siswa / Pengunjung|
+    :Melihat Isi Lengkap Pengumuman;
+endif
+
+stop
+@enduml

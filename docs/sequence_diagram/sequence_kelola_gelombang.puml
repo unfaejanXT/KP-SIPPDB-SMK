@@ -1,0 +1,53 @@
+@startuml
+title Sequence Diagram - Kelola Gelombang Pendaftaran (Admin)
+autonumber
+
+actor "Admin" as Admin
+participant "Gelombang Index View" as View
+participant "AdminGelombangController" as Controller
+entity "Gelombang" as Model
+entity "Periode" as PeriodeModel
+
+Admin -> View: Akses Menu Gelombang
+View -> Controller: index()
+Controller -> Model: getWithPeriodeAndPendaftarCount()
+Controller -> PeriodeModel: getActivePeriode()
+Controller -> Controller: calculateStats()
+Controller --> View: render(data)
+View --> Admin: Tampilkan Daftar Gelombang
+
+alt Tambah Gelombang
+    Admin -> View: Klik Tambah
+    View -> Controller: store(request)
+    Controller -> Controller: validate(request)
+    alt Valid
+        Controller -> Model: create(data)
+        Model --> Controller: saved
+        Controller --> View: Redirect Back (Sukses)
+    else Invalid
+        Controller --> View: Redirect Back (Error)
+    end
+
+else Edit Gelombang
+    Admin -> View: Klik Edit
+    View -> Controller: update(request, id)
+    Controller -> Model: find(id)
+    Controller -> Controller: validate(request)
+    alt Valid
+        Controller -> Model: update(data)
+        Model --> Controller: updated
+        Controller --> View: Redirect Back (Sukses)
+    else Invalid
+        Controller --> View: Redirect Back (Error)
+    end
+
+else Hapus Gelombang
+    Admin -> View: Klik Hapus
+    View -> Controller: destroy(id)
+    Controller -> Model: find(id)
+    Controller -> Model: delete()
+    Model --> Controller: deleted
+    Controller --> View: Redirect Back (Sukses)
+end
+
+@enduml

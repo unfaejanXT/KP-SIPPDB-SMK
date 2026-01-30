@@ -1,0 +1,88 @@
+@startuml
+title Sequence Diagram - Alur Pendaftaran Awal Calon Siswa
+autonumber
+
+actor "Calon Siswa" as CS
+participant "Halaman Depan" as Home
+participant "Halaman Register" as RegPage
+participant "Halaman Login" as LoginPage
+participant "Dashboard Siswa" as Dash
+participant "AuthController" as Auth
+participant "PendaftaranController" as PC
+entity "User" as UserM
+entity "Pendaftaran" as PendM
+entity "Biodata" as BioM
+entity "OrangTua" as OtM
+entity "Berkas" as BerkasM
+
+CS -> Home: Akses Website PPDB
+Home --> CS: Tampilkan Halaman Depan
+
+alt Belum Punya Akun
+    CS -> Home: Klik Daftar
+    Home -> RegPage: Tampilkan Form Register
+    CS -> RegPage: Input Email, Username, Password
+    RegPage -> Auth: register(request)
+    Auth -> UserM: create(data)
+    UserM --> Auth: user_created
+    Auth --> CS: Redirect ke Halaman Login
+end
+
+CS -> LoginPage: Input Email & Password
+LoginPage -> Auth: login(credentials)
+Auth -> UserM: attempt(credentials)
+UserM --> Auth: valid/invalid
+
+opt Login Valid
+    Auth -> PC: checkPendaftaranStatus()
+    PC -> PendM: findByUserId(user_id)
+    PendM --> PC: data_pendaftaran (null/draft/submitted)
+    
+    alt Data Pendaftaran Kosong
+        PC -> PendM: create(status='draft', step=0)
+        PendM --> PC: new_draft
+        PC --> Dash: Redirect ke Dashboard (Step 1)
+    else Status = Draft
+        PC --> Dash: Redirect ke Dashboard (Current Step)
+    else Status = Submitted
+        PC --> Dash: Redirect ke Halaman Ringkasan (Read Only)
+    end
+end
+
+loop Proses Pendaftaran (Draft Mode)
+    alt Step 1: Biodata
+        CS -> Dash: Isi Form Biodata
+        Dash -> PC: storeBiodata(request)
+        PC -> PC: validate()
+        PC -> BioM: updateOrCreate(data)
+        BioM --> PC: saved
+        PC -> PendM: update(current_step=1)
+        PC --> Dash: Lanjut ke Step 2
+    else Step 2: Data Orang Tua
+        CS -> Dash: Isi Form Orang Tua
+        Dash -> PC: storeOrangTua(request)
+        PC -> PC: validate()
+        PC -> OtM: updateOrCreate(data)
+        OtM --> PC: saved
+        PC -> PendM: update(current_step=2)
+        PC --> Dash: Lanjut ke Step 3
+    else Step 3: Upload Berkas
+        CS -> Dash: Upload Berkas
+        Dash -> PC: uploadBerkas(file)
+        PC -> PC: validate()
+        PC -> PC: saveFileToStorage()
+        PC -> BerkasM: createOrUpdate(path)
+        BerkasM --> PC: saved
+        PC -> PendM: update(current_step=3)
+        PC --> Dash: Lanjut ke Step 4
+    end
+end
+
+CS -> Dash: Konfirmasi Data (Step 4)
+Dash -> PC: submitPendaftaran()
+PC -> PC: validateAllSteps()
+PC -> PendM: update(status='submitted', current_step=4)
+PendM --> PC: updated
+PC --> Dash: Tampilkan Notifikasi Sukses & Ringkasan
+
+@enduml

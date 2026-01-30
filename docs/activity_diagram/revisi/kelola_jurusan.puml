@@ -1,0 +1,61 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Admin|
+start
+:Mengakses menu kelola jurusan;
+
+|Sistem|
+:Menampilkan daftar jurusan sekolah;
+
+|Admin|
+if (Pilih aksi jurusan?) then (Tambah Jurusan)
+    :Memilih opsi tambah jurusan;
+    :Mengisi informasi detail jurusan;
+    :Menyimpan data jurusan;
+    
+    |Sistem|
+    :Validasi data jurusan baru;
+    if (Apakah data valid?) then (Ya)
+        :Menambahkan jurusan ke dalam sistem;
+        :Menampilkan konfirmasi sukses;
+    else (Tidak)
+        :Menampilkan pesan kesalahan input;
+    endif
+    
+elseif (Edit Jurusan)
+    :Memilih jurusan untuk diubah;
+    :Mengubah informasi jurusan;
+    :Menyimpan perubahan;
+    
+    |Sistem|
+    :Validasi perubahan data;
+    if (Apakah data valid?) then (Ya)
+        :Memperbarui informasi jurusan;
+        :Menampilkan konfirmasi pembaruan;
+    else (Tidak)
+        :Menampilkan pesan kesalahan input;
+    endif
+
+elseif (Hapus Jurusan)
+    :Memilih jurusan untuk dihapus;
+    :Mengonfirmasi penghapusan;
+    
+    |Sistem|
+    :Memeriksa keterkaitan data pendaftar;
+    if (Apakah ada pendaftar terkait?) then (Ya)
+        :Menampilkan pesan penolakan penghapusan;
+    else (Tidak)
+        :Menghapus data jurusan dari sistem;
+        :Menampilkan konfirmasi penghapusan;
+    endif
+endif
+
+stop
+@enduml

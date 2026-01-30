@@ -1,0 +1,42 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Panitia PPDB|
+start
+:Mengakses menu verifikasi berkas;
+
+|Sistem|
+:Menampilkan daftar pendaftaran masuk;
+
+|Panitia PPDB|
+:Memilih data pendaftaran calon siswa;
+
+|Sistem|
+:Menampilkan detail data dan dokumen siswa;
+
+|Panitia PPDB|
+:Memeriksa kelengkapan dan keabsahan dokumen;
+
+if (Apakah dokumen valid?) then (Tidak)
+    :Menandai dokumen tidak valid;
+    :Menambahkan catatan penolakan;
+    
+    |Sistem|
+    :Menyimpan status penolakan berkas;
+    :Mengirim notifikasi perbaikan ke siswa;
+else (Ya)
+    :Menandai dokumen valid;
+    
+    |Sistem|
+    :Menyimpan status verifikasi berkas;
+    :Memperbarui status pendaftaran menjadi terverifikasi;
+endif
+
+stop
+@enduml

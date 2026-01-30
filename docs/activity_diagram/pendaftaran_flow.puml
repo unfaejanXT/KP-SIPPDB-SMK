@@ -1,0 +1,111 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+
+|Calon Siswa|
+start
+:Mengakses Menu Pendaftaran;
+
+|Sistem|
+:Cek Status Login User;
+if (User Valid?) then (Ya)
+    :Cek Data Pendaftaran (User ID);
+    if (Ada Data Pendaftaran?) then (Ya)
+        :Cek Status Pendaftaran;
+        if (Status Final/Submitted?) then (Ya)
+            :Redirect ke Dashboard;
+            stop
+        else (Draft)
+            :Cek Last Step (current_step);
+            :Redirect ke Step Lanjutan;
+        endif
+    else (Tidak)
+        :Cek Gelombang Aktif;
+        if (Ada Gelombang Aktif?) then (Ya)
+            :Tampilkan Form Step 1 (Biodata);
+        else (Tidak)
+            :Tampilkan Halaman Data Tidak Ditemukan/Tutup;
+            stop
+        endif
+    endif
+else (Tidak)
+    :Redirect ke Login;
+    stop
+endif
+
+|Calon Siswa|
+:Mengisi Form Biodata (Step 1);
+:Klik Simpan/Lanjut;
+
+|Sistem|
+:Validasi Data Input;
+if (Valid?) then (Ya)
+    :Generate No Pendaftaran (Baru);
+    :Simpan/Update Data Pendaftaran;
+    :Set current_step = 1;
+    :Redirect ke Step 2;
+else (Tidak)
+    :Tampilkan Pesan Error;
+    |Calon Siswa|
+    :Perbaiki Data;
+    stop
+endif
+
+|Calon Siswa|
+:Mengisi Data Orang Tua (Step 2);
+:Klik Simpan/Lanjut;
+
+|Sistem|
+:Validasi Data Input;
+if (Valid?) then (Ya)
+    :Update Data Orang Tua;
+    :Set current_step = 2;
+    :Redirect ke Step 3;
+else (Tidak)
+    :Tampilkan Pesan Error;
+    |Calon Siswa|
+    :Perbaiki Data;
+    stop
+endif
+
+|Calon Siswa|
+:Upload Berkas (Step 3);
+|Sistem|
+:Validasi Tipe & Ukuran File;
+:Simpan File ke Storage;
+:Update Record Berkas (Status: Pending);
+|Calon Siswa|
+:Klik Lanjut;
+
+|Sistem|
+:Cek Kelengkapan Berkas Wajib;
+if (Lengkap?) then (Ya)
+    :Set current_step = 3;
+    :Redirect ke Step 4;
+else (Tidak)
+    :Tampilkan Peringatan Berkas Kurang;
+    |Calon Siswa|
+    :Lengkapi Berkas;
+    stop
+endif
+
+|Calon Siswa|
+:Review Data & Berkas (Step 4);
+:Klik Finalisasi / Submit;
+
+|Sistem|
+:Cek Ulang Berkas Wajib;
+:Update Status Pendaftaran -> Submitted;
+:Set current_step = 4;
+:Redirect ke Dashboard;
+:Tampilkan Pesan Sukses;
+
+|Calon Siswa|
+:Melihat Dashboard (Status Menunggu Verifikasi);
+stop
+
+@enduml

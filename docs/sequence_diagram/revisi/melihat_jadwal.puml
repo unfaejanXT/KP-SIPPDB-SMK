@@ -1,0 +1,35 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Calon Siswa / Pengunjung" as User
+boundary "Halaman Jadwal PPDB" as View
+control "JadwalController" as Ctrl
+entity "Gelombang" as Model
+
+User -> View : Mengakses menu jadwal PPDB
+activate View
+
+View -> Ctrl : getJadwalPage()
+activate Ctrl
+
+Ctrl -> Model : getAllGelombang()
+activate Model
+Model --> Ctrl : listGelombang
+deactivate Model
+
+Ctrl -> Ctrl : tentukanStatusGelombang(listGelombang)
+Ctrl -> View : renderView('public.jadwal', data)
+deactivate Ctrl
+
+View --> User : Menampilkan daftar jadwal dan status
+deactivate View
+
+User -> View : Melihat lini masa kegiatan PPDB
+
+@enduml

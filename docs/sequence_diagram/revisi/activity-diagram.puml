@@ -1,0 +1,61 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Calon Siswa" as User
+boundary "Halaman Login" as ViewLogin
+boundary "Halaman Register" as ViewReg
+boundary "Dashboard Siswa" as ViewDash
+control "AuthController" as Auth
+entity "User" as UserModel
+
+User -> ViewLogin : Mengakses aplikasi PPDB
+activate ViewLogin
+
+alt Belum Punya Akun
+    User -> ViewLogin : Klik Daftar
+    ViewLogin -> ViewReg : Tampilkan form register
+    deactivate ViewLogin
+    activate ViewReg
+    
+    User -> ViewReg : Isi formulir pendaftaran akun
+    ViewReg -> Auth : register(request)
+    activate Auth
+    
+    Auth -> Auth : validate(request)
+    Auth -> UserModel : create(data)
+    activate UserModel
+    UserModel --> Auth : userCreated
+    deactivate UserModel
+    
+    Auth --> ViewReg : Redirect ke Login (Success)
+    deactivate Auth
+    ViewReg --> ViewLogin : Tampilkan halaman login
+    deactivate ViewReg
+    activate ViewLogin
+end
+
+User -> ViewLogin : Input Email & Password
+ViewLogin -> Auth : login(credentials)
+activate Auth
+
+Auth -> Auth : attemptLogin(credentials)
+alt Login Berhasil
+    Auth --> ViewLogin : Redirect Dashboard
+    ViewLogin -> ViewDash : Tampilkan Dashboard
+    deactivate ViewLogin
+    activate ViewDash
+else Login Gagal
+    Auth --> ViewLogin : Return Error Message
+    deactivate Auth
+    activate ViewLogin
+    ViewLogin --> User : Tampilkan pesan kesalahan
+    deactivate ViewLogin
+end
+
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Admin|
+start
+:Mengakses menu kelola akun pengguna;
+
+|Sistem|
+:Menampilkan daftar pengguna terdaftar;
+
+|Admin|
+if (Pilih aksi kelola?) then (Tambah Akun)
+    :Memilih opsi tambah pengguna baru;
+    :Mengisi formulir data pengguna;
+    :Menyimpan data pengguna;
+    
+    |Sistem|
+    :Memvalidasi data pengguna baru;
+    if (Apakah data valid?) then (Ya)
+        :Mendaftarkan akun pengguna ke sistem;
+        :Menampilkan konfirmasi sukses;
+    else (Tidak)
+        :Menampilkan pesan kesalahan input;
+    endif
+    
+elseif (Edit Akun)
+    :Memilih pengguna yang akan diedit;
+    :Mengubah informasi data pengguna;
+    :Menyimpan perubahan data;
+    
+    |Sistem|
+    :Memvalidasi perubahan data;
+    if (Apakah data valid?) then (Ya)
+        :Memperbarui akun pengguna;
+        :Menampilkan konfirmasi pembaruan;
+    else (Tidak)
+        :Menampilkan pesan kesalahan input;
+    endif
+    
+elseif (Hapus Akun)
+    :Memilih pengguna untuk dihapus;
+    :Mengonfirmasi penghapusan akun;
+    
+    |Sistem|
+    :Memvalidasi aturan penghapusan;
+    if (Apakah akun bisa dihapus?) then (Ya)
+        :Menghapus akun pengguna dari sistem;
+        :Menampilkan konfirmasi penghapusan;
+    else (Tidak)
+        :Menampilkan pesan penolakan penghapusan;
+    endif
+endif
+
+stop
+@enduml

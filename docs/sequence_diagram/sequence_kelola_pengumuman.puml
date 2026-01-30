@@ -1,0 +1,54 @@
+@startuml
+title Sequence Diagram - Kelola Pengumuman (Admin)
+autonumber
+
+actor "Admin" as Admin
+participant "Pengumuman Index View" as IndexView
+participant "AdminPengumumanController" as Controller
+entity "Pengumuman" as Model
+
+Admin -> IndexView: Akses Menu Pengumuman
+IndexView -> Controller: index()
+Controller -> Model: latest()->get()
+Model --> Controller: list_pengumuman
+Controller --> IndexView: render(list_pengumuman)
+
+alt Tambah Pengumuman
+    Admin -> IndexView: Klik Tambah
+    IndexView -> Controller: create()
+    Controller --> IndexView: Show Form
+    Admin -> IndexView: Submit Form
+    IndexView -> Controller: store(request)
+    Controller -> Controller: validate()
+    Controller -> Model: create(data)
+    Controller --> IndexView: Redirect Sukses
+end
+
+alt Edit Pengumuman
+    Admin -> IndexView: Klik Edit
+    IndexView -> Controller: edit(id)
+    Controller -> Model: find(id)
+    Controller --> IndexView: Show Form Edit
+    Admin -> IndexView: Submit Update
+    IndexView -> Controller: update(request)
+    Controller -> Controller: validate()
+    Controller -> Model: update(data)
+    Controller --> IndexView: Redirect Sukses
+end
+
+alt Hapus Pengumuman
+    Admin -> IndexView: Klik Hapus
+    IndexView -> Controller: destroy(id)
+    Controller -> Model: delete()
+    Controller --> IndexView: Redirect Sukses
+end
+
+alt Toggle Status
+    Admin -> IndexView: Klik Toggle Status
+    IndexView -> Controller: toggleStatus(id)
+    Controller -> Model: find(id)
+    Controller -> Model: update(status = !status)
+    Controller --> IndexView: Redirect Sukses
+end
+
+@enduml

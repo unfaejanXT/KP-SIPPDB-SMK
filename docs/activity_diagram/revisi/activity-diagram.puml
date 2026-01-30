@@ -1,0 +1,47 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Calon Siswa|
+start
+:Mengakses aplikasi PPDB;
+
+|Sistem|
+:Menampilkan halaman utama;
+
+|Calon Siswa|
+if (Apakah sudah memiliki akun?) then (Tidak)
+    :Memilih menu pendaftaran akun;
+    :Mengisi formulir pembuatan akun;
+    
+    |Sistem|
+    :Memvalidasi data form akun;
+    if (Apakah data valid?) then (Ya)
+        :Membuat akun pengguna baru;
+        :Menampilkan konfirmasi pendaftaran akun;
+    else (Tidak)
+        :Menampilkan pesan kesalahan;
+        stop
+    endif
+else (Ya)
+endif
+
+|Calon Siswa|
+:Melakukan login ke sistem;
+
+|Sistem|
+:Memvalidasi kredensial pengguna;
+
+if (Apakah login berhasil?) then (Ya)
+    :Mengarahkan ke dashboard pendaftaran;
+else (Tidak)
+    :Menampilkan pesan kesalahan login;
+endif
+
+stop
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+title Sequence Diagram - Melihat Informasi Sekolah (Public)
+autonumber
+
+actor "Pengunjung" as User
+participant "Profil Sekolah View" as View
+participant "PublicController" as Controller
+
+User -> View: Akses Menu Informasi Sekolah
+View -> Controller: profil()
+Controller --> View: render('public.profilsekolah')
+View --> User: Tampilkan Profil, Visi Misi, Fasilitas
+
+@enduml

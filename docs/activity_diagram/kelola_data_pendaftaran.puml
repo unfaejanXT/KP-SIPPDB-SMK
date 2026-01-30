@@ -1,0 +1,117 @@
+@startuml
+title Activity Diagram - Kelola Data Pendaftaran (Admin)
+
+|Admin|
+start
+:Mengakses Menu "Kelola Data Pendaftaran";
+
+|Sistem|
+:Menerima Request Halaman Index;
+note right
+  Route: admin.calon-siswa.index
+  Controller: AdminCalonSiswaController@index
+end note
+:Query Data Pendaftaran (with User, Jurusan, Gelombang);
+:Render View 'admin.calon-siswa.index' dengan Data Pagination;
+
+|Admin|
+:Melihat Daftar Calon Siswa;
+
+if (Pilih Aksi?) then (Cari Data)
+    |Admin|
+    :Input Kata Kunci Pencarian (Nama/NISN);
+    |Sistem|
+    :Filter Query Berdasarkan Keyword;
+    :Tampilkan Hasil Pencarian;
+    stop
+
+elseif (Tambah Data Baru) then (Create)
+    |Admin|
+    :Klik Tombol "Tambah Data";
+    |Sistem|
+    :Render Form Tambah (admin.calon-siswa.create);
+    :Load Data Master (Jurusan, Gelombang, Jenis Berkas);
+    
+    |Admin|
+    :Mengisi Formulir Pendaftaran;
+    note right
+      - Data Akun (Email, Password)
+      - Data Pribadi (NISN, Nama, dll)
+      - Data Orang Tua
+      - Upload Berkas (Opsional)
+    end note
+    :Klik Simpan;
+    
+    |Sistem|
+    :Validasi Input Server-Side;
+    note right
+      Wajib: Email Unik, NISN Unik, Field Required
+    end note
+    
+    if (Data Valid?) then (Ya)
+        :Mulai Database Transaction;
+        :Create User Baru (Role: calon_siswa);
+        :Create Data Pendaftaran;
+        :Create Data Orang Tua;
+        :Proses Upload Berkas (Jika ada);
+        :Commit Transaction;
+        :Redirect ke Index dengan Pesan Sukses;
+    else (Tidak)
+        :Redirect Back dengan Error Validasi;
+    endif
+    stop
+
+elseif (Edit Data) then (Update)
+    |Admin|
+    :Klik Tombol "Edit" pada Baris Data;
+    |Sistem|
+    :Query Data Pendaftaran by ID;
+    :Render Form Edit (admin.calon-siswa.edit);
+    
+    |Admin|
+    :Update Informasi Data;
+    note right
+      Bisa ubah Email/Password User
+      Bisa ubah Data Siswa & Ortu
+      Bisa ubah Status Pendaftaran
+    end note
+    :Klik Update;
+    
+    |Sistem|
+    :Validasi Input Server-Side;
+    if (Data Valid?) then (Ya)
+        :Update Data User (Email/Pass);
+        :Update Data Pendaftaran;
+        :Update Data Orang Tua;
+        :Redirect ke Index dengan Pesan Sukses;
+    else (Tidak)
+        :Redirect Back dengan Error Validasi;
+    endif
+    stop
+
+elseif (Hapus Data) then (Delete)
+    |Admin|
+    :Klik Tombol "Hapus";
+    :Konfirmasi Dialog Hapus;
+    
+    |Sistem|
+    :Terima Request Delete;
+    :Cari Data Pendaftaran & User Terkait;
+    :Delete Data Pendaftaran (Cascade Profile/Ortu);
+    :Delete Akun User Terkait;
+    :Redirect ke Index dengan Pesan Sukses;
+    stop
+
+elseif (Lihat Detail) then (Show)
+    |Admin|
+    :Klik Tombol "Detail";
+    |Sistem|
+    :Query Detail Lengkap (Relasi Berkas, dll);
+    :Render View Detail (admin.calon-siswa.show);
+    |Admin|
+    :Melihat Detail Informasi & Status Berkas;
+    stop
+
+endif
+
+@enduml

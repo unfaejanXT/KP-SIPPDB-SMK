@@ -1,0 +1,27 @@
+@startuml
+title Sequence Diagram - Melihat Jadwal PPDB (Public)
+autonumber
+
+actor "Pengunjung" as User
+participant "Jadwal View" as View
+participant "PublicController" as Controller
+entity "Gelombang" as Model
+
+User -> View: Akses Menu Jadwal PPDB
+View -> Controller: jadwal()
+Controller -> Model: orderBy('tanggal_mulai')->get()
+Model --> Controller: list_gelombang
+
+loop Check Status
+    Controller -> Controller: checkStatus(gelombang)
+    note right
+        Logic:
+        Determines if Open, Closed, or Soon
+        based on current date
+    end note
+end
+
+Controller --> View: render('public.jadwal', list_gelombang)
+View --> User: Tampilkan Daftar Gelombang & Status
+
+@enduml

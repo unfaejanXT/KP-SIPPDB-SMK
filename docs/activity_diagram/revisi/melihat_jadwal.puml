@@ -1,0 +1,28 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Calon Siswa / Pengunjung|
+start
+:Mengakses menu jadwal PPDB;
+
+|Sistem|
+:Memeriksa data gelombang pendaftaran;
+
+if (Apakah ada jadwal tersedia?) then (Ya)
+    :Menentukan status jadwal (Buka/Tutup/Segera);
+    :Menampilkan daftar jadwal dan statusnya;
+    
+    |Calon Siswa / Pengunjung|
+    :Melihat lini masa kegiatan PPDB;
+else (Tidak)
+    :Menampilkan informasi jadwal belum tersedia;
+endif
+
+stop
+@enduml

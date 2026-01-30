@@ -1,0 +1,48 @@
+@startuml
+title Sequence Diagram - Verifikasi Berkas (Admin)
+autonumber
+
+actor "Admin" as Admin
+participant "Verifikasi View" as View
+participant "AdminVerifikasiController" as Controller
+entity "Pendaftaran" as PendModel
+entity "Berkas" as BerkasModel
+
+Admin -> View: Akses Menu Verifikasi
+View -> Controller: index()
+Controller -> PendModel: with('berkas')->get()
+PendModel --> Controller: list_pendaftaran
+Controller --> View: render(list_pendaftaran)
+
+Admin -> View: Pilih Detail Siswa
+View -> Controller: show(id)
+Controller -> PendModel: with('berkas')->find(id)
+PendModel --> Controller: detail_siswa
+Controller --> View: render(detail_siswa)
+
+alt Verifikasi Per Berkas
+    Admin -> View: Approve/Reject Berkas A
+    View -> Controller: updateBerkas(berkas_id, status)
+    Controller -> BerkasModel: update(status, catatan)
+    
+    Controller -> Controller: checkAllBerkasStatus(pendaftaran_id)
+    alt Ada yang Rejected
+        Controller -> PendModel: update(status='Ditolak')
+    else Semua Verified
+        Controller -> PendModel: update(status='Terverifikasi')
+    else Masih Ada Pending
+        Controller -> PendModel: update(status='Proses Verifikasi')
+    end
+    
+    Controller --> View: Update Tampilan Status
+end
+
+alt Verifikasi Semua (Shortcut)
+    Admin -> View: Klik Verifikasi Semua
+    View -> Controller: verifyAll(pendaftaran_id)
+    Controller -> BerkasModel: where('pendaftaran_id', id)->update(status='Verified')
+    Controller -> PendModel: update(status='Terverifikasi')
+    Controller --> View: Redirect/Refresh Sukses
+end
+
+@enduml

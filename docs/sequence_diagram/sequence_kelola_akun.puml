@@ -1,0 +1,79 @@
+@startuml
+title Sequence Diagram - Kelola Akun Pengguna (Admin)
+autonumber
+
+actor "Admin" as Admin
+participant "User Index View" as IndexView
+participant "User Form View" as FormView
+participant "UserController" as UC
+entity "User" as UserM
+entity "Role" as RoleM
+
+Admin -> IndexView: Buka Menu Kelola Akun
+IndexView -> UC: index()
+UC -> UserM: getAllWithRoles()
+UserM --> UC: list_users
+UC -> IndexView: render(list_users)
+IndexView --> Admin: Tampilkan Daftar User
+
+alt Tambah User Baru
+    Admin -> IndexView: Klik Tambah User
+    IndexView -> UC: create()
+    UC -> FormView: render()
+    FormView --> Admin: Tampilkan Form Tambah
+    
+    loop Validasi Input
+        Admin -> FormView: Input Data (Nama, Email, Pass, Role)
+        Admin -> FormView: Klik Simpan
+        FormView -> UC: store(request)
+        UC -> UC: validate(request)
+        alt Valid
+            UC -> UserM: create(data)
+            UC -> RoleM: assignRole(user, role)
+            UC --> IndexView: Redirect Sukses
+        else Invalid
+            UC --> FormView: Redirect Back with Errors
+        end
+    end
+
+else Edit User
+    Admin -> IndexView: Klik Edit User
+    IndexView -> UC: edit(id)
+    UC -> UserM: findOrFail(id)
+    UserM --> UC: user_data
+    UC -> FormView: render(user_data)
+    FormView --> Admin: Tampilkan Form Edit
+    
+    Admin -> FormView: Ubah Data
+    Admin -> FormView: Klik Update
+    FormView -> UC: update(request, id)
+    UC -> UC: validate(request)
+    UC -> UserM: update(data)
+    UC -> RoleM: syncRoles(role)
+    UC --> IndexView: Redirect Sukses
+
+else Hapus User
+    Admin -> IndexView: Klik Hapus User
+    IndexView -> UC: destroy(id)
+    UC -> PC: checkIfNotSelf(id)
+    alt Bukan Diri Sendiri
+        UC -> UserM: delete(id)
+        UserM --> UC: deleted
+        UC --> IndexView: Redirect Sukses
+    else Diri Sendiri
+        UC --> IndexView: Redirect Error "Tidak bisa hapus akun sendiri"
+    end
+
+else Toggle Status
+    Admin -> IndexView: Klik Toggle Active
+    IndexView -> UC: toggleStatus(id)
+    UC -> PC: checkIfNotSelf(id)
+    alt Bukan Diri Sendiri
+        UC -> UserM: updateStatus(!current_status)
+        UC --> IndexView: Redirect Sukses
+    else Diri Sendiri
+        UC --> IndexView: Redirect Error
+    end
+end
+
+@enduml

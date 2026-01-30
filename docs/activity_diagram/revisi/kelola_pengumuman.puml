@@ -1,0 +1,56 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Admin|
+start
+:Mengakses menu kelola pengumuman;
+
+|Sistem|
+:Menampilkan daftar pengumuman;
+
+|Admin|
+if (Pilih aksi pengumuman?) then (Buat Baru)
+    :Memilih opsi tambah pengumuman;
+    :Menyusun konten pengumuman;
+    :Menerbitkan pengumuman;
+    
+    |Sistem|
+    :Validasi konten pengumuman;
+    if (Apakah konten valid?) then (Ya)
+        :Mempublikasikan pengumuman ke sistem;
+        :Menampilkan konfirmasi sukses;
+    else (Tidak)
+        :Menampilkan pesan kesalahan input;
+    endif
+
+elseif (Edit Pengumuman)
+    :Memilih pengumuman untuk diedit;
+    :Mengubah konten pengumuman;
+    :Menyimpan perubahan;
+    
+    |Sistem|
+    :Validasi perubahan konten;
+    if (Apakah konten valid?) then (Ya)
+        :Memperbarui tayangan pengumuman;
+        :Menampilkan konfirmasi pembaruan;
+    else (Tidak)
+        :Menampilkan pesan kesalahan input;
+    endif
+
+elseif (Hapus Pengumuman)
+    :Memilih pengumuman untuk dihapus;
+    :Mengonfirmasi penghapusan;
+    
+    |Sistem|
+    :Menghapus pengumuman dari sistem;
+    :Menampilkan konfirmasi penghapusan;
+endif
+
+stop
+@enduml

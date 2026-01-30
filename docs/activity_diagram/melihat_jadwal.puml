@@ -1,0 +1,45 @@
+@startuml
+title Activity Diagram - Melihat Jadwal PPDB
+
+|Calon Siswa / Pengunjung|
+start
+:Akses Menu "Jadwal PPDB";
+
+|Sistem|
+:Terima Request Halaman Jadwal;
+:Inisialisasi Query Gelombang;
+note right
+  Model: Gelombang
+  Order: tanggal_mulai ASC
+end note
+
+:Ambil Data Gelombang dari Database;
+
+if (Data Gelombang Ada?) then (Ya)
+    :Iterasi Setiap Data Gelombang;
+    
+    partition "Logika Penentuan Status" {
+        :Ambil Waktu Sekarang (Now);
+        :Bandingkan Now dengan Tanggal Mulai & Selesai;
+        
+        if (Admin set Aktif AND Now in Range?) then (Ya)
+            :Set Status = "Dibuka";
+        elseif (Now < Tanggal Mulai?) then (Ya)
+            :Set Status = "Segera";
+        else
+            :Set Status = "Ditutup";
+        endif
+    }
+    
+    :Render View 'public.jadwal';
+    :Tampilkan Daftar Jadwal & Timeline;
+else (Tidak)
+    :Render View dengan Pesan Kosong;
+    :Tampilkan "Belum ada jadwal gelombang";
+endif
+
+|Calon Siswa / Pengunjung|
+:Melihat Informasi Jadwal & Status Pendaftaran;
+
+stop
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Calon Siswa|
+start
+:Memilih menu cetak bukti pendaftaran;
+
+|Sistem|
+:Memeriksa status finalisasi pendaftaran;
+
+if (Apakah pendaftaran sudah final?) then (Ya)
+    :Menyiapkan dokumen bukti pendaftaran;
+    :Menampilkan opsi unduh bukti pendaftaran;
+    
+    |Calon Siswa|
+    :Mengunduh bukti pendaftaran;
+    
+    |Sistem|
+    :Menyerahkan file bukti pendaftaran;
+else (Tidak)
+    :Menampilkan informasi pendaftaran belum selesai;
+endif
+
+stop
+@enduml

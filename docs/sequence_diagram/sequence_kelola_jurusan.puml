@@ -1,0 +1,58 @@
+@startuml
+title Sequence Diagram - Kelola Jurusan (Admin)
+autonumber
+
+actor "Admin" as Admin
+participant "Jurusan Index View" as View
+participant "AdminJurusanController" as Controller
+entity "Jurusan" as Model
+entity "Pendaftaran" as PendModel
+
+Admin -> View: Akses Menu Jurusan
+View -> Controller: index()
+Controller -> Model: withCount('pendaftar')->get()
+Model --> Controller: data_jurusan
+Controller --> View: render(data_jurusan)
+View --> Admin: Tampilkan Daftar Jurusan
+
+alt Tambah Jurusan
+    Admin -> View: Klik Tambah
+    View -> Controller: store(request)
+    Controller -> Controller: validate(request)
+    alt Valid
+        Controller -> Model: create(data)
+        Model --> Controller: saved
+        Controller --> View: Redirect Sukses
+    else Invalid
+        Controller --> View: Redirect Error
+    end
+
+else Edit Jurusan
+    Admin -> View: Klik Edit
+    View -> Controller: update(request, id)
+    Controller -> Model: find(id)
+    Controller -> Controller: validate(request)
+    alt Valid
+        Controller -> Model: update(data)
+        Controller --> View: Redirect Sukses
+    else Invalid
+        Controller --> View: Redirect Error
+    end
+
+else Hapus Jurusan
+    Admin -> View: Klik Hapus
+    View -> Controller: destroy(id)
+    Controller -> Model: find(id)
+    
+    Controller -> PendModel: where('jurusan_id', id)->exists()
+    PendModel --> Controller: has_pendaftar
+    
+    alt Ada Pendaftar
+        Controller --> View: Redirect Error "Gagal Hapus, Ada Pendaftar"
+    else Tidak Ada Pendaftar
+        Controller -> Model: delete()
+        Controller --> View: Redirect Sukses
+    end
+end
+
+@enduml

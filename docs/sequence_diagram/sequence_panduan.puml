@@ -1,0 +1,14 @@
+@startuml
+title Sequence Diagram - Melihat Panduan Pendaftaran (Public)
+autonumber
+
+actor "Pengunjung" as User
+participant "Panduan View" as View
+participant "PublicController" as Controller
+
+User -> View: Akses Menu Panduan
+View -> Controller: panduan()
+Controller --> View: render('public.panduan')
+View --> User: Tampilkan Syarat, Alur, & Dokumen
+
+@enduml

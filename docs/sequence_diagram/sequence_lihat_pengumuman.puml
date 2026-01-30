@@ -1,0 +1,32 @@
+@startuml
+title Sequence Diagram - Melihat Pengumuman (Public)
+autonumber
+
+actor "Pengunjung" as User
+participant "Pengumuman View" as View
+participant "Pengumuman Detail View" as DetailView
+participant "PublicController" as Controller
+entity "Pengumuman" as Model
+
+User -> View: Akses Menu Pengumuman
+View -> Controller: pengumuman(request)
+
+opt Search
+    Controller -> Model: where('title', 'like', request->q)
+end
+
+Controller -> Model: latest()->paginate()
+Model --> Controller: list_pengumuman
+Controller --> View: render(list_pengumuman)
+View --> User: Tampilkan Daftar Pengumuman
+
+opt Lihat Detail
+    User -> View: Klik Baca Selengkapnya
+    View -> Controller: detailPengumuman(slug)
+    Controller -> Model: where('slug', slug)->firstOrFail()
+    Model --> Controller: detail_data
+    Controller --> DetailView: render(detail_data)
+    DetailView --> User: Tampilkan Isi Pengumuman
+end
+
+@enduml

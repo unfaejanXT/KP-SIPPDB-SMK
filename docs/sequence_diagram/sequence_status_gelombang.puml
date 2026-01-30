@@ -1,0 +1,28 @@
+@startuml
+title Sequence Diagram - Melihat Status Gelombang (Public)
+autonumber
+
+actor "Calon Siswa" as User
+participant "Info Pendaftaran View" as View
+participant "PublicController" as Controller
+entity "Gelombang" as Model
+
+User -> View: Akses Halaman Pendaftaran
+View -> Controller: infoPendaftaran()
+Controller -> Model: active()->first()
+Model --> Controller: gelombang_aktif
+
+alt Gelombang Tersedia
+    Controller -> Controller: checkDateValidity(gelombang_aktif)
+    alt Valid (Buka)
+        Controller --> View: render(status='Buka', data=gelombang_aktif)
+    else Invalid (Tutup)
+         Controller --> View: render(status='Tutup')
+    end
+else Tidak Ada Gelombang
+    Controller --> View: render(status='Belum Ada')
+end
+
+View --> User: Tampilkan Status & Tombol Daftar (Jika Buka)
+
+@enduml

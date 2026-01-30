@@ -23,16 +23,21 @@ start
 |Panitia PPDB|
 :Memeriksa kelengkapan dan keabsahan dokumen;
 
-if (Apakah dokumen valid?) then (Tidak)
-    :Menandai dokumen tidak valid;
-    :Menambahkan catatan penolakan;
-    
+if (Dokumen valid?) then (Tidak)
+    :Memilih aksi penolakan dokumen;
+
+    |Sistem|
+    :Menampilkan form alasan penolakan;
+
+    |Panitia PPDB|
+    :Mengisi dan mengonfirmasi alasan penolakan;
+
     |Sistem|
     :Menyimpan status penolakan berkas;
     :Mengirim notifikasi perbaikan ke siswa;
 else (Ya)
-    :Menandai dokumen valid;
-    
+    :Menentukan dokumen valid;
+
     |Sistem|
     :Menyimpan status verifikasi berkas;
     :Memperbarui status pendaftaran menjadi terverifikasi;

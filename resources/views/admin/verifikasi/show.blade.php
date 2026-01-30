@@ -69,7 +69,9 @@
                                 <div class="flex items-center gap-2 mt-0.5">
                                     <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">{{ pathinfo($berkas->file_path, PATHINFO_EXTENSION) ?: 'File' }} Document</span>
                                     <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                                    <a href="{{ asset('storage/' . $berkas->file_path) }}" target="_blank" class="text-xs font-semibold text-blue-600 hover:underline">Lihat Dokumen <i class="fa-solid fa-external-link text-[10px]"></i></a>
+                                    <a href="{{ asset('storage/' . $berkas->file_path) }}" target="_blank" class="text-xs font-semibold text-blue-600 hover:underline">Lihat <i class="fa-solid fa-external-link text-[10px]"></i></a>
+                                    <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                    <a href="{{ route('admin.verifikasi.download', $berkas) }}" class="text-xs font-semibold text-emerald-600 hover:underline">Download <i class="fa-solid fa-download text-[10px]"></i></a>
                                 </div>
                             </div>
                         </div>

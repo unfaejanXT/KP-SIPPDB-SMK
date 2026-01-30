@@ -135,6 +135,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/verifikasi-berkas', [AdminVerifikasiController::class, 'index'])->name('admin.verifikasi.index');
     Route::get('/verifikasi-berkas/{pendaftaran}', [AdminVerifikasiController::class, 'show'])->name('admin.verifikasi.show');
     Route::post('/verifikasi-berkas/{berkas}/status', [AdminVerifikasiController::class, 'updateStatus'])->name('admin.verifikasi.updateStatus');
+    Route::get('/verifikasi-berkas/{berkas}/download', [AdminVerifikasiController::class, 'download'])->name('admin.verifikasi.download');
     Route::post('/verifikasi-berkas/{pendaftaran}/verifikasi-semua', [AdminVerifikasiController::class, 'verifyAll'])->name('admin.verifikasi.verifyAll');
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Pendaftaran;
 use App\Models\Berkas;
@@ -101,5 +102,14 @@ class AdminVerifikasiController extends Controller
         $pendaftaran->update(['status' => 'terverifikasi']);
 
         return back()->with('success', 'Semua berkas berhasil diverifikasi');
+    }
+
+    public function download(Berkas $berkas)
+    {
+        if (Storage::disk('public')->exists($berkas->file_path)) {
+            return Storage::disk('public')->download($berkas->file_path);
+        }
+        
+        return back()->with('error', 'File tidak ditemukan.');
     }
 }

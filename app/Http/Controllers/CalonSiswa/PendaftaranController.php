@@ -195,6 +195,9 @@ class PendaftaranController extends Controller
             'pekerjaan_ayah' => 'required|string',
             'nama_ibu' => 'required|string|max:100',
             'pekerjaan_ibu' => 'required|string',
+            'no_hp_orangtua' => 'nullable|regex:/^[0-9]+$/|max:20',
+        ], [
+            'no_hp_orangtua.regex' => 'Nomor HP Orang Tua harus berupa angka.',
         ]);
 
         if ($validator->fails()) {

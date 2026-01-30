@@ -18,20 +18,25 @@
 
             <!-- Desktop Navigation Links -->
             <div class="hidden md:flex items-center space-x-8">
-                <a href="{{ url('/') }}" class="text-sm font-medium {{ request()->is('/') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out">
-                    Beranda
+                <a href="{{ url('/') }}" class="text-sm font-medium {{ request()->is('/') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out flex items-center gap-2">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Beranda</span>
                 </a>
-                <a href="{{ url('/profil') }}" class="text-sm font-medium {{ request()->is('profil') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out">
-                    Informasi Sekolah
+                <a href="{{ url('/profil') }}" class="text-sm font-medium {{ request()->is('profil') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out flex items-center gap-2">
+                    <i class="fa-solid fa-school"></i>
+                    <span>Informasi Sekolah</span>
                 </a>
-                <a href="{{ url('/jadwal') }}" class="text-sm font-medium {{ request()->is('jadwal') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out">
-                    Jadwal PPDB
+                <a href="{{ url('/jadwal') }}" class="text-sm font-medium {{ request()->is('jadwal') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Jadwal PPDB</span>
                 </a>
-                <a href="{{ url('/panduan') }}" class="text-sm font-medium {{ request()->is('panduan') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out">
-                    Panduan
+                <a href="{{ url('/panduan') }}" class="text-sm font-medium {{ request()->is('panduan') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Panduan</span>
                 </a>
-                <a href="{{ url('/pengumuman') }}" class="text-sm font-medium {{ request()->is('pengumuman') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out">
-                    Pengumuman
+                <a href="{{ url('/pengumuman') }}" class="text-sm font-medium {{ request()->is('pengumuman') ? 'text-red-700' : 'text-gray-600 hover:text-red-600' }} transition duration-150 ease-in-out flex items-center gap-2">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span>Pengumuman</span>
                 </a>
                 
                 <div class="flex items-center gap-3 pl-4 border-l border-gray-200">
@@ -77,12 +82,14 @@
                             </x-slot>
                         </x-dropdown>
                     @else
-                        <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 hover:text-red-700 transition px-3 py-2 rounded-lg hover:bg-red-50">
-                            Masuk
+                        <a href="{{ route('login') }}" class="text-sm font-bold text-gray-700 hover:text-red-700 transition px-3 py-2 rounded-lg hover:bg-red-50 flex items-center gap-2">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            <span>Masuk</span>
                         </a>
                         @if(\App\Models\Gelombang::where('is_active', '=', true)->exists())
-                        <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-lg text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                            Daftar
+                        <a href="{{ route('register') }}" class="inline-flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-bold rounded-lg text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <span>Daftar</span>
                         </a>
                         @endif
                     @endauth
@@ -112,19 +119,24 @@
          x-transition:leave-end="opacity-0 -translate-y-2"
          class="md:hidden bg-white border-t border-gray-100 shadow-xl rounded-b-2xl absolute w-full left-0 z-40">
         <div class="pt-2 pb-6 px-4 space-y-1">
-            <a href="{{ url('/') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('/') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition">
+            <a href="{{ url('/') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('/') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition flex items-center gap-3">
+                <i class="fa-solid fa-house w-6 text-center"></i>
                 Beranda
             </a>
-            <a href="{{ url('/profil') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('profil') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition">
+            <a href="{{ url('/profil') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('profil') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition flex items-center gap-3">
+                <i class="fa-solid fa-school w-6 text-center"></i>
                 Informasi Sekolah
             </a>
-            <a href="{{ url('/jadwal') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('jadwal') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition">
+            <a href="{{ url('/jadwal') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('jadwal') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition flex items-center gap-3">
+                <i class="fa-solid fa-calendar-days w-6 text-center"></i>
                 Jadwal PPDB
             </a>
-            <a href="{{ url('/panduan') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('panduan') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition">
+            <a href="{{ url('/panduan') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('panduan') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition flex items-center gap-3">
+                <i class="fa-solid fa-book-open w-6 text-center"></i>
                 Panduan Pendaftaran
             </a>
-            <a href="{{ url('/pengumuman') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('pengumuman') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition">
+            <a href="{{ url('/pengumuman') }}" class="block pl-3 pr-4 py-3 border-l-4 {{ request()->is('pengumuman') ? 'border-red-500 text-red-700 bg-red-50' : 'border-transparent text-gray-600 hover:text-red-600 hover:bg-gray-50' }} text-base font-medium rounded-r-md transition flex items-center gap-3">
+                <i class="fa-solid fa-bullhorn w-6 text-center"></i>
                 Pengumuman
             </a>
 
@@ -162,12 +174,14 @@
                     </div>
                 @else
                     <div class="grid gap-3">
-                        <a href="{{ route('login') }}" class="flex justify-center items-center px-4 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 transition">
-                            Masuk
+                        <a href="{{ route('login') }}" class="flex justify-center items-center gap-2 px-4 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 transition">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            <span>Masuk</span>
                         </a>
                         @if(\App\Models\Gelombang::where('is_active', '=', true)->exists())
-                        <a href="{{ route('register') }}" class="flex justify-center items-center px-4 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-red-700 hover:bg-red-800 shadow-md transition">
-                            Daftar
+                        <a href="{{ route('register') }}" class="flex justify-center items-center gap-2 px-4 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-red-700 hover:bg-red-800 shadow-md transition">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <span>Daftar</span>
                         </a>
                         @endif
                     </div>

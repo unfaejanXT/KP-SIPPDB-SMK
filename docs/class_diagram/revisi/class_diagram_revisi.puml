@@ -1,0 +1,128 @@
+@startuml
+skinparam ClassAttributeIconSize 0
+skinparam linetype ortho
+skinparam shadowing false
+skinparam class {
+    BackgroundColor White
+    ArrowColor Black
+    BorderColor Black
+}
+
+title Class Diagram Sistem Informasi PPDB (SIPPDB-SMK) - OOP Level Dasar
+
+class User {
+    - id : int
+    - username : string
+    - email : string
+    - password : string
+    - role : string
+    - is_active : boolean
+    + login() : boolean
+    + logout() : void
+    + register() : void
+}
+
+class Admin {
+    + verifikasiPendaftaran(pendaftaran: Pendaftaran) : void
+    + kelolaJurusan() : void
+    + kelolaGelombang() : void
+    + kelolaPengumuman() : void
+    + kelolaUser() : void
+}
+
+class CalonSiswa {
+    + getPendaftaran() : Pendaftaran
+    + melengkapiData() : void
+}
+
+class Pendaftaran {
+    - id : int
+    - no_pendaftaran : string
+    - nisn : string
+    - nama_lengkap : string
+    - jenis_kelamin : string
+    - tempat_lahir : string
+    - tanggal_lahir : date
+    - status_pendaftaran : string
+    - current_step : int
+    + buatPendaftaran() : void
+    + updateData() : void
+    + lihatStatus() : string
+    + pilihJurusan(jurusan: Jurusan) : void
+    + uploadBerkas(berkas: Berkas) : void
+    + cetakBukti() : file
+}
+
+class OrangTua {
+    - nama_ayah : string
+    - pekerjaan_ayah : string
+    - penghasilan_ayah : double
+    - nama_ibu : string
+    - pekerjaan_ibu : string
+    - no_hp : string
+    + updateData() : void
+    + getInfo() : string
+}
+
+class Berkas {
+    - id : int
+    - nama_file : string
+    - path : string
+    - status_verifikasi : string
+    - catatan : string
+    + upload() : void
+    + hapus() : void
+    + verifikasi(status: string, catatan: string) : void
+    + getStatus() : string
+}
+
+class Jurusan {
+    - id : int
+    - kode : string
+    - nama : string
+    - kuota : int
+    - status : string
+    + getInfo() : string
+    + cekKuota() : boolean
+    + kurangiKuota() : void
+    + tambahJurusan() : void
+    + editJurusan() : void
+}
+
+class Gelombang {
+    - id : int
+    - nama : string
+    - tanggal_mulai : date
+    - tanggal_selesai : date
+    - kuota : int
+    - is_active : boolean
+    + cekAktif() : boolean
+    + getInfo() : string
+    + tambahGelombang() : void
+}
+
+class Pengumuman {
+    - id : int
+    - judul : string
+    - konten : text
+    - tanggal : date
+    + tampilkan() : void
+    + buatPengumuman() : void
+}
+
+' Inheritance
+User <|-- Admin
+User <|-- CalonSiswa
+
+' Relationships
+CalonSiswa "1" -- "0..1" Pendaftaran : memiliki >
+Pendaftaran "1" *-- "1" OrangTua : terdiri dari >
+Pendaftaran "1" *-- "*" Berkas : memiliki >
+Pendaftaran "*" -- "1" Jurusan : memilih >
+Pendaftaran "*" -- "1" Gelombang : mendaftar pada >
+User "1" -- "*" Pengumuman : melihat >
+Admin ..> Pendaftaran : memverifikasi >
+Admin ..> Jurusan : mengelola >
+Admin ..> Gelombang : mengelola >
+
+@enduml

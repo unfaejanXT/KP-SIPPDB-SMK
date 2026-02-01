@@ -7,14 +7,14 @@ skinparam ActivityFontSize 12
 skinparam ArrowColor #A80036
 skinparam Shadowing false
 
-|Admin|
+|Operator Sekolah|
 start
 :Mengakses menu kelola akun pengguna;
 
 |Sistem|
 :Menampilkan daftar pengguna terdaftar;
 
-|Admin|
+|Operator Sekolah|
 if (Pilih aksi kelola?) then (Tambah Akun)
     :Memilih opsi tambah pengguna baru;
     :Mengisi formulir data pengguna;

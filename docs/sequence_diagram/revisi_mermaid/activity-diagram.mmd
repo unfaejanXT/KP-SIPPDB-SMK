@@ -1,0 +1,51 @@
+sequenceDiagram
+    actor User as Calon Siswa
+    participant B_Login as Boundary: Halaman Login
+    participant B_Reg as Boundary: Halaman Register
+    participant B_Dash as Boundary: Dashboard Siswa
+    participant C_Auth as Control: AuthController
+    participant E_User as Entity: User Model
+
+    User->>B_Login: Mengakses aplikasi PPDB
+    activate B_Login
+
+    alt Belum Punya Akun
+        User->>B_Login: Klik Daftar
+        B_Login->>B_Reg: Tampilkan form register
+        deactivate B_Login
+        activate B_Reg
+        
+        User->>B_Reg: Isi formulir pendaftaran akun
+        B_Reg->>C_Auth: register(request)
+        activate C_Auth
+        
+        C_Auth->>C_Auth: validate(request)
+        C_Auth->>E_User: create(data)
+        activate E_User
+        E_User-->>C_Auth: userCreated
+        deactivate E_User
+        
+        C_Auth-->>B_Reg: Redirect ke Login (Success)
+        deactivate C_Auth
+        B_Reg-->>B_Login: Tampilkan halaman login
+        deactivate B_Reg
+        activate B_Login
+    end
+
+    User->>B_Login: Input Email & Password
+    B_Login->>C_Auth: login(credentials)
+    activate C_Auth
+
+    C_Auth->>C_Auth: attemptLogin(credentials)
+    alt Login Berhasil
+        C_Auth-->>B_Login: Redirect Dashboard
+        B_Login->>B_Dash: Tampilkan Dashboard
+        deactivate B_Login
+        activate B_Dash
+    else Login Gagal
+        C_Auth-->>B_Login: Return Error Message
+        deactivate C_Auth
+        activate B_Login
+        B_Login-->>User: Tampilkan pesan kesalahan
+        deactivate B_Login
+    end

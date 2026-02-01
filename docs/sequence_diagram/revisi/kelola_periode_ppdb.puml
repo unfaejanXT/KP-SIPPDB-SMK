@@ -1,0 +1,81 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Staf PPDB / Operator Sekolah" as Admin
+boundary "Halaman Periode" as View
+control "PeriodeController" as Ctrl
+entity "Periode" as Model
+
+Admin -> View : Mengakses menu periode
+activate View
+View -> Ctrl : index()
+activate Ctrl
+Ctrl -> Model : get()
+activate Model
+Model --> Ctrl : listPeriode
+deactivate Model
+Ctrl --> View : Tampilkan daftar periode
+deactivate Ctrl
+
+alt Tambah Periode
+    Admin -> View : Input data & Submit
+    View -> Ctrl : store(request)
+    activate Ctrl
+    Ctrl -> Ctrl : validate(request)
+    
+    alt Valid
+        Ctrl -> Model : create(data)
+        Ctrl --> View : Redirect with Success
+    else Invalid
+        Ctrl --> View : Show Validation Error
+    end
+    deactivate Ctrl
+
+else Edit Periode
+    Admin -> View : Edit data & Submit
+    View -> Ctrl : update(request, id)
+    activate Ctrl
+    Ctrl -> Ctrl : validate(request)
+    
+    alt Valid
+        Ctrl -> Model : update(data)
+        Ctrl --> View : Redirect with Success
+    else Invalid
+        Ctrl --> View : Show Validation Error
+    end
+    deactivate Ctrl
+
+else Hapus Periode
+    Admin -> View : Klik Hapus
+    View -> Ctrl : destroy(id)
+    activate Ctrl
+    
+    Ctrl -> Model : find(id)
+    Ctrl -> Model : gelombangs()->count()
+    
+    alt Has Gelombang Relation
+        Ctrl --> View : Redirect with Error (Cannot delete)
+    else No Relation
+        Ctrl -> Model : delete()
+        Ctrl --> View : Redirect with Success
+    end
+    deactivate Ctrl
+
+else Toggle Status
+    Admin -> View : Klik Toggle Status
+    View -> Ctrl : toggleStatus(id)
+    activate Ctrl
+    Ctrl -> Model : find(id)
+    Ctrl -> Model : save(newStatus)
+    Ctrl --> View : Redirect with Success
+    deactivate Ctrl
+end
+
+deactivate View
+@enduml

@@ -1,0 +1,61 @@
+sequenceDiagram
+    actor Admin as Admin
+    participant B_Jurusan as Boundary: Halaman Jurusan
+    participant C_Jurusan as Control: JurusanController
+    participant E_Jurusan as Entity: Jurusan Model
+
+    Admin->>B_Jurusan: Mengakses menu kelola jurusan
+    activate B_Jurusan
+    B_Jurusan->>C_Jurusan: index()
+    activate C_Jurusan
+    C_Jurusan->>E_Jurusan: getAll()
+    activate E_Jurusan
+    E_Jurusan-->>C_Jurusan: listJurusan
+    deactivate E_Jurusan
+    C_Jurusan->>B_Jurusan: renderList()
+    deactivate C_Jurusan
+
+    alt Tambah Jurusan
+        Admin->>B_Jurusan: Input data jurusan
+        B_Jurusan->>C_Jurusan: store(request)
+        activate C_Jurusan
+        C_Jurusan->>C_Jurusan: validate(request)
+        
+        alt Valid
+            C_Jurusan->>E_Jurusan: create(data)
+            C_Jurusan-->>B_Jurusan: Show Success
+        else Invalid
+            C_Jurusan-->>B_Jurusan: Show Error
+        end
+        deactivate C_Jurusan
+
+    else Edit Jurusan
+        Admin->>B_Jurusan: Edit data jurusan
+        B_Jurusan->>C_Jurusan: update(request)
+        activate C_Jurusan
+        C_Jurusan->>C_Jurusan: validate(request)
+        
+        alt Valid
+            C_Jurusan->>E_Jurusan: update(data)
+            C_Jurusan-->>B_Jurusan: Show Success
+        else Invalid
+            C_Jurusan-->>B_Jurusan: Show Error
+        end
+        deactivate C_Jurusan
+
+    else Hapus Jurusan
+        Admin->>B_Jurusan: Hapus jurusan
+        B_Jurusan->>C_Jurusan: destroy(id)
+        activate C_Jurusan
+        
+        C_Jurusan->>E_Jurusan: countPendaftar(id)
+        alt No Pendaftar
+            C_Jurusan->>E_Jurusan: delete()
+            C_Jurusan-->>B_Jurusan: Show Success
+        else Has Relations
+            C_Jurusan-->>B_Jurusan: Show Error "Cannot Delete"
+        end
+        deactivate C_Jurusan
+    end
+
+    deactivate B_Jurusan

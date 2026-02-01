@@ -1,0 +1,20 @@
+sequenceDiagram
+    actor User as Calon Siswa / Pengunjung
+    participant B_Panduan as Boundary: Halaman Panduan
+    participant C_Panduan as Control: PanduanController
+
+    User->>B_Panduan: Mengakses menu panduan pendaftaran
+    activate B_Panduan
+    
+    B_Panduan->>C_Panduan: getPanduanPage()
+    activate C_Panduan
+    
+    C_Panduan->>B_Panduan: renderView('public.panduan')
+    deactivate C_Panduan
+    
+    B_Panduan-->>User: Menampilkan halaman panduan informasi
+    deactivate B_Panduan
+    
+    User->>B_Panduan: Membaca persyaratan pendaftaran
+    User->>B_Panduan: Mempelajari alur proses pendaftaran
+    User->>B_Panduan: Melihat daftar dokumen yang diperlukan

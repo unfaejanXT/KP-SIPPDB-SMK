@@ -1,0 +1,40 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Calon Siswa|
+start
+:Mengakses halaman dashboard;
+:Memilih menu Kelola Berkas;
+
+|Sistem|
+:Memeriksa status pendaftaran;
+:Menampilkan daftar berkas yang sudah diunggah;
+:Menampilkan formulir unggah berkas;
+
+|Calon Siswa|
+if (Apakah ingin mengunggah/mengganti berkas?) then (Ya)
+    :Memilih jenis berkas;
+    :Memilih file dokumen (PDF/JPG);
+    :Menekan tombol unggah;
+
+    |Sistem|
+    :Memvalidasi format dan ukuran file;
+    if (Apakah file valid?) then (Ya)
+        :Menyimpan file ke penyimpanan;
+        :Memperbarui data berkas di database;
+        :Menampilkan notifikasi sukses;
+    else (Tidak)
+        :Menampilkan pesan kesalahan validasi;
+    endif
+else (Tidak)
+endif
+
+:Melihat status kelengkapan berkas;
+stop
+@enduml

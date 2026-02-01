@@ -7,7 +7,7 @@ skinparam ActivityFontSize 12
 skinparam ArrowColor #A80036
 skinparam Shadowing false
 
-|Admin|
+|Kepala Sekolah / Operator Sekolah|
 start
 :Mengakses menu laporan PPDB;
 
@@ -15,7 +15,7 @@ start
 :Menyiapkan data ringkasan pendaftaran;
 :Menampilkan dashboard laporan PPDB;
 
-|Admin|
+|Kepala Sekolah / Operator Sekolah|
 if (Apakah ingin menyaring data?) then (Ya)
     :Memilih kriteria filter laporan;
     :Menerapkan filter data;
@@ -26,13 +26,13 @@ if (Apakah ingin menyaring data?) then (Ya)
 else (Tidak)
 endif
 
-|Admin|
+|Kepala Sekolah / Operator Sekolah|
 if (Apakah ingin mengunduh laporan?) then (Ya)
     :Memilih opsi ekspor laporan (Excel/PDF);
     
     |Sistem|
     :Menghasikan file dokumen laporan;
-    :Menyerahkan file unduhan ke admin;
+    :Menyerahkan file unduhan ke operator sekolah;
 else (Tidak)
 endif
 

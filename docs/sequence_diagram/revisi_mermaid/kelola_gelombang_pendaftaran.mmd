@@ -1,0 +1,61 @@
+sequenceDiagram
+    actor Admin as Admin
+    participant B_Gelombang as Boundary: Halaman Gelombang
+    participant C_Gelombang as Control: GelombangController
+    participant E_Gelombang as Entity: Gelombang Model
+
+    Admin->>B_Gelombang: Mengakses menu gelombang
+    activate B_Gelombang
+    B_Gelombang->>C_Gelombang: index()
+    activate C_Gelombang
+    C_Gelombang->>E_Gelombang: getAll()
+    activate E_Gelombang
+    E_Gelombang-->>C_Gelombang: listGelombang
+    deactivate E_Gelombang
+    C_Gelombang->>B_Gelombang: renderList()
+    deactivate C_Gelombang
+
+    alt Tambah Gelombang
+        Admin->>B_Gelombang: Input data gelombang baru
+        B_Gelombang->>C_Gelombang: store(request)
+        activate C_Gelombang
+        C_Gelombang->>C_Gelombang: validate(request)
+        
+        alt Valid
+            C_Gelombang->>E_Gelombang: create(data)
+            C_Gelombang-->>B_Gelombang: Show Success
+        else Invalid
+            C_Gelombang-->>B_Gelombang: Show Error
+        end
+        deactivate C_Gelombang
+
+    else Edit Gelombang
+        Admin->>B_Gelombang: Update data gelombang
+        B_Gelombang->>C_Gelombang: update(request)
+        activate C_Gelombang
+        C_Gelombang->>C_Gelombang: validate(request)
+        
+        alt Valid
+            C_Gelombang->>E_Gelombang: update(data)
+            C_Gelombang-->>B_Gelombang: Show Success
+        else Invalid
+            C_Gelombang-->>B_Gelombang: Show Error
+        end
+        deactivate C_Gelombang
+
+    else Hapus Gelombang
+        Admin->>B_Gelombang: Hapus gelombang
+        B_Gelombang->>C_Gelombang: destroy(id)
+        activate C_Gelombang
+        
+        C_Gelombang->>E_Gelombang: checkUsage(id)
+        alt Not Used
+            C_Gelombang->>E_Gelombang: delete()
+            C_Gelombang-->>B_Gelombang: Show Success
+        else Used
+            C_Gelombang-->>B_Gelombang: Show Error "Data in Use"
+        end
+        deactivate C_Gelombang
+    end
+
+    deactivate B_Gelombang

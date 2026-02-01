@@ -1,0 +1,71 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Staf PPDB / Operator Sekolah|
+start
+:Mengakses menu kelola periode PPDB;
+
+|Sistem|
+:Menampilkan daftar periode PPDB;
+
+|Staf PPDB / Operator Sekolah|
+if (Pilih aksi kelola?) then (Tambah Periode)
+    :Menekan tombol tambah periode;
+    :Mengisi form data periode (Nama, Tahun Ajaran, Tanggal);
+    :Menyimpan data periode;
+    
+    |Sistem|
+    :Memvalidasi data input;
+    if (Apakah data valid?) then (Ya)
+        :Menyimpan data periode baru;
+        :Menampilkan pesan sukses;
+    else (Tidak)
+        :Menampilkan pesan kesalahan validasi;
+    endif
+    
+elseif (Edit Periode)
+    :Memilih periode yang akan diedit;
+    :Mengubah informasi periode;
+    :Menyimpan perubahan;
+    
+    |Sistem|
+    :Memvalidasi data input;
+    if (Apakah data valid?) then (Ya)
+        :Memperbarui data periode;
+        :Menampilkan pesan sukses;
+    else (Tidak)
+        :Menampilkan pesan kesalahan validasi;
+    endif
+
+elseif (Hapus Periode)
+    :Menekan tombol hapus pada periode;
+    :Mengonfirmasi penghapusan;
+    
+    |Sistem|
+    :Mengecek keterkaitan data gelombang;
+    if (Ada gelombang terkait?) then (Ya)
+        :Membatalkan penghapusan;
+        :Menampilkan pesan error (Data masih digunakan);
+    else (Tidak)
+        :Menghapus data periode;
+        :Menampilkan pesan sukses;
+    endif
+
+elseif (Ubah Status Aktif)
+    :Menekan tombol toggle status;
+    
+    |Sistem|
+    :Mengubah status aktif/non-aktif;
+    :Menyimpan perubahan status;
+    :Menampilkan pesan sukses;
+    
+endif
+
+stop
+@enduml

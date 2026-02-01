@@ -1,0 +1,28 @@
+sequenceDiagram
+    actor User as Calon Siswa
+    participant B_Cetak as Boundary: Halaman Cetak Bukti
+    participant C_Cetak as Control: CetakController
+    participant E_Daftar as Entity: Pendaftaran Model
+
+    User->>B_Cetak: Memilih menu cetak bukti
+    activate B_Cetak
+    
+    B_Cetak->>C_Cetak: cetakBukti()
+    activate C_Cetak
+    
+    C_Cetak->>E_Daftar: findByUser()
+    activate E_Daftar
+    E_Daftar-->>C_Cetak: dataPendaftaran
+    deactivate E_Daftar
+    
+    alt Status Final (Submitted)
+        C_Cetak->>C_Cetak: generatePDF(dataPendaftaran)
+        C_Cetak-->>B_Cetak: Return File Stream (Download)
+        B_Cetak-->>User: Download file bukti pendaftaran
+    else Belum Final
+        C_Cetak-->>B_Cetak: Show Error "Belum Finalisasi"
+        B_Cetak-->>User: Tampilkan info belum selesai
+    end
+    
+    deactivate C_Cetak
+    deactivate B_Cetak

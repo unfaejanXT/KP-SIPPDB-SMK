@@ -1,0 +1,48 @@
+sequenceDiagram
+    actor Admin as Panitia PPDB
+    participant B_Verif as Boundary: Halaman Verifikasi
+    participant C_Verif as Control: VerifikasiController
+    participant E_Berkas as Entity: Berkas Model
+    participant E_Pend as Entity: Pendaftaran Model
+
+    Admin->>B_Verif: Mengakses menu verifikasi berkas
+    activate B_Verif
+    B_Verif->>C_Verif: index()
+    activate C_Verif
+    C_Verif->>E_Pend: getPendingVerifikasi()
+    activate E_Pend
+    E_Pend-->>C_Verif: listSiswa
+    deactivate E_Pend
+    C_Verif->>B_Verif: renderList(listSiswa)
+    deactivate C_Verif
+    
+    Admin->>B_Verif: Pilih Detail Siswa
+    B_Verif->>C_Verif: show(id)
+    C_Verif-->>B_Verif: Show Detail & Documents
+    
+    loop Periksa Dokumen
+        Admin->>B_Verif: Verifikasi Dokumen (Terima/Tolak)
+        
+        alt Valid
+            B_Verif->>C_Verif: updateStatusBerkas(id, 'Valid')
+            C_Verif->>E_Berkas: update('Valid')
+        else Invalid
+            B_Verif->>C_Verif: updateStatusBerkas(id, 'Invalid', Note)
+            C_Verif->>E_Berkas: update('Invalid', Note)
+        end
+        
+        C_Verif->>E_Berkas: checkAllBerkasStatus(siswa_id)
+        activate E_Berkas
+        E_Berkas-->>C_Verif: allStatus
+        deactivate E_Berkas
+        
+        alt Semua Valid
+            C_Verif->>E_Pend: updateStatus('Terverifikasi')
+        else Ada yang Invalid
+            C_Verif->>E_Pend: updateStatus('Ditolak/Perbaikan')
+        end
+        
+        C_Verif-->>B_Verif: Update UI Status
+    end
+    
+    deactivate B_Verif

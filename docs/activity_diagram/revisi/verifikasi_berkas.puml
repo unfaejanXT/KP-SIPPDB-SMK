@@ -7,20 +7,20 @@ skinparam ActivityFontSize 12
 skinparam ArrowColor #A80036
 skinparam Shadowing false
 
-|Panitia PPDB|
+|Staf PPDB / Operator Sekolah|
 start
 :Mengakses menu verifikasi berkas;
 
 |Sistem|
 :Menampilkan daftar pendaftaran masuk;
 
-|Panitia PPDB|
+|Staf PPDB / Operator Sekolah|
 :Memilih data pendaftaran calon siswa;
 
 |Sistem|
 :Menampilkan detail data dan dokumen siswa;
 
-|Panitia PPDB|
+|Staf PPDB / Operator Sekolah|
 :Memeriksa kelengkapan dan keabsahan dokumen;
 
 if (Dokumen valid?) then (Tidak)
@@ -29,7 +29,7 @@ if (Dokumen valid?) then (Tidak)
     |Sistem|
     :Menampilkan form alasan penolakan;
 
-    |Panitia PPDB|
+    |Staf PPDB / Operator Sekolah|
     :Mengisi dan mengonfirmasi alasan penolakan;
 
     |Sistem|

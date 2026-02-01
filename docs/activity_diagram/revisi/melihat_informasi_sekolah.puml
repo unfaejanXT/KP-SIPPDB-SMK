@@ -7,14 +7,14 @@ skinparam ActivityFontSize 12
 skinparam ArrowColor #A80036
 skinparam Shadowing false
 
-|Calon Siswa / Pengunjung|
+|Pengunjung|
 start
 :Mengakses halaman profil sekolah;
 
 |Sistem|
 :Menampilkan informasi profil sekolah;
 
-|Calon Siswa / Pengunjung|
+|Pengunjung|
 :Melihat visi dan misi sekolah;
 :Melihat daftar fasilitas pendidikan;
 :Melihat informasi kontak dan lokasi;

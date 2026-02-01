@@ -1,0 +1,55 @@
+sequenceDiagram
+    actor Admin as Admin
+    participant B_Umum as Boundary: Halaman Pengumuman
+    participant C_Umum as Control: PengumumanController
+    participant E_Umum as Entity: Pengumuman Model
+
+    Admin->>B_Umum: Mengakses menu pengumuman
+    activate B_Umum
+    B_Umum->>C_Umum: index()
+    activate C_Umum
+    C_Umum->>E_Umum: getAll()
+    activate E_Umum
+    E_Umum-->>C_Umum: listData
+    deactivate E_Umum
+    C_Umum->>B_Umum: renderList()
+    deactivate C_Umum
+
+    alt Tambah Pengumuman
+        Admin->>B_Umum: Buat pengumuman baru
+        B_Umum->>C_Umum: store(request)
+        activate C_Umum
+        C_Umum->>C_Umum: validate(request)
+        
+        alt Valid
+            C_Umum->>E_Umum: create(data)
+            C_Umum-->>B_Umum: Show Success
+        else Invalid
+            C_Umum-->>B_Umum: Show Error
+        end
+        deactivate C_Umum
+
+    else Edit Pengumuman
+        Admin->>B_Umum: Edit pengumuman
+        B_Umum->>C_Umum: update(request)
+        activate C_Umum
+        C_Umum->>C_Umum: validate(request)
+        
+        alt Valid
+            C_Umum->>E_Umum: update(data)
+            C_Umum-->>B_Umum: Show Success
+        else Invalid
+            C_Umum-->>B_Umum: Show Error
+        end
+        deactivate C_Umum
+
+    else Hapus Pengumuman
+        Admin->>B_Umum: Hapus pengumuman
+        B_Umum->>C_Umum: destroy(id)
+        activate C_Umum
+        C_Umum->>E_Umum: delete()
+        C_Umum-->>B_Umum: Show Success
+        deactivate C_Umum
+    end
+
+    deactivate B_Umum

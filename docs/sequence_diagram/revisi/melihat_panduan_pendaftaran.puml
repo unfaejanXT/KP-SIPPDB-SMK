@@ -7,7 +7,7 @@ skinparam ActivityFontSize 12
 skinparam ArrowColor #A80036
 skinparam Shadowing false
 
-actor "Calon Siswa / Pengunjung" as User
+actor "Pengunjung" as User
 boundary "Halaman Panduan" as View
 control "PanduanController" as Ctrl
 

@@ -7,7 +7,7 @@ skinparam ActivityFontSize 12
 skinparam ArrowColor #A80036
 skinparam Shadowing false
 
-actor "Panitia PPDB" as Admin
+actor "Staf PPDB / Operator Sekolah" as Admin
 boundary "Halaman Verifikasi" as View
 control "VerifikasiController" as Ctrl
 entity "Berkas" as ModelF

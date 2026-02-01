@@ -1,0 +1,58 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Calon Siswa" as User
+boundary "Halaman Kelola Berkas" as View
+control "CalonSiswaDashboardController" as DashboardCtrl
+control "PendaftaranController" as UploadCtrl
+entity "Pendaftaran" as Pendaftaran
+entity "Berkas" as Berkas
+
+User -> View : Mengakses menu kelola berkas
+activate View
+View -> DashboardCtrl : kelolaBerkas()
+activate DashboardCtrl
+
+DashboardCtrl -> Pendaftaran : findByUser(Auth::id())
+activate Pendaftaran
+Pendaftaran --> DashboardCtrl : dataPendaftaran
+deactivate Pendaftaran
+
+DashboardCtrl -> Berkas : getUploadedFiles(pendaftaran_id)
+activate Berkas
+Berkas --> DashboardCtrl : listBerkas
+deactivate Berkas
+
+DashboardCtrl --> View : Tampilkan daftar berkas & form upload
+deactivate DashboardCtrl
+
+alt Unggah/Update Berkas
+    User -> View : Pilih File & Upload
+    View -> UploadCtrl : uploadBerkas(request)
+    activate UploadCtrl
+    
+    UploadCtrl -> UploadCtrl : validate(file)
+    
+    alt File Valid
+        UploadCtrl -> Berkas : updateOrCreate(file)
+        activate Berkas
+        Berkas --> UploadCtrl : savedBerkas
+        deactivate Berkas
+        
+        UploadCtrl --> View : Redirect with Success
+        View --> User : Tampilkan status berhasil
+    else File Invalid
+        UploadCtrl --> View : Redirect with Error
+        View --> User : Tampilkan pesan error
+    end
+    deactivate UploadCtrl
+end
+
+deactivate View
+@enduml

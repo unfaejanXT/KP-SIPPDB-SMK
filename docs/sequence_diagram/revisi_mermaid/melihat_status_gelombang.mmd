@@ -1,0 +1,31 @@
+sequenceDiagram
+    actor User as Calon Siswa
+    participant B_Info as Boundary: Halaman Info Pendaftaran
+    participant C_Pendaftaran as Control: PendaftaranController
+    participant E_Gelombang as Entity: Gelombang Model
+
+    User->>B_Info: Mengakses informasi status pendaftaran
+    activate B_Info
+    
+    B_Info->>C_Pendaftaran: checkStatusPendaftaran()
+    activate C_Pendaftaran
+    
+    C_Pendaftaran->>E_Gelombang: getActiveGelombang()
+    activate E_Gelombang
+    E_Gelombang-->>C_Pendaftaran: gelombangAktif
+    deactivate E_Gelombang
+    
+    alt Gelombang Aktif Ada
+        C_Pendaftaran->>C_Pendaftaran: checkDateRange(gelombangAktif)
+        
+        alt Dalam Periode
+            C_Pendaftaran->>B_Info: renderView(status='BUKA', linkDaftar)
+        else Belum/Lewat Periode
+            C_Pendaftaran->>B_Info: renderView(status='TUTUP')
+        end
+    else Tidak Ada Gelombang
+        C_Pendaftaran->>B_Info: renderView(status='BELUM TERSEDIA')
+    end
+    deactivate C_Pendaftaran
+    
+    B_Info-->>User: Menampilkan status (BUKA/TUTUP)

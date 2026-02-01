@@ -7,7 +7,7 @@ skinparam ActivityFontSize 12
 skinparam ArrowColor #A80036
 skinparam Shadowing false
 
-actor "Admin" as Admin
+actor "Staf PPDB / Operator Sekolah" as Admin
 boundary "Halaman Gelombang" as View
 control "GelombangController" as Ctrl
 entity "Gelombang" as Model

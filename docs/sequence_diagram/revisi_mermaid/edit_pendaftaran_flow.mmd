@@ -1,0 +1,37 @@
+sequenceDiagram
+    actor User as Calon Siswa
+    participant B_Form as Boundary: Form Edit Pendaftaran
+    participant C_Pendaftaran as Control: PendaftaranController
+    participant E_Daftar as Entity: Pendaftaran Model
+
+    User->>B_Form: Memilih menu edit data
+    activate B_Form
+    
+    B_Form->>C_Pendaftaran: checkEditAccess()
+    activate C_Pendaftaran
+    C_Pendaftaran->>E_Daftar: findByUser()
+    activate E_Daftar
+    E_Daftar-->>C_Pendaftaran: dataPendaftaran
+    deactivate E_Daftar
+    
+    alt Data Terkunci (Finalized/Verified)
+        C_Pendaftaran-->>B_Form: Show Error "Data Locked"
+    else Data Editable
+        C_Pendaftaran-->>B_Form: Show Edit Form
+        
+        User->>B_Form: Update informasi data
+        User->>B_Form: Klik Simpan
+        
+        B_Form->>C_Pendaftaran: update(request)
+        C_Pendaftaran->>C_Pendaftaran: validate(request)
+        
+        alt Valid
+            C_Pendaftaran->>E_Daftar: updateData(request)
+            C_Pendaftaran-->>B_Form: Show Success Message
+        else Invalid
+            C_Pendaftaran-->>B_Form: Show Validation Error
+            B_Form-->>User: Perbaiki data input
+        end
+    end
+    deactivate C_Pendaftaran
+    deactivate B_Form

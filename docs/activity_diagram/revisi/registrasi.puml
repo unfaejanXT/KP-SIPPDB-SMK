@@ -1,0 +1,42 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+|Pengunjung|
+start
+:Mengakses menu registrasi akun;
+
+|Sistem|
+:Mengecek status gelombang pendaftaran aktif;
+if (Apakah ada gelombang aktif?) then (Tidak)
+    :Menampilkan informasi pendaftaran ditutup;
+    stop
+else (Ya)
+    :Menampilkan formulir registrasi akun;
+endif
+
+repeat
+    |Pengunjung|
+    :Mengisi Nama, Email, password dan konfirmasi password;
+    :Menekan tombol daftar;
+
+    |Sistem|
+    :Memvalidasi data input;
+    if (Apakah data valid?) then (Tidak)
+        :Menampilkan pesan kesalahan validasi;
+    endif
+repeat while (Registrasi valid?) is (Tidak)
+->Ya;
+
+:Menyimpan data akun baru ke database;
+:Memberikan hak akses (role) sebagai user;
+:Melakukan login otomatis;
+:Mengalihkan ke halaman dashboard;
+
+stop
+@enduml

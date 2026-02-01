@@ -1,0 +1,20 @@
+sequenceDiagram
+    actor User as Calon Siswa / Pengunjung
+    participant B_Profil as Boundary: Halaman Profil Sekolah
+    participant C_Profil as Control: ProfilController
+
+    User->>B_Profil: Mengakses halaman profil sekolah
+    activate B_Profil
+    
+    B_Profil->>C_Profil: requestHalamanProfil()
+    activate C_Profil
+    
+    C_Profil-->>B_Profil: renderView('public.profilsekolah')
+    deactivate C_Profil
+    
+    B_Profil-->>User: Menampilkan informasi profil sekolah
+    deactivate B_Profil
+    
+    User->>B_Profil: Melihat visi dan misi
+    User->>B_Profil: Melihat fasilitas pendidikan
+    User->>B_Profil: Melihat kontak dan lokasi

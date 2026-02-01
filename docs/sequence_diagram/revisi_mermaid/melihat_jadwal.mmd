@@ -1,0 +1,25 @@
+sequenceDiagram
+    actor User as Calon Siswa / Pengunjung
+    participant B_Jadwal as Boundary: Halaman Jadwal PPDB
+    participant C_Jadwal as Control: JadwalController
+    participant E_Gelombang as Entity: Gelombang Model
+
+    User->>B_Jadwal: Mengakses menu jadwal PPDB
+    activate B_Jadwal
+    
+    B_Jadwal->>C_Jadwal: getJadwalPage()
+    activate C_Jadwal
+    
+    C_Jadwal->>E_Gelombang: getAllGelombang()
+    activate E_Gelombang
+    E_Gelombang-->>C_Jadwal: listGelombang
+    deactivate E_Gelombang
+    
+    C_Jadwal->>C_Jadwal: tentukanStatusGelombang(listGelombang)
+    C_Jadwal->>B_Jadwal: renderView('public.jadwal', data)
+    deactivate C_Jadwal
+    
+    B_Jadwal-->>User: Menampilkan daftar jadwal dan status
+    deactivate B_Jadwal
+    
+    User->>B_Jadwal: Melihat lini masa kegiatan PPDB

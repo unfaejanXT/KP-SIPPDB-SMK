@@ -7,14 +7,14 @@ skinparam ActivityFontSize 12
 skinparam ArrowColor #A80036
 skinparam Shadowing false
 
-|Calon Siswa / Pengunjung|
+|Pengunjung|
 start
 :Mengakses menu panduan pendaftaran;
 
 |Sistem|
 :Menampilkan halaman panduan informasi;
 
-|Calon Siswa / Pengunjung|
+|Pengunjung|
 :Membaca persyaratan pendaftaran;
 :Mempelajari alur proses pendaftaran;
 :Melihat daftar dokumen yang diperlukan;

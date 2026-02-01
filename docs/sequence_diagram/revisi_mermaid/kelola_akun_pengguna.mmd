@@ -1,0 +1,61 @@
+sequenceDiagram
+    actor Admin as Admin
+    participant B_Akun as Boundary: Halaman Kelola Akun
+    participant C_User as Control: UserController
+    participant E_User as Entity: User Model
+
+    Admin->>B_Akun: Mengakses menu kelola akun
+    activate B_Akun
+    B_Akun->>C_User: index()
+    activate C_User
+    C_User->>E_User: getAllUsers()
+    activate E_User
+    E_User-->>C_User: listUsers
+    deactivate E_User
+    C_User->>B_Akun: renderList(listUsers)
+    deactivate C_User
+
+    alt Tambah Akun
+        Admin->>B_Akun: Input data pengguna baru
+        B_Akun->>C_User: store(request)
+        activate C_User
+        C_User->>C_User: validate(request)
+        
+        alt Valid
+            C_User->>E_User: create(data)
+            C_User-->>B_Akun: Show Success Message
+        else Invalid
+            C_User-->>B_Akun: Show Error Validation
+        end
+        deactivate C_User
+
+    else Edit Akun
+        Admin->>B_Akun: Update data pengguna
+        B_Akun->>C_User: update(request)
+        activate C_User
+        C_User->>C_User: validate(request)
+        
+        alt Valid
+            C_User->>E_User: update(data)
+            C_User-->>B_Akun: Show Success Update
+        else Invalid
+            C_User-->>B_Akun: Show Error Validation
+        end
+        deactivate C_User
+
+    else Hapus Akun
+        Admin->>B_Akun: Klik Hapus
+        B_Akun->>C_User: destroy(id)
+        activate C_User
+        
+        C_User->>E_User: find(id)
+        alt Bisa Dihapus (Not Self)
+            C_User->>E_User: delete()
+            C_User-->>B_Akun: Show Success Delete
+        else Rejected
+            C_User-->>B_Akun: Show Error "Cannot Delete Self"
+        end
+        deactivate C_User
+    end
+
+    deactivate B_Akun

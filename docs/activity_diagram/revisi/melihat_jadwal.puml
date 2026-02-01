@@ -7,7 +7,7 @@ skinparam ActivityFontSize 12
 skinparam ArrowColor #A80036
 skinparam Shadowing false
 
-|Calon Siswa / Pengunjung|
+|Pengunjung|
 start
 :Mengakses menu jadwal PPDB;
 
@@ -18,7 +18,7 @@ if (Apakah ada jadwal tersedia?) then (Ya)
     :Menentukan status jadwal (Buka/Tutup/Segera);
     :Menampilkan daftar jadwal dan statusnya;
     
-    |Calon Siswa / Pengunjung|
+    |Pengunjung|
     :Melihat lini masa kegiatan PPDB;
 else (Tidak)
     :Menampilkan informasi jadwal belum tersedia;

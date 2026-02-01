@@ -1,0 +1,55 @@
+sequenceDiagram
+    actor User as Calon Siswa
+    participant B_Form as Boundary: Form Pendaftaran
+    participant C_Pend as Control: PendaftaranController
+    participant E_Pend as Entity: Pendaftaran Model
+    participant E_Bio as Entity: Biodata Model
+    participant E_Ortu as Entity: OrangTua Model
+    participant E_Berkas as Entity: Berkas Model
+
+    User->>B_Form: Mengakses menu pendaftaran
+    activate B_Form
+    
+    B_Form->>C_Pend: checkStatus()
+    activate C_Pend
+    C_Pend->>E_Pend: findByUser()
+    activate E_Pend
+    E_Pend-->>C_Pend: statusPendaftaran
+    deactivate E_Pend
+    
+    alt Pendaftaran Selesai
+        C_Pend-->>B_Form: Show Info "Sudah Mendaftar"
+    else Pendaftaran Dibuka / Draft
+        C_Pend-->>B_Form: Show Form Steps
+        
+        loop Loop Steps
+            User->>B_Form: Input Data Step (Biodata/Ortu/Berkas)
+            B_Form->>C_Pend: storeStep(data)
+            
+            C_Pend->>C_Pend: validate(data)
+            
+            alt Data Valid
+                alt Step Biodata
+                    C_Pend->>E_Bio: save(data)
+                else Step Orang Tua
+                    C_Pend->>E_Ortu: save(data)
+                else Step Berkas
+                    C_Pend->>E_Berkas: uploadAndSave(file)
+                end
+                
+                C_Pend->>E_Pend: updateStep()
+                C_Pend-->>B_Form: Lanjut Step Berikutnya
+            else Data Invalid
+                C_Pend-->>B_Form: Show Error Validation
+                B_Form-->>User: Perbaiki Input
+            end
+        end
+        
+        User->>B_Form: Konfirmasi & Submit
+        B_Form->>C_Pend: finalisasi()
+        C_Pend->>E_Pend: updateStatus('Submitted')
+        C_Pend-->>B_Form: Tampilkan Bukti Berhasil
+    end
+    
+    deactivate C_Pend
+    deactivate B_Form

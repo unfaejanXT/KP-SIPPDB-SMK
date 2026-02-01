@@ -1,0 +1,61 @@
+@startuml
+skinparam SwimlaneTitleFontSize 14
+skinparam SwimlaneBorderThickness 1
+skinparam ActivityBackgroundColor #FEFECE
+skinparam ActivityBorderColor #A80036
+skinparam ActivityFontSize 12
+skinparam ArrowColor #A80036
+skinparam Shadowing false
+
+actor "Pengunjung" as User
+boundary "Halaman Registrasi" as View
+control "RegisteredUserController" as Ctrl
+entity "Gelombang" as Gelombang
+entity "User" as Model
+
+User -> View : Mengakses menu registrasi
+activate View
+View -> Ctrl : create()
+activate Ctrl
+
+Ctrl -> Gelombang : checkActiveWave()
+activate Gelombang
+Gelombang --> Ctrl : statusGelombang
+deactivate Gelombang
+
+alt Tidak Ada Gelombang Aktif
+    Ctrl --> View : Tampilkan View 'Register Closed'
+    View --> User : Info Pendaftaran Ditutup
+else Gelombang Aktif
+    Ctrl --> View : Tampilkan View 'Register Form'
+    deactivate Ctrl
+    
+    User -> View : Input Nama, Email, Password, Confirm
+    View -> Ctrl : store(Request)
+    activate Ctrl
+    
+    Ctrl -> Ctrl : validate(inputs)
+    
+    alt Validation Failed
+        Ctrl --> View : Show Error Validation
+        View --> User : Perbaiki Input
+    else Validation Success
+        Ctrl -> Model : create(data)
+        activate Model
+        Model --> Ctrl : userInstance
+        deactivate Model
+        
+        Ctrl -> Model : assignRole('user')
+        
+        Ctrl -> Ctrl : event(Registered)
+        Ctrl -> Ctrl : Auth::login(user)
+        
+        Ctrl --> View : Redirect to Dashboard
+        View --> User : Masuk ke Dashboard
+    end
+end
+
+deactivate Ctrl
+deactivate View
+
+@enduml

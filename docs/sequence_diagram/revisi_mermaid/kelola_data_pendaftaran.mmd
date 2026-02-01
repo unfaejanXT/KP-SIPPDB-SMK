@@ -1,0 +1,50 @@
+sequenceDiagram
+    actor Admin as Admin
+    participant B_Data as Boundary: Halaman Kelola Pendaftaran
+    participant C_AdminPend as Control: AdminPendaftaranController
+    participant E_Daftar as Entity: Pendaftaran Model
+
+    Admin->>B_Data: Mengakses menu kelola data pendaftaran
+    activate B_Data
+    B_Data->>C_AdminPend: index()
+    activate C_AdminPend
+    C_AdminPend->>E_Daftar: getPendaftaranList()
+    activate E_Daftar
+    E_Daftar-->>C_AdminPend: listPendaftaran
+    deactivate E_Daftar
+    C_AdminPend->>B_Data: renderList(listPendaftaran)
+    deactivate C_AdminPend
+
+    alt Lihat Detail
+        Admin->>B_Data: Pilih siswa (Detail)
+        B_Data->>C_AdminPend: show(id)
+        activate C_AdminPend
+        C_AdminPend->>E_Daftar: findWithRelations(id)
+        E_Daftar-->>C_AdminPend: detailData
+        C_AdminPend-->>B_Data: Show Detail Page
+        deactivate C_AdminPend
+
+    else Edit Data Siswa
+        Admin->>B_Data: Edit data siswa
+        B_Data->>C_AdminPend: update(request)
+        activate C_AdminPend
+        C_AdminPend->>C_AdminPend: validate(request)
+        
+        alt Valid
+            C_AdminPend->>E_Daftar: update(data)
+            C_AdminPend-->>B_Data: Show Success Message
+        else Invalid
+            C_AdminPend-->>B_Data: Show Error
+        end
+        deactivate C_AdminPend
+
+    else Hapus Data
+        Admin->>B_Data: Hapus data pendaftaran
+        B_Data->>C_AdminPend: destroy(id)
+        activate C_AdminPend
+        C_AdminPend->>E_Daftar: deleteCascade(id)
+        C_AdminPend-->>B_Data: Show Success Message
+        deactivate C_AdminPend
+    end
+
+    deactivate B_Data

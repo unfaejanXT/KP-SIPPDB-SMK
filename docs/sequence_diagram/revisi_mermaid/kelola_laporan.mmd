@@ -1,0 +1,47 @@
+sequenceDiagram
+    actor Admin as Admin
+    participant B_Laporan as Boundary: Halaman Laporan
+    participant C_Laporan as Control: LaporanController
+    participant E_Daftar as Entity: Pendaftaran Model
+    participant E_Excel as Entity: ExcelGenerator
+
+    Admin->>B_Laporan: Mengakses menu laporan
+    activate B_Laporan
+    B_Laporan->>C_Laporan: index()
+    activate C_Laporan
+    C_Laporan->>E_Daftar: getSummaryData()
+    activate E_Daftar
+    E_Daftar-->>C_Laporan: summaryData
+    deactivate E_Daftar
+    C_Laporan->>B_Laporan: renderDashboard(summaryData)
+    deactivate C_Laporan
+
+    alt Filter Data
+        Admin->>B_Laporan: Pilih filter and Terapkan
+        B_Laporan->>C_Laporan: filter(request)
+        activate C_Laporan
+        C_Laporan->>E_Daftar: getFilteredData(request)
+        E_Daftar-->>C_Laporan: resultData
+        C_Laporan-->>B_Laporan: renderTable(resultData)
+        deactivate C_Laporan
+    end
+
+    alt Export Laporan
+        Admin->>B_Laporan: Klik Export Excel
+        B_Laporan->>C_Laporan: export(request)
+        activate C_Laporan
+        
+        C_Laporan->>E_Daftar: getFilteredData(request)
+        E_Daftar-->>C_Laporan: data
+        
+        C_Laporan->>E_Excel: generate(data)
+        activate E_Excel
+        E_Excel-->>C_Laporan: fileStream
+        deactivate E_Excel
+        
+        C_Laporan-->>B_Laporan: Download File
+        B_Laporan-->>Admin: Receive File
+        deactivate C_Laporan
+    end
+
+    deactivate B_Laporan

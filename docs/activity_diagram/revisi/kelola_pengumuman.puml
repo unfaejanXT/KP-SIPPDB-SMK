@@ -7,14 +7,14 @@ skinparam ActivityFontSize 12
 skinparam ArrowColor #A80036
 skinparam Shadowing false
 
-|Admin|
+|Operator Sekolah|
 start
 :Mengakses menu kelola pengumuman;
 
 |Sistem|
 :Menampilkan daftar pengumuman;
 
-|Admin|
+|Operator Sekolah|
 if (Pilih aksi pengumuman?) then (Buat Baru)
     :Memilih opsi tambah pengumuman;
     :Menyusun konten pengumuman;

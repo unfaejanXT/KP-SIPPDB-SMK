@@ -1,0 +1,44 @@
+sequenceDiagram
+    actor User as Calon Siswa / Pengunjung
+    participant B_Main as Boundary: Halaman Pengumuman
+    participant B_Detail as Boundary: Halaman Detail Pengumuman
+    participant C_Umum as Control: PengumumanController
+    participant E_Umum as Entity: Pengumuman Model
+
+    User->>B_Main: Mengakses menu pengumuman
+    activate B_Main
+    
+    B_Main->>C_Umum: index(request)
+    activate C_Umum
+    
+    alt Ada Pencarian
+        C_Umum->>E_Umum: search(keyword)
+    else Default
+        C_Umum->>E_Umum: getLatest()
+    end
+    activate E_Umum
+    E_Umum-->>C_Umum: listPengumuman
+    deactivate E_Umum
+    
+    C_Umum->>B_Main: renderView('public.pengumuman', listPengumuman)
+    deactivate C_Umum
+    
+    B_Main-->>User: Menampilkan daftar pengumuman
+    
+    opt Pilih Pengumuman
+        User->>B_Main: Klik judul pengumuman
+        B_Main->>C_Umum: show(slug)
+        activate C_Umum
+        
+        C_Umum->>E_Umum: findBySlug(slug)
+        activate E_Umum
+        E_Umum-->>C_Umum: dataPengumuman
+        deactivate E_Umum
+        
+        C_Umum->>B_Detail: renderView('public.pengumuman-detail', dataPengumuman)
+        deactivate C_Umum
+        activate B_Detail
+        
+        B_Detail-->>User: Menampilkan detail isi pengumuman
+        deactivate B_Detail
+    end

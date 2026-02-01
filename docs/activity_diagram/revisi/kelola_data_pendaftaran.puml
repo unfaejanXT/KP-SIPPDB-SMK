@@ -7,14 +7,14 @@ skinparam ActivityFontSize 12
 skinparam ArrowColor #A80036
 skinparam Shadowing false
 
-|Admin|
+|Staf PPDB / Operator Sekolah|
 start
 :Mengakses menu kelola data pendaftaran;
 
 |Sistem|
 :Menampilkan daftar calon siswa mendaftar;
 
-|Admin|
+|Staf PPDB / Operator Sekolah|
 if (Pilih aksi data?) then (Lihat Detail)
     :Memilih siswa untuk melihat detail;
     

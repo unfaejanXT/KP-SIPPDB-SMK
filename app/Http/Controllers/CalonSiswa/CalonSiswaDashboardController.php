@@ -24,8 +24,8 @@ class CalonSiswaDashboardController extends Controller
             $berkasCount = Berkas::where('pendaftaran_id', $pendaftaran->id)->count();
         }
 
-        // Calculate progress
-        $progress = 20; // 20% for account creation
+        // Menghitung progress
+        $progress = 20; // 20% untuk pembuatan akun
         $steps = [
             'akun' => true,
             'formulir' => false,
@@ -39,14 +39,14 @@ class CalonSiswaDashboardController extends Controller
             $steps['formulir'] = true;
 
             if ($berkasCount > 0) {
-                // Assuming minimum required files are uploaded or just checking if any exist
+                // Asumsi berkas wajib minimum sudah diunggah atau cek jika ada berkas
                 $progress = 60;
                 $steps['berkas'] = true;
             }
 
             if ($pendaftaran->status != 'draft' && $pendaftaran->status != 'menunggu_verifikasi' && $pendaftaran->status != 'Menunggu') {
-                 // Adjust status checks according to your specific status values
-                 // For now assuming if status is processed/verified
+                 // Sesuaikan pengecekan status berdasarkan nilai status spesifik Anda
+                 // Untuk saat ini diasumsikan jika status diproses/diverifikasi
                  if(in_array($pendaftaran->status, ['terverifikasi', 'diterima', 'ditolak'])) {
                     $progress = 80;
                     $steps['verifikasi'] = true;
@@ -73,7 +73,7 @@ class CalonSiswaDashboardController extends Controller
         $user = Auth::user();
         $pendaftaran = Pendaftaran::with('jurusan')->where('user_id', $user->id)->firstOrFail();
 
-        // Check if locked
+        // Periksa jika terkunci
         if (in_array($pendaftaran->status, ['terverifikasi', 'diterima', 'ditolak'])) {
             return redirect()->route('dashboard')->with('error', 'Data tidak dapat diubah karena sudah diverifikasi/final.');
         }
@@ -88,14 +88,14 @@ class CalonSiswaDashboardController extends Controller
         $user = Auth::user();
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->firstOrFail();
 
-        // Check if locked
+        // Periksa jika terkunci
         if (in_array($pendaftaran->status, ['terverifikasi', 'diterima', 'ditolak'])) {
             return redirect()->route('dashboard')->with('error', 'Data tidak dapat diubah karena sudah diverifikasi/final.');
         }
 
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:50',
-            // 'nisn' => 'required|string|max:10|unique:pendaftaran,nisn,' . $pendaftaran->id, // Usually NISN shouldn't change, but if allowed:
+            // 'nisn' => 'required|string|max:10|unique:pendaftaran,nisn,' . $pendaftaran->id, // Biasanya NISN tidak boleh berubah, tetapi jika diizinkan:
             'jenis_kelamin' => 'required|in:L,P',
             'tempat_lahir' => 'required|string|max:50',
             'tanggal_lahir' => 'required|date',

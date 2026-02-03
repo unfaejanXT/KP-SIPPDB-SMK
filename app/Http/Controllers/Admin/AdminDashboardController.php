@@ -17,15 +17,15 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-        // Prevent generic users from accessing if they don't have permission
+        // Mencegah pengguna umum mengakses jika tidak memiliki izin
         if (Auth::check() && Auth::user()->hasRole('calon_siswa')) {
             abort(403, 'Unauthorized action.');
         }
 
-        // --- Core Statistics ---
+        // --- Statistik Utama ---
         $totalPendaftar = Pendaftaran::count();
         
-        // Normalize status checks to handle case sensitivity
+        // Menormalisasi pengecekan status untuk menangani sensitivitas huruf besar/kecil
         $menungguVerifikasi = Pendaftaran::whereIn(DB::raw('LOWER(status)'), ['menunggu_verifikasi', 'menunggu', 'draft', 'submitted', 'pending'])->count();
         $terverifikasi = Pendaftaran::whereIn(DB::raw('LOWER(status)'), ['terverifikasi', 'diterima'])->count();
         $ditolak = Pendaftaran::where(DB::raw('LOWER(status)'), 'ditolak')->count();
@@ -33,30 +33,30 @@ class AdminDashboardController extends Controller
         $jumlahJurusan = Jurusan::count();
         $totalUser = User::count();
 
-        // --- Active Gelombang ---
+        // --- Gelombang Aktif ---
         $activeGelombang = Gelombang::where('is_active', true)
             ->whereDate('tanggal_mulai', '<=', now())
             ->whereDate('tanggal_selesai', '>=', now())
             ->first();
             
-        // Fallback if no specific active flag, just check dates
+        // Fallback jika tidak ada flag aktif spesifik, hanya memeriksa tanggal
         if (!$activeGelombang) {
             $activeGelombang = Gelombang::whereDate('tanggal_mulai', '<=', now())
                 ->whereDate('tanggal_selesai', '>=', now())
                 ->first();
         }
 
-        // --- Chart Data: Registrations Trend (Last 7 Days) ---
+        // --- Data Grafik: Tren Pendaftaran (7 Hari Terakhir) ---
         $period = \Carbon\CarbonPeriod::create(now()->subDays(6), now());
         $dates = [];
         $counts = [];
 
-        // Pre-fill with 0
+        // Isi awal dengan 0
         foreach ($period as $date) {
             $dates[$date->format('Y-m-d')] = 0;
         }
 
-        // Fetch actual data
+        // Ambil data sebenarnya
         $registrations = Pendaftaran::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
             ->whereDate('created_at', '>=', now()->subDays(6))
             ->groupBy('date')
@@ -64,7 +64,7 @@ class AdminDashboardController extends Controller
             ->pluck('count', 'date')
             ->toArray();
 
-        // Merge data
+        // Menggabungkan data
         foreach ($registrations as $date => $count) {
             if (isset($dates[$date])) {
                 $dates[$date] = $count;
@@ -72,42 +72,42 @@ class AdminDashboardController extends Controller
         }
         
         $chartLabels = array_keys($dates);
-        // Format labels for JS (e.g., "24 Jan")
+        // Format label untuk JS (contoh: "24 Jan")
         $formattedLabels = array_map(function($date) {
             return \Carbon\Carbon::parse($date)->format('d M');
         }, $chartLabels);
         $chartValues = array_values($dates);
 
 
-        // --- Chart Data: Jurusan Distribution ---
+        // --- Data Grafik: Distribusi Jurusan ---
         $jurusanStats = Pendaftaran::select('jurusan_id', DB::raw('count(*) as count'))
             ->groupBy('jurusan_id')
             ->with(['jurusan' => function($query) {
-                $query->select('id', 'nama'); // Optimize fetch
+                $query->select('id', 'nama'); // Optimasi pengambilan data
             }])
             ->get();
 
         $jurusanLabels = [];
         $jurusanValues = [];
         
-        // If no data, provide empty structure or handle in view
+        // Jika tidak ada data, sediakan struktur kosong atau tangani di view
         if ($jurusanStats->count() > 0) {
             foreach($jurusanStats as $stat) {
-                // Use the accessor or the raw attribute. Accessor is 'nama_jurusan', raw is 'nama'.
-                // If using 'nama_jurusan' (accessor), it relies on 'nama' being loaded.
+                // Gunakan aksesor atau atribut mentah. Aksesor adalah 'nama_jurusan', mentah adalah 'nama'.
+                // Jika menggunakan 'nama_jurusan' (aksesor), bergantung pada 'nama' yang dimuat.
                 $jurusanLabels[] = $stat->jurusan->nama ?? 'Jurusan #' . $stat->jurusan_id;
                 $jurusanValues[] = $stat->count;
             }
         } else {
-            // Retrieve all jurusan names for empty chart context
+            // Ambil semua nama jurusan untuk konteks grafik kosong
             $allJurusan = Jurusan::pluck('nama');
             $jurusanLabels = $allJurusan->toArray();
             $jurusanValues = array_fill(0, count($jurusanLabels), 0);
         }
 
 
-        // --- Latest Registrations ---
-        $latestPendaftar = Pendaftaran::with(['jurusan', 'gelombang']) // Eager load gelombang too if needed
+        // --- Pendaftaran Terbaru ---
+        $latestPendaftar = Pendaftaran::with(['jurusan', 'gelombang']) // Muat gelombang secara eager loading jika diperlukan
                                       ->orderBy('created_at', 'desc')
                                       ->take(5)
                                       ->get();

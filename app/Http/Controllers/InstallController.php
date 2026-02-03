@@ -13,7 +13,7 @@ class InstallController extends Controller
 {
     public function index()
     {
-        // If users strictly exist (> 0), redirect to home
+        // Jika pengguna sudah ada (> 0), alihkan ke beranda
         if (User::count() > 0) {
             return redirect('/');
         }
@@ -33,17 +33,17 @@ class InstallController extends Controller
             'password' => ['required', 'confirmed', 'min:8'],
         ]);
 
-        // Create Admin User
+        // Buat Pengguna Admin
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        // Create Role if doesn't exist (handling fresh migration without seed)
+        // Buat Role jika tidak ada (menangani migrasi baru tanpa seed)
         $role = Role::firstOrCreate(['name' => 'admin']);
         
-        // Assign Role
+        // Tetapkan Role
         $user->assignRole($role);
 
         event(new Registered($user));

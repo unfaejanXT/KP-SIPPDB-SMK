@@ -15,7 +15,7 @@ class AdminVerifikasiController extends Controller
     {
         $query = Pendaftaran::with(['berkas.jenisBerkas', 'jurusan']);
 
-        // Search
+        // Pencarian data pendaftaran berdasarkan nama atau NISN
         if ($request->has('search') && $request->search != '') {
             $search = $request->get('search');
             $query->where(function($q) use ($search) {
@@ -24,7 +24,7 @@ class AdminVerifikasiController extends Controller
             });
         }
 
-        // Filter by Status
+        // Filter data berdasarkan status verifikasi berkas
         if ($request->has('status') && $request->get('status') != '') {
             $status = $request->get('status');
             $query->whereHas('berkas', function($q) use ($status) {
@@ -70,7 +70,7 @@ class AdminVerifikasiController extends Controller
             'verified_at' => now()
         ]);
 
-        // Check verification status of all files
+        // Memeriksa status verifikasi semua berkas milik pendaftar
         $pendaftaran = $berkas->pendaftaran;
         
         $totalBerkas = $pendaftaran->berkas()->count();
@@ -85,7 +85,7 @@ class AdminVerifikasiController extends Controller
         } elseif ($request->status == 'rejected') {
             $pendaftaran->update(['status' => 'ditolak']);
         } elseif ($pendingCount == 0 && $rejectedCount > 0) {
-            // If we just verified a file, but there are still rejected files and no pending ones left
+            // Jika baru saja memverifikasi berkas, tetapi masih ada berkas yang ditolak dan tidak ada berkas pending tersisa
             $pendaftaran->update(['status' => 'ditolak']);
         }
 

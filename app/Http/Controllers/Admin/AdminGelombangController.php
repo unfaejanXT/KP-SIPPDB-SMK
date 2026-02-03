@@ -15,7 +15,7 @@ class AdminGelombangController extends Controller
         $gelombang = Gelombang::with(['periode'])->withCount('pendaftarans')->orderBy('created_at', 'asc')->get();
         $periodes = Periode::where('is_active', true)->get();
 
-        // Calculate stats
+        // Menghitung statistik
         $totalGelombang = $gelombang->count();
         $sedangAktif = $gelombang->filter(function ($g) {
             return $g->is_active && $g->isBerlaku();

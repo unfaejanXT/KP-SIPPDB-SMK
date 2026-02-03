@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class AdminJurusanController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar data jurusan.
      */
     public function index()
     {
@@ -31,7 +31,7 @@ class AdminJurusanController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan data jurusan baru ke database.
      */
     public function store(Request $request)
     {
@@ -49,7 +49,7 @@ class AdminJurusanController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Memperbaharui data jurusan di database.
      */
     public function update(Request $request, Jurusan $jurusan)
     {
@@ -67,11 +67,11 @@ class AdminJurusanController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus data jurusan dari database.
      */
     public function destroy(Jurusan $jurusan)
     {
-        // Cek dependencies jika perlu, misalnya apakah ada pendaftar
+        // Memeriksa ketergantungan, misalnya apakah ada data pendaftar terkait
         if ($jurusan->pendaftaran()->exists()) {
             return back()->with('error', 'Tidak dapat menghapus jurusan yang memiliki pendaftar.');
         }

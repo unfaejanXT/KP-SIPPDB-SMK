@@ -13,7 +13,7 @@ use Illuminate\View\View;
 class AdminProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Menampilkan formulir profil pengguna.
      */
     public function edit(Request $request): View
     {
@@ -23,16 +23,16 @@ class AdminProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Memperbaharui informasi profil pengguna.
      */
     public function update(AdminProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
         $validatedData = $request->validated();
 
-        // Handle File Upload
+        // Menangani unggah file
         if ($request->hasFile('foto')) {
-            // Delete old photo if exists
+            // Hapus foto lama jika ada
             if ($user->foto && Storage::disk('public')->exists($user->foto)) {
                 Storage::disk('public')->delete($user->foto);
             }
@@ -41,7 +41,7 @@ class AdminProfileController extends Controller
             $validatedData['foto'] = $path;
         }
 
-        // Update User info
+        // Memperbaharui informasi pengguna
         $user->fill([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
@@ -52,7 +52,7 @@ class AdminProfileController extends Controller
         }
         $user->save();
 
-        // Update Staff info
+        // Memperbaharui informasi staf
         $staffData = [
             'nomor_telepon' => $validatedData['nomor_telepon'] ?? null,
             'jabatan' => $validatedData['jabatan'] ?? 'Administrator',
@@ -62,7 +62,7 @@ class AdminProfileController extends Controller
             $staffData['foto'] = $validatedData['foto'];
         }
 
-        // Use updateOrCreate to ensure staff record exists
+        // Gunakan updateOrCreate untuk memastikan data staf ada
         $user->staff()->updateOrCreate(
             ['user_id' => $user->id],
             $staffData

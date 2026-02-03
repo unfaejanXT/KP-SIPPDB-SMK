@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 class AdminCalonSiswaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar data calon siswa.
      */
     public function index(Request $request)
     {
-        // Eager load relationships to avoid N+1 problem
+        // Memuat relasi tabel secara eager loading untuk menghindari masalah N+1
         $query = Pendaftaran::with(['user', 'jurusan', 'gelombang']);
 
         if ($request->has('q')) {
@@ -31,7 +31,7 @@ class AdminCalonSiswaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan formulir untuk membuat data calon siswa baru.
      */
     public function create()
     {
@@ -43,16 +43,16 @@ class AdminCalonSiswaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan data calon siswa baru ke database.
      */
     public function store(Request $request)
     {
         $request->validate([
-            // User validation
+            // Validasi input data akun pengguna
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
 
-            // Pendaftaran validation
+            // Validasi input data pendaftaran
             'nama_lengkap' => 'required|string|max:50',
             'nisn' => 'required|string|max:10|unique:pendaftaran,nisn',
             'jenis_kelamin' => 'required|in:L,P',
@@ -67,7 +67,7 @@ class AdminCalonSiswaController extends Controller
             'gelombang_id' => 'required|exists:gelombangs,id',
             'status' => 'required|in:draft,menunggu_verifikasi,terverifikasi,diterima,ditolak',
 
-            // OrangTua validation
+            // Validasi input data orang tua
             'nama_ayah' => 'required|string|max:100',
             'pekerjaan_ayah' => 'required|string|max:50',
             'penghasilan_ayah' => 'required|numeric|min:0',
@@ -78,7 +78,7 @@ class AdminCalonSiswaController extends Controller
         ]);
 
         \Illuminate\Support\Facades\DB::transaction(function () use ($request) {
-            // 1. Create User
+            // 1. Membuat akun pengguna baru
             $user = \App\Models\User::create([
                 'name' => $request->nama_lengkap,
                 'email' => $request->email,
@@ -86,7 +86,7 @@ class AdminCalonSiswaController extends Controller
                 'role' => 'calon_siswa',
             ]);
 
-            // 2. Create Pendaftaran
+            // 2. Membuat data pendaftaran baru
             $calonSiswa = Pendaftaran::create([
                 'user_id' => $user->id,
                 'nama_lengkap' => $request->nama_lengkap,
@@ -105,7 +105,7 @@ class AdminCalonSiswaController extends Controller
                 'tanggal_daftar' => now(),
             ]);
 
-            // 3. Create Orang Tua
+            // 3. Membuat data orang tua
             $calonSiswa->orangTua()->create([
                 'nama_ayah' => $request->nama_ayah,
                 'pekerjaan_ayah' => $request->pekerjaan_ayah,
@@ -116,13 +116,13 @@ class AdminCalonSiswaController extends Controller
                 'no_hp_orangtua' => $request->no_hp_orangtua,
             ]);
 
-            // 4. Upload Berkas
+            // 4. Mengunggah berkas-berkas persyaratan
             $jenisBerkas = \App\Models\JenisBerkas::where('is_active', true)->get();
             foreach ($jenisBerkas as $jb) {
                 if ($request->hasFile('berkas_' . $jb->id)) {
                     $file = $request->file('berkas_' . $jb->id);
 
-                    // Validate file size
+                    // Memvalidasi ukuran file
                     if ($file->getSize() > 1024 * 1024) { // 1MB in bytes
                         throw \Illuminate\Validation\ValidationException::withMessages([
                            'berkas_' . $jb->id => 'Ukuran berkas ' . $jb->nama_berkas . ' terlalu besar (maksimal 1MB)'
@@ -135,7 +135,7 @@ class AdminCalonSiswaController extends Controller
                         'pendaftaran_id' => $calonSiswa->id,
                         'jenis_berkas_id' => $jb->id,
                         'file_path' => $path,
-                        'status_verifikasi' => 'pending', // Default status
+                        'status_verifikasi' => 'pending', // Status default
                         'uploaded_at' => now(),
                     ]);
                 }
@@ -149,7 +149,7 @@ class AdminCalonSiswaController extends Controller
      * Display the specified resource.
      */
     /**
-     * Display the specified resource.
+     * Menampilkan detail data calon siswa.
      */
     public function show(string $id)
     {
@@ -160,15 +160,15 @@ class AdminCalonSiswaController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan formulir untuk mengedit data calon siswa.
      */
     public function edit(string $id)
     {
         $calonSiswa = Pendaftaran::with(['orangTua', 'jurusan', 'gelombang'])
             ->findOrFail($id);
         
-        // Load data for dropdowns if needed (e.g. Jurusan, Gelombang)
-        // Assuming models exist and are imported
+        // Memuat data untuk dropdown (contoh: Jurusan, Gelombang)
+        // Diasumsikan model sudah ada dan diimport
         $jurusans = \App\Models\Jurusan::all();
         $gelombangs = \App\Models\Gelombang::all();
 
@@ -176,7 +176,7 @@ class AdminCalonSiswaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Memperbaharui data calon siswa di database.
      */
     public function update(Request $request, string $id)
     {
@@ -213,7 +213,7 @@ class AdminCalonSiswaController extends Controller
             'no_hp_orangtua' => 'required|string|max:20',
         ]);
 
-        // Update User Account
+        // Memperbaharui data akun pengguna
         if ($user) {
             $userData = ['email' => $request->email];
             if ($request->filled('password')) {
@@ -222,7 +222,7 @@ class AdminCalonSiswaController extends Controller
             $user->update($userData);
         }
 
-        // Update Pendaftaran
+        // Memperbaharui data pendaftaran
         $calonSiswa->update([
             'nama_lengkap' => $request->nama_lengkap,
             'nisn' => $request->nisn,
@@ -239,7 +239,7 @@ class AdminCalonSiswaController extends Controller
             'status' => $request->status,
         ]);
 
-        // Update Orang Tua
+        // Memperbaharui data orang tua
         $calonSiswa->orangTua()->updateOrCreate(
             ['pendaftaran_id' => $calonSiswa->id],
             [
@@ -257,20 +257,20 @@ class AdminCalonSiswaController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus data calon siswa dari database.
      */
     public function destroy(string $id)
     {
         $calonSiswa = Pendaftaran::with('user')->findOrFail($id);
         $user = $calonSiswa->user;
         
-        // Delete related data if cascade delete is not set in database
+        // Menghapus data terkait jika on delete cascade tidak diatur di database
         // $calonSiswa->orangTua()->delete();
         // $calonSiswa->berkas()->delete();
         
         $calonSiswa->delete();
 
-        // Delete associated user account
+        // Menghapus akun pengguna yang terkait
         if ($user) {
             $user->delete();
         }

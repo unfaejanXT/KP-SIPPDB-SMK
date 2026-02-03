@@ -13,7 +13,7 @@ class AdminPeriodeController extends Controller
     {
         $periodes = Periode::withCount('gelombangs')->orderBy('created_at', 'desc')->get();
 
-        // Calculate stats
+        // Menghitung statistik periode
         $totalPeriode = $periodes->count();
         $sedangAktif = $periodes->where('is_active', true)->count();
         
@@ -32,8 +32,8 @@ class AdminPeriodeController extends Controller
 
         $validated['is_active'] = $request->has('is_active');
 
-        // If this one is active, maybe deactivate others? 
-        // For now let's just create it.
+        // Jika periode ini aktif, mungkin perlu menonaktifkan yang lain? 
+        // Untuk saat ini cukup buat saja.
         Periode::create($validated);
 
         return redirect()->back()->with('success', 'Periode PPDB berhasil ditambahkan');
@@ -62,7 +62,7 @@ class AdminPeriodeController extends Controller
     {
         $periode = Periode::findOrFail($id);
         
-        // Prevent delete if has gelombangs? Or cascade?
+        // Mencegah penghapusan jika memiliki data gelombang? Atau hapus bertingkat?
         if ($periode->gelombangs()->count() > 0) {
             return redirect()->back()->with('error', 'Periode tidak dapat dihapus karena memiliki data gelombang');
         }

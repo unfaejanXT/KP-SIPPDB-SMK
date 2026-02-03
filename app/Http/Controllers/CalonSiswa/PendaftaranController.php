@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Validator;
 class PendaftaranController extends Controller
 {
     /**
-     * Entry point for PPDB Registration.
-     * Determines which step to show based on user's progress.
+     * Titik awal Pendaftaran PPDB.
+     * Menentukan langkah mana yang akan ditampilkan berdasarkan kemajuan pengguna.
      */
     public function index(Request $request)
     {
@@ -27,11 +27,11 @@ class PendaftaranController extends Controller
             return redirect()->route('login');
         }
 
-        // Check if pendaftaran exists
+        // Memeriksa apakah data pendaftaran ada
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->first();
 
         if (!$pendaftaran) {
-            // Check for active PPDB Gelombang
+            // Memeriksa Gelombang PPDB yang aktif
             $activePeriod = Gelombang::where('is_active', true)
                 ->whereDate('tanggal_mulai', '<=', now())
                 ->whereDate('tanggal_selesai', '>=', now())
@@ -47,17 +47,17 @@ class PendaftaranController extends Controller
                 ]);
             }
 
-            // Create Draft Pendaftaran
-            // Default jurusan_id 1 if not selected yet (will be updated in Step 1) -> schema makes it required so we might need nullable or default.
-            // Looking at schema: id, user_id, periodeppdb_id, jurusan_id are required.
-            // We can't insert incomplete data easily if schema prevents it.
-            // Strategy: Redirect to Step 1 Form, and do the "Insert Awal" ONLY when Step 1 is submitted.
-            // BUT diagram says: "Data pendaftaran sudah ada? (Tidak) -> Buat data pendaftaran (Insert awal: status=draft, current_step=0)".
-            // If the schema requires jurusan_id immediately, we might have a problem if we insert before user picks it.
-            // Let's assume we can pick a default or modify schema (too risky).
-            // BETTER: Proceed to Step 1 view, but don't insert record until Step 1 submit.
-            // Actually the diagram says "Insert awal" then "Redirect ke step (current_step + 1)". 0+1 = 1.
-            // So if I don't insert, I just show Step 1.
+            // Membuat Draft Pendaftaran
+            // Default jurusan_id 1 jika belum dipilih (akan diperbarui di Langkah 1) -> skema mengharuskannya jadi mungkin perlu nullable atau default.
+            // Melihat skema: id, user_id, periodeppdb_id, jurusan_id diperlukan.
+            // Kita tidak bisa memasukkan data tidak lengkap dengan mudah jika skema mencegahnya.
+            // Strategi: Alihkan ke Formulir Langkah 1, dan lakukan "Insert Awal" HANYA ketika Langkah 1 disubmit.
+            // TAPI diagram mengatakan: "Data pendaftaran sudah ada? (Tidak) -> Buat data pendaftaran (Insert awal: status=draft, current_step=0)".
+            // Jika skema memerlukan jurusan_id segera, kita mungkin punya masalah jika memasukkan sebelum pengguna memilihnya.
+            // Mari asumsikan kita bisa memilih default atau mengubah skema (terlalu berisiko).
+            // LEBIH BAIK: Lanjutkan ke tampilan Langkah 1, tapi jangan masukkan record sampai Langkah 1 disubmit.
+            // Sebenarnya diagram mengatakan "Insert awal" lalu "Redirect ke step (current_step + 1)". 0+1 = 1.
+            // Jadi jika saya tidak insert, saya hanya menampilkan Langkah 1.
             
             return redirect()->route('pendaftaran.step1');
         }
@@ -66,17 +66,17 @@ class PendaftaranController extends Controller
             return redirect()->route('dashboard');
         }
 
-        // Redirect to appropriate step
+        // Alihkan ke langkah yang sesuai
         $step = $pendaftaran->current_step + 1;
         
-        // Safety bound
+        // Batas aman
         if ($step < 1) $step = 1;
         if ($step > 4) $step = 4;
 
         return redirect()->route('pendaftaran.step' . $step);
     }
 
-    // STEP 1: Biodata
+    // LANGKAH 1: Biodata
     public function step1()
     {
         $user = Auth::user();
@@ -87,7 +87,7 @@ class PendaftaranController extends Controller
         }
 
         $jurusans = Jurusan::where('status', 'aktif')->get();
-        // Return view with step 1 data
+        // Kembalikan tampilan dengan data langkah 1
         return view('pendaftaran.create', [
             'step' => 1,
             'pendaftaran' => $pendaftaran,
@@ -100,7 +100,7 @@ class PendaftaranController extends Controller
         $user = Auth::user();
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->first();
         
-        // Validate
+        // Validasi
         $validator = Validator::make($request->all(), [
             'nama_lengkap' => 'required|string|max:50',
             'nisn' => ['required', 'digits:10', 'unique:pendaftaran,nisn,' . ($pendaftaran->id ?? 'NULL')],
@@ -120,7 +120,7 @@ class PendaftaranController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Get Active Gelombang
+        // Ambil Gelombang Aktif
         $activePeriod = Gelombang::where('is_active', true)
             ->whereDate('tanggal_mulai', '<=', now())
             ->whereDate('tanggal_selesai', '>=', now())
@@ -129,13 +129,13 @@ class PendaftaranController extends Controller
             return redirect()->back()->with('error', 'Tidak ada gelombang PPDB yang aktif.');
         }
 
-        // Create or Update
-        // Note: $pendaftaran already fetched above
+        // Buat atau Perbarui
+        // Catatan: $pendaftaran sudah diambil di atas
 
-        // Generate Registration Number if new
+        // Generate Nomor Pendaftaran jika baru
         $no_pendaftaran = $pendaftaran ? $pendaftaran->no_pendaftaran : 'REG-' . time() . '-' . rand(100,999);
 
-        // Prepare data
+        // Persiapkan data
         $data = [
             'user_id' => $user->id,
             'gelombang_id' => $activePeriod->id,
@@ -164,7 +164,7 @@ class PendaftaranController extends Controller
         return redirect()->route('pendaftaran.step2');
     }
 
-    // STEP 2: Data Orang Tua
+    // LANGKAH 2: Data Orang Tua
     public function step2()
     {
         $user = Auth::user();
@@ -179,7 +179,7 @@ class PendaftaranController extends Controller
             'step' => 2,
             'pendaftaran' => $pendaftaran,
             'orangtua' => $orangtua,
-             // pass null jurusans to avoid error in view partials if shared
+             // kirim jurusans null untuk menghindari error di view partial jika dibagi
              'jurusans' => []
         ]);
     }
@@ -227,7 +227,7 @@ class PendaftaranController extends Controller
         return redirect()->route('pendaftaran.step3');
     }
 
-    // STEP 3: Upload Berkas
+    // LANGKAH 3: Upload Berkas
     public function step3()
     {
         $user = Auth::user();
@@ -236,9 +236,9 @@ class PendaftaranController extends Controller
         if (!$pendaftaran) return redirect()->route('pendaftaran.step1');
         if (in_array($pendaftaran->status, ['submitted', 'terverifikasi', 'diterima', 'ditolak'])) return redirect()->route('dashboard');
         
-        // Get existing files
+        // Ambil file yang ada
         $uploadedBerkas = Berkas::with('jenisBerkas')->where('pendaftaran_id', $pendaftaran->id)->get();
-        // Get all available file types
+        // Ambil semua tipe file yang tersedia
         $jenisBerkas = \App\Models\JenisBerkas::where('is_active', true)->get();
 
         return view('pendaftaran.create', [
@@ -297,8 +297,8 @@ class PendaftaranController extends Controller
                          return;
                     }
                     
-                    // Check actual mime type against allowed types
-                    // Note: getMimeType() guesses based on content
+                    // Periksa tipe mime sebenarnya terhadap tipe yang diizinkan
+                    // Catatan: getMimeType() menebak berdasarkan konten
                     $actualMime = $value->getMimeType();
                     $validMimes = ['image/jpeg', 'image/png', 'application/pdf'];
                     
@@ -317,7 +317,7 @@ class PendaftaranController extends Controller
         $user = Auth::user();
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->firstOrFail();
         
-        // Prevent upload if pendaftaran is already finalized
+        // Mencegah upload jika pendaftaran sudah difinalisasi
         if (in_array($pendaftaran->status, ['terverifikasi', 'diterima'])) {
             return response()->json([
                 'success' => false,
@@ -328,7 +328,7 @@ class PendaftaranController extends Controller
         $file = $request->file('file');
         $kode = $request->kode_berkas;
         
-        // Find Jenis Berkas ID
+        // Cari ID Jenis Berkas
         $jenisBerkas = \App\Models\JenisBerkas::where('kode_berkas', $kode)->firstOrFail();
 
         $path = $file->store('berkas/' . $pendaftaran->nisn, 'public');
@@ -347,12 +347,12 @@ class PendaftaranController extends Controller
             ]
         );
 
-        // If pas_foto, maybe update pendaftaran table too if needed, but not strictly required if we use Berkas
+        // Jika pas_foto, mungkin perbarui tabel pendaftaran juga jika diperlukan, tapi tidak mutlak diperlukan jika kita menggunakan Berkas
         if ($kode === 'pas_foto') {
             $pendaftaran->update(['pas_foto' => $path]);
         }
 
-        // If data was rejected, update status to waiting for verification again
+        // Jika data ditolak, perbarui status menjadi menunggu verifikasi lagi
         if (in_array($pendaftaran->status, ['ditolak'])) {
             $pendaftaran->update(['status' => 'menunggu_verifikasi']);
         }
@@ -364,7 +364,7 @@ class PendaftaranController extends Controller
         ]);
     }
 
-    // STEP 4: Konfirmasi
+    // LANGKAH 4: Konfirmasi
     public function step4()
     {
         $user = Auth::user();
@@ -396,7 +396,7 @@ class PendaftaranController extends Controller
 
         if (!$pendaftaran) return redirect()->route('pendaftaran.step1');
 
-        // Check required documents
+        // Periksa dokumen yang wajib
         $uploadedJenisIds = \App\Models\Berkas::where('pendaftaran_id', $pendaftaran->id)
                                ->pluck('jenis_berkas_id')
                                ->toArray();

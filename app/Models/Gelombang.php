@@ -28,17 +28,7 @@ class Gelombang extends Model
         'is_active' => 'boolean',
     ];
 
-    // Validasi data
-    public static function rules()
-    {
-        return [
-            'nama' => 'required|string|max:100',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
-            'tahun_ajaran' => 'required|string|regex:/^\d{4}\/\d{4}$/',
-            'periode_id' => 'required|exists:periode,id',
-        ];
-    }
+
 
     // Method untuk cek apakah periode masih berlaku
     public function isBerlaku()

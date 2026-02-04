@@ -59,25 +59,7 @@ class Pendaftaran extends Model
         return $this->belongsTo(Jurusan::class,'jurusan_id');
     }
 
-    // Validasi untuk data pendaftaran
-    public static function rules()
-    {
-        return [
-            'nisn' => 'required|string|max:10|unique:pendaftaran,nisn',
-            'nama_lengkap' => 'required|string|max:50',
-            'jenis_kelamin' => 'required|in:L,P', // L = Laki-laki, P = Perempuan
-            'tempat_lahir' => 'required|string|max:50',
-            'tanggal_lahir' => 'required|date',
-            'golongan_darah' => 'nullable|string|max:2',
-            'agama' => 'required|string|max:20',
-            'alamat_rumah' => 'required|string|max:255',
-            'nomor_hp' => 'required|string|max:15',
-            'asal_sekolah' => 'required|string|max:100',
-            'user_id' => 'required|exists:users,id', // Asumsi ada tabel 'users' dengan field 'id'
-            'gelombang_id' => 'required|exists:gelombang,id', // Asumsi ada tabel 'gelombang' dengan field 'id'
-            'jurusan_id' => 'required|exist:jurusan,id'
-        ];
-    }
+
 
     // Relasi ke tabel 'berkas'
     public function berkas()

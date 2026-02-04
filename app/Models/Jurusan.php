@@ -19,17 +19,7 @@ class Jurusan extends Model
         'status'
     ];
 
-    // Validasi rules
-    public static function rules()
-    {
-        return [
-            'kode' => 'required|string|max:10|unique:jurusan,kode',
-            'nama' => 'required|string|max:100|unique:jurusan,nama',
-            'deskripsi' => 'nullable|string',
-            'kuota' => 'required|integer|min:0',
-            'status' => 'required|in:aktif,nonaktif',
-        ];
-    }
+
 
     // Relationship dengan Pendaftaran (jika ada)
     public function pendaftaran()

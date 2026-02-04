@@ -33,25 +33,7 @@ class OrangTuaSiswa extends Model
         return $this->belongsTo(Pendaftaran::class); // Menghubungkan ke model Pendaftaran
     }
 
-    // Validasi untuk data orangtua siswa
-    public static function rules()
-    {
-        return [
-            'pendaftaran_id' => 'required|exists:pendaftaran,id|unique:orangtuasiswa,pendaftaran_id',
-            'nama_ayah' => 'required|string|max:100',
-            'pekerjaan_ayah' => 'required|string|max:50',
-            'penghasilan_ayah' => 'required|numeric|min:0',
-            'nama_ibu' => 'required|string|max:100',
-            'pekerjaan_ibu' => 'required|string|max:50',
-            'penghasilan_ibu' => 'required|numeric|min:0',
-            'nama_wali' => 'nullable|string|max:100',
-            'pekerjaan_wali' => 'nullable|string|max:50',
-            'penghasilan_wali' => 'nullable|numeric|min:0',
-            'alamat_wali' => 'nullable|string',
-            'no_hp_wali' => 'nullable|string|max:20',
-            'no_hp_orangtua' => 'required|string|max:20',
-        ];
-    }
+
 
     // Accessor untuk format nama lengkap orang tua
     public function getNamaOrangtuaFormattedAttribute()

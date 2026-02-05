@@ -24,6 +24,7 @@ class Pendaftaran extends Model
         'alamat_rumah',
         'nomor_hp',
         'asal_sekolah',
+        'ukuran_baju',
         'pas_foto',
         'user_id',
         'gelombang_id',

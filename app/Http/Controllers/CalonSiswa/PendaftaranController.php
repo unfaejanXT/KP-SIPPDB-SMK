@@ -112,6 +112,7 @@ class PendaftaranController extends Controller
             'nomor_hp' => 'required|string|max:15|regex:/^[0-9]+$/',
             'asal_sekolah' => 'required|string|max:100',
             'alamat_rumah' => 'required|string',
+            'ukuran_baju' => 'required|in:S,M,L,XL,XXL,XXXL',
         ], [
             'tanggal_lahir.before' => 'Tanggal lahir tidak valid'
         ]);
@@ -150,6 +151,7 @@ class PendaftaranController extends Controller
             'alamat_rumah' => $request->alamat_rumah,
             'nomor_hp' => $request->nomor_hp,
             'asal_sekolah' => $request->asal_sekolah,
+            'ukuran_baju' => $request->ukuran_baju,
             'golongan_darah' => $request->golongan_darah,
             'status' => 'draft',
             'current_step' => 1 // Completed step 1

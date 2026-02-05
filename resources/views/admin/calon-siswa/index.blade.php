@@ -21,22 +21,48 @@
             </form>
 
             <div class="flex items-center gap-2">
-                <button
-                    class="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">
-                    <i class="fa-solid fa-filter text-gray-400"></i>
-                    <span>Semua Status</span>
-                    <i class="fa-solid fa-chevron-down text-xs ml-1 text-gray-400"></i>
-                </button>
+                <div class="relative" id="filterDropdownContainer">
+                    <button type="button" id="filterDropdownButton"
+                        class="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">
+                        <i class="fa-solid fa-filter text-gray-400"></i>
+                        <span id="filterStatusText">{{ request('status') ? ucfirst(str_replace('_', ' ', request('status'))) : 'Semua Status' }}</span>
+                        <i class="fa-solid fa-chevron-down text-xs ml-1 text-gray-400"></i>
+                    </button>
+                    <div id="filterDropdownMenu"
+                        class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                        <div class="py-1">
+                            <a href="{{ route('admin.calon-siswa.index', array_merge(request()->except('status'), request()->only('q'))) }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors {{ !request('status') ? 'bg-gray-50 font-semibold' : '' }}">
+                                <i class="fa-solid fa-list-ul text-gray-400 mr-2"></i> Semua Status
+                            </a>
+                            <a href="{{ route('admin.calon-siswa.index', array_merge(request()->except('status'), ['status' => 'draft'], request()->only('q'))) }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors {{ request('status') == 'draft' ? 'bg-gray-50 font-semibold' : '' }}">
+                                <i class="fa-solid fa-file-pen text-gray-400 mr-2"></i> Draft
+                            </a>
+                            <a href="{{ route('admin.calon-siswa.index', array_merge(request()->except('status'), ['status' => 'menunggu_verifikasi'], request()->only('q'))) }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors {{ request('status') == 'menunggu_verifikasi' ? 'bg-gray-50 font-semibold' : '' }}">
+                                <i class="fa-solid fa-clock text-amber-400 mr-2"></i> Menunggu Verifikasi
+                            </a>
+                            <a href="{{ route('admin.calon-siswa.index', array_merge(request()->except('status'), ['status' => 'terverifikasi'], request()->only('q'))) }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors {{ request('status') == 'terverifikasi' ? 'bg-gray-50 font-semibold' : '' }}">
+                                <i class="fa-solid fa-check-circle text-emerald-400 mr-2"></i> Terverifikasi
+                            </a>
+                            <a href="{{ route('admin.calon-siswa.index', array_merge(request()->except('status'), ['status' => 'diterima'], request()->only('q'))) }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors {{ request('status') == 'diterima' ? 'bg-gray-50 font-semibold' : '' }}">
+                                <i class="fa-solid fa-user-check text-emerald-400 mr-2"></i> Diterima
+                            </a>
+                            <a href="{{ route('admin.calon-siswa.index', array_merge(request()->except('status'), ['status' => 'ditolak'], request()->only('q'))) }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors {{ request('status') == 'ditolak' ? 'bg-gray-50 font-semibold' : '' }}">
+                                <i class="fa-solid fa-times-circle text-red-400 mr-2"></i> Ditolak
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <a href="{{ route('admin.calon-siswa.create') }}"
                     class="flex items-center gap-2 px-3 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors shadow-sm">
                     <i class="fa-solid fa-plus"></i>
                     <span>Tambah</span>
                 </a>
-                <button
-                    class="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">
-                    <i class="fa-solid fa-download text-gray-400"></i>
-                    <span>Ekspor</span>
-                </button>
             </div>
         </div>
 
@@ -273,5 +299,24 @@
            closeDeleteModal();
         }
     });
+
+    // Dropdown Filter Logic
+    const filterButton = document.getElementById('filterDropdownButton');
+    const filterMenu = document.getElementById('filterDropdownMenu');
+    const filterContainer = document.getElementById('filterDropdownContainer');
+
+    if (filterButton && filterMenu) {
+        filterButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            filterMenu.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!filterContainer.contains(e.target)) {
+                filterMenu.classList.add('hidden');
+            }
+        });
+    }
 </script>
 @endpush

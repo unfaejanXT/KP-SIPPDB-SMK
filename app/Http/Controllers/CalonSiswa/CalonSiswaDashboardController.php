@@ -104,6 +104,7 @@ class CalonSiswaDashboardController extends Controller
             'jurusan_id' => 'required|exists:jurusan,id',
             'alamat_rumah' => 'required|string|max:255',
             'asal_sekolah' => 'required|string|max:100',
+            'ukuran_baju' => 'required|in:S,M,L,XL,XXL,XXXL',
         ]);
 
         $pendaftaran->update($validated);

@@ -25,6 +25,11 @@ class AdminCalonSiswaController extends Controller
             });
         }
 
+        // Filter berdasarkan status
+        if ($request->has('status') && $request->status != '') {
+            $query->where('status', $request->status);
+        }
+
         $pendaftar = $query->latest()->paginate(10);
 
         return view('admin.calon-siswa.index', compact('pendaftar'));
@@ -63,8 +68,9 @@ class AdminCalonSiswaController extends Controller
             'alamat_rumah' => 'required|string|max:255',
             'nomor_hp' => 'required|string|max:15',
             'asal_sekolah' => 'required|string|max:100',
+            'ukuran_baju' => 'required|in:S,M,L,XL,XXL,XXXL',
             'jurusan_id' => 'required|exists:jurusan,id',
-            'gelombang_id' => 'required|exists:gelombangs,id',
+            'gelombang_id' => 'required|exists:gelombang,id',
             'status' => 'required|in:draft,menunggu_verifikasi,terverifikasi,diterima,ditolak',
 
             // Validasi input data orang tua
@@ -99,6 +105,7 @@ class AdminCalonSiswaController extends Controller
                 'alamat_rumah' => $request->alamat_rumah,
                 'nomor_hp' => $request->nomor_hp,
                 'asal_sekolah' => $request->asal_sekolah,
+                'ukuran_baju' => $request->ukuran_baju,
                 'jurusan_id' => $request->jurusan_id,
                 'gelombang_id' => $request->gelombang_id,
                 'status' => $request->status,
@@ -199,8 +206,9 @@ class AdminCalonSiswaController extends Controller
             'alamat_rumah' => 'required|string|max:255',
             'nomor_hp' => 'required|string|max:15',
             'asal_sekolah' => 'required|string|max:100',
+            'ukuran_baju' => 'required|in:S,M,L,XL,XXL,XXXL',
             'jurusan_id' => 'required|exists:jurusan,id',
-            'gelombang_id' => 'required|exists:gelombangs,id',
+            'gelombang_id' => 'required|exists:gelombang,id',
             'status' => 'required|in:draft,menunggu_verifikasi,terverifikasi,diterima,ditolak',
 
             // OrangTua validation
@@ -234,6 +242,7 @@ class AdminCalonSiswaController extends Controller
             'alamat_rumah' => $request->alamat_rumah,
             'nomor_hp' => $request->nomor_hp,
             'asal_sekolah' => $request->asal_sekolah,
+            'ukuran_baju' => $request->ukuran_baju,
             'jurusan_id' => $request->jurusan_id,
             'gelombang_id' => $request->gelombang_id,
             'status' => $request->status,

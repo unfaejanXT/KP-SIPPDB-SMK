@@ -141,6 +141,18 @@
                     <input type="text" name="asal_sekolah" id="asal_sekolah" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5" placeholder="Nama Sekolah Asal" required value="{{ old('asal_sekolah', $pendaftaran->asal_sekolah ?? '') }}">
                 </div>
 
+                {{-- Ukuran Baju --}}
+                <div>
+                    <label for="ukuran_baju" class="block mb-2 text-sm font-medium text-gray-900">Ukuran Baju <span class="text-red-600">*</span></label>
+                    <select name="ukuran_baju" id="ukuran_baju" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5" required>
+                        <option value="">Pilih Ukuran Baju</option>
+                        @foreach(['S', 'M', 'L', 'XL', 'XXL', 'XXXL'] as $ukuran)
+                            <option value="{{ $ukuran }}" {{ old('ukuran_baju', $pendaftaran->ukuran_baju ?? '') == $ukuran ? 'selected' : '' }}>{{ $ukuran }}</option>
+                        @endforeach
+                    </select>
+                    <p class="text-xs text-gray-500 mt-1">Pilih ukuran baju untuk seragam sekolah</p>
+                </div>
+
                 {{-- Alamat Rumah --}}
                 <div class="col-span-2">
                     <label for="alamat_rumah" class="block mb-2 text-sm font-medium text-gray-900">Alamat Lengkap <span class="text-red-600">*</span></label>
@@ -456,6 +468,10 @@
                          <div class="col-span-1 md:col-span-2">
                              <p class="text-gray-500 mb-1">Asal Sekolah</p>
                              <p class="font-semibold text-gray-900">{{ $pendaftaran->asal_sekolah }}</p>
+                         </div>
+                         <div>
+                             <p class="text-gray-500 mb-1">Ukuran Baju</p>
+                             <p class="font-semibold text-gray-900">{{ $pendaftaran->ukuran_baju ?? '-' }}</p>
                          </div>
                          <div class="col-span-1 md:col-span-2">
                              <p class="text-gray-500 mb-1">Alamat Rumah</p>

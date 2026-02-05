@@ -92,23 +92,7 @@
                             {{-- Ideally we would count registered students for this wave --}}
                         </div>
 
-                        <div class="border-t border-gray-100 pt-4 mt-auto">
-                            <p class="text-xs font-semibold text-gray-500 mb-3">Keuntungan:</p>
-                            <ul class="space-y-2">
-                                <li class="flex items-center gap-2 text-sm text-gray-600">
-                                    <svg class="w-4 h-4 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                    </svg>
-                                    Prioritas Seleksi
-                                </li>
-                                <li class="flex items-center gap-2 text-sm text-gray-600">
-                                    <svg class="w-4 h-4 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                    </svg>
-                                    Seragam Gratis (Syarat & Ketentuan)
-                                </li>
-                            </ul>
-                        </div>
+
                     </div>
                 @empty
                     <div class="col-span-3 text-center py-8 text-gray-500">
@@ -189,5 +173,5 @@
         </div>
     </div>
 
-    {{-- Footer is already included in layout --}}
+    @include('public.footer')
 @endsection

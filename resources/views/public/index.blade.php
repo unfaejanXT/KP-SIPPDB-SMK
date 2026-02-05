@@ -165,20 +165,7 @@
                     </div>
                 </div>
 
-                <div class="pt-6 border-t border-gray-100 space-y-3">
-                    <div class="flex items-center text-sm text-gray-500">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                        Tes Minat Bakat
-                    </div>
-                    <div class="flex items-center text-sm text-gray-500">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                        Gratis Biaya Pendaftaran
-                    </div>
-                </div>
+
             </div>
             @endforeach
         </div>
@@ -259,11 +246,11 @@
             5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'],
             ['num' => '3', 'title' => 'Upload Berkas', 'desc' => 'Unggah dokumen syarat seperti Ijazah, KK, dan Akta
             Kelahiran.', 'icon' => 'M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12'],
-            ['num' => '4', 'title' => 'Cetak Bukti', 'desc' => 'Unduh dan cetak kartu bukti pendaftaran Anda.', 
-            'icon' => 'M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z'],
-            ['num' => '5', 'title' => 'Verifikasi', 'desc' => 'Tim kami akan memverifikasi data dan berkas yang
+            ['num' => '4', 'title' => 'Verifikasi', 'desc' => 'Tim kami akan memverifikasi data dan berkas yang
             telah dikirim.', 'icon' => 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2
             0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4'],
+            ['num' => '5', 'title' => 'Cetak Bukti', 'desc' => 'Unduh dan cetak kartu bukti untuk melanjutkan ke ujian masuk.', 
+            'icon' => 'M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z'],
             ['num' => '6', 'title' => 'Pengumuman', 'desc' => 'Pantau hasil seleksi melalui dashboard akun siswa
             Anda.', 'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
             ];
@@ -299,115 +286,34 @@
 @endif
 
 {{-- CTA & FOOTER --}}
-<footer class="bg-white text-gray-900 border-t border-gray-100">
-    {{-- CTA --}}
-    {{-- CTA --}}
-    @if($activeGelombang)
-    <div class="bg-gradient-to-r from-red-600 to-red-800 py-16 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
-        </div>
-        <div class="max-w-4xl mx-auto text-center px-6 relative z-10">
-            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Siap Bergabung dengan Kami?</h2>
-            <p class="text-white/90 mb-8 text-lg">Jangan lewatkan kesempatan untuk menjadi bagian dari SMK Solusi Bangun Indonesia. Daftar sekarang dan raih masa depan cemerlang.</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="{{ route('register') }}"
-                    class="px-8 py-3 bg-white text-red-700 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition">
-                    Daftar Sekarang
-                </a>
-            </div>
+@if($activeGelombang)
+<div class="bg-gradient-to-r from-red-600 to-red-800 py-16 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+    </div>
+    <div class="max-w-4xl mx-auto text-center px-6 relative z-10">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Siap Melangkah ke Masa Depan?</h2>
+        <p class="text-white/90 mb-8 text-lg">Bergabunglah dengan SMK Solusi Bangun Indonesia dan kembangkan keahlian praktis yang dibutuhkan dunia kerja. Pendaftaran sedang dibuka, daftar sekarang untuk mengamankan tempatmu!</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="{{ route('register') }}"
+                class="px-8 py-3 bg-white text-red-700 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition">
+                Daftar Sekarang
+            </a>
         </div>
     </div>
-    @else
-    <div class="bg-gradient-to-r from-gray-800 to-gray-900 py-16 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
-        </div>
-        <div class="max-w-4xl mx-auto text-center px-6 relative z-10">
-            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Mari Bergabung Bersama Kami!</h2>
-            <p class="text-white/90 mb-8 text-lg">Nantikan pembukaan Pendaftaran Peserta Didik Baru (PPDB) periode selanjutnya. Ikuti update terbaru melalui website dan sosial media kami.</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-            </div>
+</div>
+@else
+<div class="bg-gradient-to-r from-gray-800 to-gray-900 py-16 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+    </div>
+    <div class="max-w-4xl mx-auto text-center px-6 relative z-10">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Tertarik Bergabung?</h2>
+        <p class="text-white/90 mb-8 text-lg">Pendaftaran sementara ditutup. Pantau website ini untuk informasi pembukaan pendaftaran periode selanjutnya supaya tidak ketinggalan.</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
         </div>
     </div>
-    @endif
+</div>
+@endif
 
-    {{-- Main Footer --}}
-    <div class="max-w-7xl mx-auto px-6 py-16">
-        <div class="grid md:grid-cols-4 gap-12">
-            {{-- Column 1 --}}
-            <div class="col-span-1 md:col-span-2">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
-                            </path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-xl text-gray-900">SMK Solusi Bangun</h3>
-                        <p class="text-sm font-semibold text-red-600 tracking-wider">INDONESIA</p>
-                    </div>
-                </div>
-                <p class="text-gray-500 text-sm leading-relaxed mb-6 max-w-sm">
-                    Mencetak generasi unggul, kompeten, dan siap kerja melalui pendidikan vokasi berkualitas.
-                </p>
-            </div>
-
-            {{-- Column 2 --}}
-            <div>
-                <h4 class="font-bold text-gray-900 mb-6">Tautan Cepat</h4>
-                <ul class="space-y-3 text-sm text-gray-500">
-                    <li><a href="{{ url('/') }}" class="hover:text-red-600 transition">Beranda</a></li>
-                    <li><a href="{{ url('/profil') }}" class="hover:text-red-600 transition">Informasi Sekolah</a></li>
-                    <li><a href="{{ url('/jadwal') }}" class="hover:text-red-600 transition">Jadwal PPDB</a></li>
-                    <li><a href="{{ url('/panduan') }}" class="hover:text-red-600 transition">Panduan</a></li>
-                    <li><a href="{{ url('/pengumuman') }}" class="hover:text-red-600 transition">Pengumuman</a></li>
-                    <li><a href="{{ route('login') }}" class="hover:text-red-600 transition">Masuk Akun</a></li>
-                </ul>
-            </div>
-
-            {{-- Column 3 --}}
-            <div>
-                <h4 class="font-bold text-gray-900 mb-6">Kontak</h4>
-                <ul class="space-y-4 text-sm text-gray-500">
-                    <li class="flex items-start gap-3">
-                        <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                            </path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
-                        <span>Jl. Pendidikan No. 123, Indonesia</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
-                            </path>
-                        </svg>
-                        <span>(021) 123-4567</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                            </path>
-                        </svg>
-                        <span>info@solusibangun.sch.id</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div
-            class="border-t border-gray-200 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-            <p>&copy; {{ date('Y') }} SMK Solusi Bangun Indonesia. Hak Cipta Dilindungi.</p>
-
-        </div>
-    </div>
-</footer>
+{{-- FOOTER --}}
+@include('public.footer')
 @endsection

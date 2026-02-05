@@ -96,6 +96,17 @@ class AdminUserController extends Controller
             return back()->with('error', 'Anda tidak dapat menghapus akun sendiri yang sedang aktif.');
         }
 
+        // Cek apakah user yang akan dihapus adalah operator_sekolah
+        if ($user->hasRole('operator_sekolah')) {
+            // Hitung jumlah user dengan role operator_sekolah
+            $totalOperators = User::role('operator_sekolah')->count();
+            
+            // Jika hanya tinggal 1 operator, jangan izinkan penghapusan
+            if ($totalOperators <= 1) {
+                return back()->with('error', 'Tidak dapat menghapus akun Operator Sekolah terakhir. Sistem harus memiliki minimal satu Operator Sekolah.');
+            }
+        }
+
         try {
             \Illuminate\Support\Facades\DB::beginTransaction();
 

@@ -240,8 +240,16 @@
                                     </button>
                                     
                                     @if(auth()->id() !== $user->id)
-                                    <button @click="confirmDelete('{{ route('admin.users.destroy', $user->id) }}', '{{ $user->name }}')" 
-                                        class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-400 hover:text-red-600 transition-colors" title="Hapus">
+                                    @php
+                                        $isLastOperator = $user->hasRole('operator_sekolah') && $totalAdmin <= 1;
+                                    @endphp
+                                    <button 
+                                        @if(!$isLastOperator)
+                                        @click="confirmDelete('{{ route('admin.users.destroy', $user->id) }}', '{{ $user->name }}')" 
+                                        @endif
+                                        class="w-8 h-8 flex items-center justify-center rounded-full transition-colors {{ $isLastOperator ? 'text-slate-300 cursor-not-allowed' : 'hover:bg-slate-100 text-slate-400 hover:text-red-600' }}" 
+                                        title="{{ $isLastOperator ? 'Tidak dapat menghapus operator terakhir' : 'Hapus' }}"
+                                        {{ $isLastOperator ? 'disabled' : '' }}>
                                         <i class="fa-regular fa-trash-can"></i>
                                     </button>
                                     @endif

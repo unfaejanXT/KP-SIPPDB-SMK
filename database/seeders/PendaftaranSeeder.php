@@ -27,7 +27,7 @@ class PendaftaranSeeder extends Seeder
                 'email' => 'siswa@test.com',
                 'password' => bcrypt('password123'), // pastikan untuk enkripsi password
             ]);
-            $user->assignRole('user');
+            $user->assignRole('calon_siswa');
 
             // Membuat data pendaftaran untuk siswa
             $pendaftaran = Pendaftaran::create([

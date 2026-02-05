@@ -19,7 +19,7 @@
 
 
 
-                    @hasrole('user')
+                    @hasrole('calon_siswa')
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Biodata') }}
                     </x-nav-link>

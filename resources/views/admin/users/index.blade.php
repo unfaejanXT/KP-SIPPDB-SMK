@@ -143,7 +143,7 @@
                                 class="appearance-none bg-white border border-slate-200 text-slate-600 py-2 pl-3 pr-8 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer">
                                 <option value="">Semua Role</option>
                                 @foreach($filterRoles as $role)
-                                    <option value="{{ $role }}" {{ request('role') == $role ? 'selected' : '' }}>{{ ucfirst($role) }}</option>
+                                    <option value="{{ $role }}" {{ request('role') == $role ? 'selected' : '' }}>{{ \App\Helpers\RoleHelper::formatRoleName($role) }}</option>
                                 @endforeach
                             </select>
                              <i class="fa-solid fa-chevron-down text-slate-400 absolute right-2 top-3 text-xs pointer-events-none"></i>
@@ -192,12 +192,14 @@
                                 @foreach($user->roles as $role)
                                     @php
                                         $color = match($role->name) {
-                                            'admin' => 'bg-red-100 text-red-600 border-red-200',
-                                            'user' => 'bg-sky-100 text-sky-600 border-sky-200',
+                                            'operator_sekolah' => 'bg-red-100 text-red-600 border-red-200',
+                                            'staff_ppdb' => 'bg-purple-100 text-purple-600 border-purple-200',
+                                            'kepala_sekolah' => 'bg-amber-100 text-amber-600 border-amber-200',
+                                            'calon_siswa' => 'bg-sky-100 text-sky-600 border-sky-200',
                                             default => 'bg-slate-100 text-slate-600 border-slate-200'
                                         };
                                     @endphp
-                                    <span class="px-2.5 py-1 rounded-full text-xs font-medium border {{ $color }}">{{ ucfirst($role->name) }}</span>
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-medium border {{ $color }}">{{ \App\Helpers\RoleHelper::formatRoleName($role->name) }}</span>
                                 @endforeach
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -329,7 +331,7 @@
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2">
                                     <option value="">Pilih Role</option>
                                     @foreach($allRoles as $role)
-                                        <option value="{{ $role->name }}">{{ ucfirst($role->name) }}</option>
+                                        <option value="{{ $role->name }}">{{ \App\Helpers\RoleHelper::formatRoleName($role->name) }}</option>
                                     @endforeach
                                 </select>
                             </div>

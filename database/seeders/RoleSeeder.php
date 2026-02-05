@@ -18,11 +18,10 @@ class RoleSeeder extends Seeder
         // 4. Calon Siswa -> user
         
         $roleData = [
-            ["name"=> "admin"],
-            ["name"=> "user"],
-            ["name"=> "panitia_ppdb"],
+            ["name"=> "operator_sekolah"],
+            ["name"=> "calon_siswa"],
+            ["name"=> "staff_ppdb"],
             ["name"=> "kepala_sekolah"],
-            // ["name"=> "operator_sekolah"], // Optional, based on web.php presence but not requested explicitly
         ];
 
         foreach ($roleData as $data){

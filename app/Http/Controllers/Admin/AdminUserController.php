@@ -19,7 +19,7 @@ class AdminUserController extends Controller
 
         $users = User::with('roles')
             ->whereDoesntHave('roles', function ($q) {
-                $q->where('name', 'user');
+                $q->where('name', 'calon_siswa');
             })
             ->when($search, function ($query, $search) {
                 return $query->where('name', 'like', "%{$search}%")
@@ -34,11 +34,11 @@ class AdminUserController extends Controller
             ->paginate(10); 
 
         $totalUsers = User::count();
-        $totalAdmin = User::role('admin')->count();
-        $totalOperator = User::role('user')->count(); 
+        $totalAdmin = User::role('operator_sekolah')->count();
+        $totalOperator = User::role('calon_siswa')->count(); 
         $totalActive = User::where('is_active', true)->count();
         
-        $filterRoles = Role::where('name', '!=', 'user')->pluck('name'); 
+        $filterRoles = Role::where('name', '!=', 'calon_siswa')->pluck('name'); 
         $allRoles = Role::all();
 
         return view('admin.users.index', compact('users', 'search', 'roleFilter', 'totalUsers', 'totalAdmin', 'totalOperator', 'totalActive', 'filterRoles', 'allRoles'));

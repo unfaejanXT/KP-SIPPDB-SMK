@@ -20,7 +20,7 @@ class RoleRedirect
             $user = Auth::user();
 
             // Admin Logic
-            if ($user->hasRole('admin')) {
+            if ($user->hasRole('operator_sekolah') || $user->hasRole('staff_ppdb')) {
                 // If attempting to access student restricted routes
                 if ($request->is('dashboard') || $request->is('dashboard/*') || $request->is('pendaftaran') || $request->is('pendaftaran/*')) {
                     if ($request->expectsJson()) {
@@ -30,7 +30,7 @@ class RoleRedirect
                 }
             }
             // Student/User Logic
-            elseif ($user->hasRole('user') || !$user->hasRole('admin')) {
+            elseif ($user->hasRole('calon_siswa')) {
                 // If attempting to access admin restricted routes
                 if ($request->is('admin') || $request->is('admin/*')) {
                     if ($request->expectsJson()) {

@@ -14,22 +14,45 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ensure role exists if not already seeded by RoleSeeder, 
-        // though DatabaseSeeder usually handles order. 
-        // We will assume RoleSeeder runs first.
-
-        $user = User::create([
-            'name' => 'Admin',
-            'email' => 'test@admin.com',
+        // 1. Operator Sekolah
+        $operator = User::create([
+            'name' => 'Operator Sekolah',
+            'email' => 'operatorsekolah@gmail.com',
             'password' => Hash::make('password'),
         ]);
-
-        $user->assignRole('admin');
-        
+        $operator->assignRole('operator_sekolah');
         \App\Models\Staff::create([
-            'user_id' => $user->id,
-            'nama' => $user->name,
-            'jabatan' => 'Administrator',
+            'user_id' => $operator->id,
+            'nama' => $operator->name,
+            'jabatan' => 'Operator Sekolah',
+            'is_active' => true,
+        ]);
+
+        // 2. Staff PPDB
+        $staff = User::create([
+            'name' => 'Staff PPDB',
+            'email' => 'staffppdb@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
+        $staff->assignRole('staff_ppdb');
+        \App\Models\Staff::create([
+            'user_id' => $staff->id,
+            'nama' => $staff->name,
+            'jabatan' => 'Staff PPDB',
+            'is_active' => true,
+        ]);
+
+        // 3. Kepala Sekolah
+        $kepala = User::create([
+            'name' => 'Kepala Sekolah',
+            'email' => 'kepalasekolah@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
+        $kepala->assignRole('kepala_sekolah');
+        \App\Models\Staff::create([
+            'user_id' => $kepala->id,
+            'nama' => $kepala->name,
+            'jabatan' => 'Kepala Sekolah',
             'is_active' => true,
         ]);
     }

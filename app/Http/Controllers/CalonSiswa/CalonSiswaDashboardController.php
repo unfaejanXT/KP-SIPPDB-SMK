@@ -47,15 +47,16 @@ class CalonSiswaDashboardController extends Controller
             if ($pendaftaran->status != 'draft' && $pendaftaran->status != 'menunggu_verifikasi' && $pendaftaran->status != 'Menunggu') {
                  // Sesuaikan pengecekan status berdasarkan nilai status spesifik Anda
                  // Untuk saat ini diasumsikan jika status diproses/diverifikasi
-                 if(in_array($pendaftaran->status, ['terverifikasi', 'diterima', 'ditolak'])) {
+                if(in_array($pendaftaran->status, ['terverifikasi', 'diterima', 'ditolak'])) {
                     $progress = 80;
                     $steps['verifikasi'] = true;
+                    // Cetak Bukti (Step 5) aktif jika sudah diverifikasi
+                    $steps['pengumuman'] = true; 
                  }
             }
 
              if ($pendaftaran->status == 'diterima' || $pendaftaran->status == 'ditolak') {
                 $progress = 100;
-                $steps['pengumuman'] = true;
             }
         }
 

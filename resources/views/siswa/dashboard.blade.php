@@ -139,13 +139,13 @@
                     <div
                         class="w-12 h-12 rounded-full {{ $steps['pengumuman'] ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400' }} border-4 border-white flex items-center justify-center shrink-0">
                         @if($steps['pengumuman'])
-                            <i class="fa-solid fa-bullhorn text-lg"></i>
+                            <i class="fa-solid fa-print text-lg"></i>
                         @else
                             <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
                         @endif
                     </div>
                     <div class="pt-2">
-                        <h4 class="font-medium {{ $steps['pengumuman'] ? 'text-slate-800' : 'text-slate-400' }}">Pengumuman Hasil</h4>
+                        <h4 class="font-medium {{ $steps['pengumuman'] ? 'text-slate-800' : 'text-slate-400' }}">Cetak Bukti Pendaftaran</h4>
                         <p class="text-xs text-slate-400 mt-1">-</p>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                     <i
                         class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:text-red-600"></i>
                 </a>
-                <a href="{{ route('pendaftaran.success') }}"
+                <a href="{{ route('dashboard.cetak') }}"
                     class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-red-50 hover:border-red-100 transition-colors group border border-gray-100">
                     <span class="text-sm font-medium text-slate-600 group-hover:text-red-700">Cetak
                         Bukti Pendaftaran</span>

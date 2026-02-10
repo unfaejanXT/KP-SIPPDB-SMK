@@ -5,6 +5,7 @@
 @section('header_subtitle', 'Cetak atau unduh bukti pendaftaran Anda')
 
 @section('content')
+@if(in_array($pendaftaran->status, ['terverifikasi', 'diterima', 'ditolak']))
 <div class="mb-6">
     <div class="flex gap-3 mb-6">
         <button
@@ -179,6 +180,21 @@
             <li>Informasi lebih lanjut dapat menghubungi panitia PPDB</li>
         </ul>
     </div>
-
 </div>
+@else
+<div class="max-w-xl mx-auto mt-12 bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-center">
+    <div class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+        <i class="fa-regular fa-clock"></i>
+    </div>
+    <h2 class="text-xl font-bold text-slate-800 mb-2">Verifikasi Berkas Dalam Proses</h2>
+    <p class="text-slate-600 mb-6">
+        Mohon maaf, Anda belum dapat mencetak bukti pendaftaran karena berkas Anda masih dalam proses verifikasi oleh panitia.
+        Silahkan cek kembali status pendaftaran Anda secara berkala.
+    </p>
+    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1a4f9c] text-white font-medium rounded-lg hover:bg-blue-800 transition-colors">
+        <i class="fa-solid fa-arrow-left"></i>
+        Kembali ke Dashboard
+    </a>
+</div>
+@endif
 @endsection

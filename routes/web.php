@@ -121,7 +121,7 @@ use App\Http\Controllers\Admin\AdminVerifikasiController;
 use App\Http\Controllers\Admin\AdminLaporanController;
 
 // Admin Dashboard Routes
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role_feature'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::resource('users', AdminUserController::class, ['as' => 'admin'])->except(['create', 'edit', 'show']);
     Route::patch('/users/{user}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('admin.users.toggle-status');

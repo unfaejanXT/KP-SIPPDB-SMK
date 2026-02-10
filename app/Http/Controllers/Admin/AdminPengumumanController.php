@@ -20,8 +20,6 @@ class AdminPengumumanController extends Controller
         $targets = [
             'public' => 'Umum (Semua Pengunjung)',
             'calon_siswa' => 'Calon Siswa',
-            'panitia' => 'Panitia',
-            'operator' => 'Operator',
         ];
         return view('admin.pengumuman.create', compact('targets'));
     }
@@ -57,8 +55,6 @@ class AdminPengumumanController extends Controller
         $targets = [
             'public' => 'Umum (Semua Pengunjung)',
             'calon_siswa' => 'Calon Siswa',
-            'panitia' => 'Panitia',
-            'operator' => 'Operator',
         ];
         return view('admin.pengumuman.edit', compact('pengumuman', 'targets'));
     }

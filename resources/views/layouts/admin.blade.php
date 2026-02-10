@@ -72,6 +72,7 @@
                     <span class="font-medium text-sm">Dashboard</span>
                 </a>
 
+                @hasrole('operator_sekolah|staff_ppdb')
                 <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-4 mb-2">Pendaftaran</p>
 
                 <a href="{{ route('admin.calon-siswa.index') }}"
@@ -99,7 +100,9 @@
                     <i class="fa-solid fa-layer-group w-5 text-center group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Gelombang</span>
                 </a>
+                @endhasrole
 
+                @hasrole('operator_sekolah')
                 <a href="{{ route('admin.jurusan.index') }}"
                     class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.jurusan.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-gray-50 hover:text-blue-700' }} rounded-lg transition-colors group">
                     <i class="fa-solid fa-shapes w-5 text-center group-hover:scale-110 transition-transform"></i>
@@ -117,6 +120,7 @@
                     <i class="fa-solid fa-bullhorn w-5 text-center group-hover:scale-110 transition-transform"></i>
                     <span class="font-medium text-sm">Pengumuman</span>
                 </a>
+                @endhasrole
 
                  <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-4 mb-2">Laporan</p>
 

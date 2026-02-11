@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('alamat_rumah', 255);
             $table->string('nomor_hp', 15);
             $table->string('asal_sekolah', 100);
+            $table->enum('ukuran_baju', ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'])->nullable()->comment('Ukuran baju untuk seragam sekolah');
             $table->string('pas_foto',255)->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('gelombang_id'); // Referensi ke tabel gelombang
